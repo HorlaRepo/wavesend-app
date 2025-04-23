@@ -3,7 +3,7 @@
   publish = "dist/money-transfer"
 
 [[plugins]]
-  package = "./netlify-plugin-inject-env-vars.js"
+  package = "./netlify-plugin-inject-env-vars"
 
 # Handle client-side routing
 [[redirects]]
