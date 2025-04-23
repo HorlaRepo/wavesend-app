@@ -1,0 +1,43 @@
+<!-- Steps Progress Bar -->
+<div class="steps-progress-container">
+  <div class="steps-wrapper">
+    <div class="steps-track">
+      <div class="progress-track">
+        <!-- Updated calculation to prevent overflow -->
+        <div class="progress-fill" [style.width.%]="progressPercentage"></div>
+      </div>
+      
+      <div class="steps">
+        <div *ngFor="let step of steps; let i = index" class="step-item"
+             [class.active]="i === currentStep"
+             [class.completed]="i < currentStep"
+             [class.failed]="i === currentStep && isFailedStatus(depositStatus)">
+          
+          <div class="step-circle">
+            <ng-container *ngIf="i < currentStep">
+              <i class="fas fa-check"></i>
+            </ng-container>
+            
+            <ng-container *ngIf="i === currentStep">
+              <ng-container *ngIf="isFailedStatus(depositStatus)">
+                <i class="fas fa-exclamation" aria-hidden="true"></i>
+              </ng-container>
+              <ng-container *ngIf="!isFailedStatus(depositStatus) && depositStatus !== 'Deposit Success'">
+                <span class="step-number">{{i + 1}}</span>
+              </ng-container>
+              <ng-container *ngIf="depositStatus === 'Deposit Success'">
+                <i class="fas fa-check"></i>
+              </ng-container>
+            </ng-container>
+            
+            <ng-container *ngIf="i > currentStep">
+              <span class="step-number">{{i + 1}}</span>
+            </ng-container>
+          </div>
+          
+          <div class="step-label">{{ step }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

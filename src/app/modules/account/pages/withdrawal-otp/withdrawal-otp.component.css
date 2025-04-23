@@ -1,0 +1,63 @@
+/* filepath: /Users/francis/IdeaProjects/money-transfer/frontend/angular/money-transfer/src/app/modules/account/pages/withdrawal-otp/withdrawal-otp.component.scss */
+.withdrawal-otp-container {
+    padding: 40px 20px;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9fb;
+  }
+  
+  .otp-header-summary {
+    margin-bottom: 25px;
+    width: 100%;
+    max-width: 500px;
+    
+    .summary-card {
+      background: linear-gradient(135deg, #2fbe5f, #39ca6e);
+      border-radius: 16px;
+      padding: 20px;
+      color: white;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(47, 190, 95, 0.15);
+      
+      .amount {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      
+      .bank-account {
+        font-size: 15px;
+        margin-bottom: 5px;
+        
+        .label {
+          opacity: 0.8;
+          margin-right: 5px;
+        }
+        
+        .value {
+          font-weight: 600;
+        }
+      }
+      
+      .total {
+        font-size: 14px;
+        background: rgba(255, 255, 255, 0.2);
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 30px;
+        margin-top: 5px;
+        
+        .label {
+          opacity: 0.8;
+          margin-right: 5px;
+        }
+        
+        .value {
+          font-weight: 600;
+        }
+      }
+    }
+  }

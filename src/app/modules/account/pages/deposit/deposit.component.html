@@ -1,0 +1,138 @@
+<div class="deposit-container">
+  <!-- Secondary Navigation -->
+  <!-- <app-deposit-withdraw-menu [activeLink]="'deposit'"></app-deposit-withdraw-menu> -->
+
+  <!-- Main Content -->
+  <div class="content-wrapper">
+    <div class="container">
+      <!-- Steps Progress Bar -->
+      <app-steps-progress-bar></app-steps-progress-bar>
+
+      <!-- Page Header -->
+      <div class="page-header text-center">
+        <h2>Deposit Money</h2>
+        <p class="subtitle">Add funds to your account quickly and securely</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-9 col-lg-7 col-xl-6 mx-auto">
+          <p-toast position="bottom-center"></p-toast>
+          
+          <!-- Deposit Form Card -->
+          <div class="form-card">
+            <!-- Form Header with Illustration -->
+            <div class="deposit-header">
+              <div class="deposit-illustration">
+                <i class="fas fa-hand-holding-usd"></i>
+              </div>
+              <h3>How much would you like to deposit?</h3>
+            </div>
+            
+            <div class="form-card-body">
+              <!-- Deposit Form -->
+              <form [formGroup]="depositForm" id="form-deposit-money">
+                <!-- Amount Input -->
+                <div class="form-group">
+                  <label for="youSend">Amount</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">$</span>
+                    </div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      data-bv-field="youSend"
+                      id="youSend"
+                      placeholder="0.00"
+                      [value]="amountControl.value! | amount"
+                      (input)="parseInputValue($event)"
+                      (keydown)="numericOnly($event)"
+                      [class.is-invalid]="amountControl.invalid && amountControl.touched"
+                    >
+                    <div class="input-group-append">
+                      <span class="input-group-text currency-select">
+                        <span class="currency-flag currency-flag-usd"></span>USD
+                      </span>
+                    </div>
+                  </div>
+                  <div *ngIf="amountControl.invalid && amountControl.touched" class="error-message">
+                    <i class="fas fa-exclamation-circle"></i> Amount must be greater than zero
+                  </div>
+                </div>
+                
+                <!-- Payment Method Selection -->
+                <div class="form-group">
+                  <label for="paymentMethod">Payment Method</label>
+                  <div class="payment-method-selector">
+                    <div class="payment-option" 
+                         [class.selected]="depositForm.get('paymentMethod')?.value === 'Credit or Debit Cards'"
+                         (click)="depositForm.get('paymentMethod')?.setValue('Credit or Debit Cards')">
+                      <div class="payment-icon">
+                        <i class="fas fa-credit-card"></i>
+                      </div>
+                      <div class="payment-details">
+                        <div class="payment-name">Credit or Debit Card</div>
+                        <div class="payment-description">Instant deposit with 0% fee</div>
+                      </div>
+                      <div class="selected-indicator">
+                        <i class="fas fa-check-circle"></i>
+                      </div>
+                    </div>
+                    
+                    <div class="payment-option" 
+                         [class.selected]="depositForm.get('paymentMethod')?.value === 'Bank Accounts'"
+                         (click)="depositForm.get('paymentMethod')?.setValue('Bank Accounts')">
+                      <div class="payment-icon">
+                        <i class="fas fa-university"></i>
+                      </div>
+                      <div class="payment-details">
+                        <div class="payment-name">Bank Account</div>
+                        <div class="payment-description">1-3 business days with 0% fee</div>
+                      </div>
+                      <div class="selected-indicator">
+                        <i class="fas fa-check-circle"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="depositForm.get('paymentMethod')?.invalid && depositForm.get('paymentMethod')?.touched" class="error-message">
+                    <i class="fas fa-exclamation-circle"></i> Please select a payment method
+                  </div>
+                </div>
+                
+                <!-- Transaction Summary -->
+                <div class="transaction-summary">
+                  <div class="summary-row">
+                    <span>Transaction fee</span>
+                    <div class="fee-display">
+                      <span class="original-fee">1.00 USD</span>
+                      <span class="fee-badge">Free</span>
+                    </div>
+                  </div>
+                  <div class="divider"></div>
+                  <div class="summary-row total">
+                    <span>Total Amount</span>
+                    <span class="total-amount">{{ amountControl.value | number : '1.2-2'}} USD</span>
+                  </div>
+                </div>
+                
+                <!-- Submit Button -->
+                <button 
+                  class="btn-submit" 
+                  [disabled]="depositForm.invalid || amountControl.invalid || amountControl.value === 0"
+                  (click)="goToNextStep()">
+                  Continue
+                </button>
+                
+                <!-- Security Notice -->
+                <div class="security-note">
+                  <i class="fas fa-lock"></i>
+                  <span>Your transaction is secure and encrypted</span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

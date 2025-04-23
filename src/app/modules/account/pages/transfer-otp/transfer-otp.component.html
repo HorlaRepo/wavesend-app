@@ -1,0 +1,20 @@
+<div class="transfer-otp-container">
+    <div class="otp-header-summary" *ngIf="transferDetails">
+      <div class="summary-card">
+        <div class="amount">${{ transferDetails.amount | number:'1.2-2' }}</div>
+        <div class="recipient">
+          <span class="label">To:</span>
+          <span class="value">{{ transferDetails.recipientName || transferDetails.recipientEmail }}</span>
+        </div>
+      </div>
+    </div>
+    
+    <app-otp-verification
+      [operationType]="'transfer'"
+      [email]="email"
+      (verifyOtp)="verifyOtp($event)"
+      (resendOtp)="resendOtp()">
+    </app-otp-verification>
+    
+    <p-toast position="bottom-right"></p-toast>
+  </div>

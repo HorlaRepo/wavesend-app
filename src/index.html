@@ -1,13 +1,113 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <title>MoneyTransfer</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+  <link href="/assets/images/favicon.png" rel="icon" />
   <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WaveSend - Money Transfer and Online Payments</title>
+  <meta name="description" content="Money Transfer and online payments website.">
+  <meta name="author" content="shizzy.dev">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; 
+                 connect-src 'self' http://localhost:9090 ws://localhost:* http://localhost:*;
+                 script-src 'self' 'unsafe-inline' 'unsafe-eval' https://code.jquery.com https://js.stripe.com https://cdnjs.cloudflare.com;
+                 style-src 'self' 'unsafe-inline' https://code.jquery.com https://cdnjs.cloudflare.com;
+                 img-src 'self' data: blob: https://*;
+                 font-src 'self' https://cdnjs.cloudflare.com data:;
+                 frame-src 'self' http://localhost:9090 https://js.stripe.com;">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script src="assets/config.js"></script>
+
+
+  <!-- Web Fonts
+  ============================================= -->
+  <link rel='stylesheet'
+    href='/assets/fonts.googleapis.com/cssab2a.css?family=Rubik:300,300i,400,400i,500,500i,700,700i,900,900i'
+    type='text/css'>
+
+  <!-- Stylesheet
+  ============================================= -->
+  <link rel="stylesheet" type="text/css" href="/assets/vendor/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/assets/vendor/font-awesome/css/all.min.css" />
+  <link rel="stylesheet" type="text/css" href="/assets/vendor/owl.carousel/assets/owl.carousel.min.css" />
+  <link rel="stylesheet" type="text/css" href="/assets/css/stylesheet.css" />
+  <!-- Colors Css -->
+  <link id="color-switcher" type="text/css" rel="stylesheet" href="#" />
+
+  <!-- other head elements -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+  <!-- Back to Top
+============================================= -->
+  <a id="back-to-top" data-toggle="tooltip" title="Back to Top" href="javascript:void(0)"><i
+      class="fa fa-chevron-up"></i></a>
+
+  <!-- Video Modal
+  ============================================= -->
+  <div class="modal fade" id="videoModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content bg-transparent border-0">
+        <button type="button" class="close text-white opacity-10 ml-auto mr-n3 font-weight-400" data-dismiss="modal"
+          aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="modal-body p-0">
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" id="video" allow="autoplay"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Video Modal end -->
+
+  <!-- Styles Switcher -->
+  <div id="styles-switcher" class="left">
+    <h2 class="text-3">Color Switcher</h2>
+    <hr>
+    <ul>
+      <li class="blue" data-toggle="tooltip" title="Blue" data-path="assets/css/color-blue.css"></li>
+      <li class="indigo" data-toggle="tooltip" title="Indigo" data-path="assets/css/color-indigo.css"></li>
+      <li class="purple" data-toggle="tooltip" title="Purple" data-path="assets/css/color-purple.css"></li>
+      <li class="pink" data-toggle="tooltip" title="Pink" data-path="assets/css/color-pink.css"></li>
+      <li class="red" data-toggle="tooltip" title="Red" data-path="assets/css/color-red.css"></li>
+      <li class="orange" data-toggle="tooltip" title="Orange" data-path="assets/css/color-orange.css"></li>
+      <li class="yellow" data-toggle="tooltip" title="Yellow" data-path="assets/css/color-yellow.css"></li>
+      <li class="teal" data-toggle="tooltip" title="Teal" data-path="assets/css/color-teal.css"></li>
+      <li class="cyan" data-toggle="tooltip" title="Cyan" data-path="assets/css/color-cyan.css"></li>
+      <li class="brown" data-toggle="tooltip" title="Brown" data-path="assets/css/color-brown.css"></li>
+    </ul>
+    <button class="btn btn-dark btn-sm btn-block border-0 font-weight-400 rounded-0 shadow-none" data-toggle="tooltip"
+      title="Green" id="reset-color">Reset Default</button>
+    <button class="btn switcher-toggle"><i class="fas fa-cog"></i></button>
+  </div>
+  <!-- Styles Switcher End -->
+
+  <!-- Script -->
+  <script src="/assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">-->
+  <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>-->
+  <script src="/assets/vendor/jquery/jquery.min.js"></script>
+  <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Style Switcher -->
+  <script src="/assets/js/switcher.min.js"></script>
+  <script src="/assets/js/theme.js"></script>
+
+  <!--  <script>(function(){var js = "window['__CF$cv$params']={r:'81a7115e6e450720',t:'MTY5ODAzMzU3Mi42NjgwMDA='};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/assets/cdn-cgi/challenge-platform/h/b/scripts/jsd/7ff8d35b/main.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v84a3a4012de94ce1a686ba8c167c359c1696973893317" integrity="sha512-euoFGowhlaLqXsPWQ48qSkBSCFs3DPRyiwVu3FjR96cMPx+Fr+gpWRhIafcHwqwCqWS42RZhIudOvEI+Ckf6MA==" data-cf-beacon='{"rayId":"81a7115e6e450720","b":1,"version":"2023.10.0","token":"8bc8f1fd05f14cdd9c8769052b44ce45"}' crossorigin="anonymous"></script>-->
 </head>
+
 <body>
+  <!-- Preloader -->
+  <div id="preloader">
+    <div data-loader="dual-ring"></div>
+  </div>
+  <!-- Preloader End -->
   <app-root></app-root>
 </body>
+
 </html>

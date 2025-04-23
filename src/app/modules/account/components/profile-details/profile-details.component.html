@@ -1,0 +1,42 @@
+<!-- Profile Details Card -->
+<div class="profile-card">
+  <!-- Profile Image Section -->
+  <div class="profile-image-container">
+    <div class="profile-image" [ngClass]="{'loading': isUploading}">
+      <img [src]="profileImageUrl" alt="Profile Picture" *ngIf="!isUploading">
+      <div *ngIf="isUploading" class="spinner-container">
+        <div class="spinner"></div>
+      </div>
+    </div>
+    
+    <!-- Image Upload Control -->
+    <div class="image-upload-control" data-toggle="tooltip" title="Change Profile Picture">
+      <i class="fas fa-camera"></i>
+      <input type="file" id="profile-image-upload" accept=".png,.jpg,.jpeg" (change)="onFileSelected($event)">
+    </div>
+  </div>
+  
+  <!-- User Info Section -->
+  <div class="user-info">
+    <h3 class="user-greeting">Hello, {{ userProfile?.firstName }}</h3>
+    <p class="user-email">{{ userProfile?.email }}</p>
+    
+    <!-- User Status Badge -->
+    <div class="status-badge verified">
+      <i class="fas fa-check-circle"></i>
+      <span>Verified</span>
+    </div>
+  </div>
+  
+  <!-- Actions Section -->
+  <div class="profile-actions">
+    <button class="action-button" routerLink="/account/settings">
+      <i class="fas fa-user-edit"></i>
+      <span>Update</span>
+    </button>
+    <button class="action-button" routerLink="/account/settings/security">
+      <i class="fas fa-shield-alt"></i>
+      <span>Security</span>
+    </button>
+  </div>
+</div>

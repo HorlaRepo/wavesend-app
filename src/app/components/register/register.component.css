@@ -1,0 +1,39 @@
+.full-width-calendar .ui-inputtext {
+  width: 100%;
+}
+
+:host ::ng-deep .p-calendar{
+  border-radius: 10px;
+}
+
+:host ::ng-deep .p-inputtext {
+  width: 100em;
+}
+
+
+:host ::ng-deep .p-calendar,
+.p-datepicker table td.p-datepicker-today > span,
+:host ::ng-deep .p-calendar .p-datepicker,
+table td.p-datepicker-today > span:hover {
+}
+
+.gradient-background {
+  background: linear-gradient(to top right, #d0f0c0, #ffffff, #ffffff);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.btn-primary:disabled {
+  background-color: green;
+  border-color: green;
+}
+
+.back-arrow {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  color: #333;
+}

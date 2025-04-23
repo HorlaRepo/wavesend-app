@@ -1,0 +1,27 @@
+<!-- Secondary Navigation -->
+<div class="secondary-nav-container">
+  <div class="container">
+    <div class="nav-wrapper">
+      <ul class="secondary-nav">
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeLink === 'deposit'" routerLink="/account/deposit">
+            <div class="nav-icon">
+              <i class="fas fa-arrow-down"></i>
+            </div>
+            <span>Deposit Money</span>
+            <div class="active-indicator"></div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeLink === 'withdraw'" routerLink="/account/withdraw">
+            <div class="nav-icon">
+              <i class="fas fa-arrow-up"></i>
+            </div>
+            <span>Withdraw Money</span>
+            <div class="active-indicator"></div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

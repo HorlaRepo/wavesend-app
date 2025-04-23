@@ -1,0 +1,274 @@
+.failed {
+  /* Define the styles for the failed step here. For example: */
+  color: red;
+}
+
+.failed::before {
+  font-family: "BootstrapIcons", serif;
+  content: "\e074"; /* Unicode for x-circle-fill icon */
+  color: red;
+}
+
+/* Steps Progress Container */
+.steps-progress-container {
+  padding: 1.5rem 0 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.steps-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Progress Track */
+.steps-track {
+  position: relative;
+  padding: 0 30px;  /* Add padding to account for the step circles */
+}
+
+.progress-track {
+  position: absolute;
+  top: 16px;  /* Adjust to align with the center of step circles */
+  left: 30px;  /* Start from the center of first step circle */
+  right: 30px; /* End at the center of last step circle */
+  height: 4px;
+  background-color: #e9ecef;
+  border-radius: 2px;
+  z-index: 1;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #2ebe60;
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+/* Step Items */
+.steps {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+
+.step-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 0 10px;
+  transition: all 0.3s ease;
+}
+
+/* For the last step, ensure the progress doesn't overflow */
+.step-item:last-child .step-circle {
+  position: relative;
+  z-index: 3;
+}
+
+/* Step Circle - Improved alignment */
+.step-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: white;
+  border: 2px solid #dee2e6;
+  margin-bottom: 0.75rem;
+  position: relative;
+  z-index: 3;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  color: #6c757d;
+  
+  /* Enhanced centering for all content */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Center the icon perfectly */
+.step-circle i,
+.step-circle .step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  line-height: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Fix specifically for the exclamation mark icon */
+.step-item.failed .step-circle i.fa-exclamation {
+  font-size: 1.1rem; /* Adjust this value as needed */
+  line-height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* Animation enhancements for the exclamation icon */
+@keyframes exclamation-appear {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.step-item.failed .step-circle i.fa-exclamation {
+  animation: exclamation-appear 0.4s ease-in-out forwards;
+}
+
+.step-number {
+  font-size: 0.9rem;
+}
+
+/* Step Label */
+.step-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.3;
+  margin-top: 0.25rem;
+  max-width: 100px;
+  transition: all 0.3s ease;
+}
+
+/* Active Step */
+.step-item.active .step-circle {
+  border-color: #2ebe60;
+  background-color: #2ebe60;
+  color: white;
+  box-shadow: 0 0 0 4px rgba(46, 190, 96, 0.2);
+  transform: scale(1.1);
+}
+
+.step-item.active .step-label {
+  color: #343a40;
+  font-weight: 600;
+}
+
+/* Completed Step */
+.step-item.completed .step-circle {
+  border-color: #2ebe60;
+  background-color: #2ebe60;
+  color: white;
+}
+
+.step-item.completed .step-label {
+  color: #2ebe60;
+}
+
+/* Failed Step */
+.step-item.failed .step-circle {
+  border-color: #dc3545;
+  background-color: #dc3545;
+  color: white;
+  box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.2);
+}
+
+.step-item.failed .step-label {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+/* Icon Styling */
+.step-circle i {
+  font-size: 1rem;
+  /* Ensure icons are properly centered */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Animation for Step Completion */
+@keyframes checkmark {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.step-item.completed .step-circle i,
+.step-item.active:not(.failed) .step-circle i {
+  animation: checkmark 0.3s ease-in-out forwards;
+}
+
+/* Animation for the failure X mark */
+@keyframes xmark {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(45deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(45deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Apply animation to failed icon */
+.step-item.failed .step-circle i.fa-times {
+  animation: xmark 0.4s ease-in-out forwards;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767px) {
+  .progress-track {
+    margin: 0 1.5rem;
+  }
+  
+  .step-circle {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .step-label {
+    font-size: 0.8rem;
+    max-width: 80px;
+  }
+}
+
+@media (max-width: 575px) {
+  .progress-track {
+    margin: 0 1rem;
+  }
+  
+  .step-circle {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .step-number {
+    font-size: 0.8rem;
+  }
+  
+  .step-label {
+    font-size: 0.75rem;
+    max-width: 70px;
+  }
+  
+  .steps-progress-container {
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+  }
+}

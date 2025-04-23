@@ -1,0 +1,214 @@
+<div class="schedule-transfer-container">
+  <div class="content-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 col-lg-8 mx-auto">
+          <!-- Page Header -->
+          <div class="page-header text-center mb-4">
+            <h2>Schedule Transfer</h2>
+            <p class="subtitle">Set up an automatic transfer to any registered user</p>
+          </div>
+
+          <p-toast position="bottom-right"></p-toast>
+          
+          <!-- Schedule Transfer Card -->
+          <div class="card">
+            <div class="card-body">
+              <form [formGroup]="scheduleTransferForm" (ngSubmit)="scheduleTransfer()">
+                <!-- Recipient Section -->
+                <div class="form-section">
+                  <h3 class="section-title">Recipient</h3>
+                  
+                  <!-- Email Field -->
+                  <div class="form-group">
+                    <label for="recipientEmail">Recipient Email</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                      </div>
+                      <input 
+                        type="email" 
+                        id="recipientEmail" 
+                        class="form-control" 
+                        formControlName="email" 
+                        placeholder="Enter recipient's email address"
+                        [class.is-invalid]="emailControl.invalid && emailControl.touched || errorMessage"
+                        [class.is-valid]="isUserFound && !errorMessage">
+                    </div>
+                    
+                    <div *ngIf="emailControl.invalid && emailControl.touched" class="invalid-feedback">
+                      <span *ngIf="emailControl.errors?.['required']">Email is required</span>
+                      <span *ngIf="emailControl.errors?.['email']">Please enter a valid email</span>
+                    </div>
+                    
+                    <div *ngIf="errorMessage" class="text-danger mt-2">
+                      <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+                    </div>
+                    
+                    <div *ngIf="isUserFound && recipient" class="recipient-info mt-2">
+                      <div class="recipient-name">
+                        <i class="fas fa-check-circle text-success"></i> 
+                        {{ recipient.firstName }} {{ recipient.lastName }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Amount & Details Section -->
+                <div class="form-section">
+                  <h3 class="section-title">Amount & Details</h3>
+                  
+                  <!-- Amount Field -->
+                  <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <div class="input-group">
+                      <span class="input-group-text">$</span>
+                      <input 
+                        type="text" 
+                        id="amount" 
+                        class="form-control" 
+                        [formControl]="amountControl"
+                        (input)="parseInputValue($event)"
+                        [ngClass]="{'is-invalid': amountControl.invalid && (amountControl.dirty || amountControl.touched)}"
+                        placeholder="0.00" 
+                        autocomplete="off"
+                      />
+                      <div class="invalid-feedback">
+                        <span *ngIf="amountControl.errors?.['required']">Amount is required</span>
+                        <span *ngIf="amountControl.errors?.['min']">Amount must be at least $0</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Narration Field -->
+                  <div class="form-group">
+                    <label for="narration">Description</label>
+                    <textarea 
+                      id="narration" 
+                      class="form-control" 
+                      formControlName="narration" 
+                      placeholder="What's this transfer for?"
+                      rows="2"
+                      [class.is-invalid]="narrationControl.invalid && narrationControl.touched"></textarea>
+                    
+                    <div *ngIf="narrationControl.invalid && narrationControl.touched" class="invalid-feedback">
+                      <span *ngIf="narrationControl.errors?.['required']">Description is required</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Schedule Section -->
+                <div class="form-section">
+                  <h3 class="section-title">Schedule</h3>
+                  
+                  <div class="row">
+                    <!-- Date Field -->
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="scheduleDate">Date</label>
+                        <input 
+                          type="date" 
+                          id="scheduleDate" 
+                          class="form-control" 
+                          formControlName="date"
+                          [min]="formatDate(minDate)"
+                          [class.is-invalid]="dateControl.invalid && dateControl.touched">
+                        
+                        <div *ngIf="dateControl.invalid && dateControl.touched" class="invalid-feedback">
+                          <span *ngIf="dateControl.errors?.['required']">Date is required</span>
+                        </div>
+                        <div *ngIf="isToday()" class="form-text text-info mt-1">
+                          <small><i class="fas fa-info-circle"></i> When scheduling for today, the time must be at least 15 minutes from now.</small>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Time Field -->
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="scheduleTime">Time</label>
+                        <input 
+                          type="time" 
+                          id="scheduleTime" 
+                          class="form-control" 
+                          formControlName="time"
+                          [class.is-invalid]="timeControl.invalid && timeControl.touched">
+                        
+                        <div *ngIf="timeControl.invalid && timeControl.touched" class="invalid-feedback">
+                          <span *ngIf="timeControl.errors?.['required']">Time is required</span>
+                          <span *ngIf="timeControl.errors?.['minTime']">Time must be at least 15 minutes from now</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Recurring Toggle -->
+                  <div class="form-group mt-3">
+                    <div class="custom-control custom-switch">
+                      <input 
+                        type="checkbox" 
+                        class="custom-control-input" 
+                        id="recurringSwitch" 
+                        formControlName="recurring">
+                      <label class="custom-control-label" for="recurringSwitch">Make this a recurring transfer</label>
+                    </div>
+                  </div>
+                  
+                  <!-- Recurring Options (conditionally shown) -->
+                  <div class="recurring-options" *ngIf="recurringControl.value">
+                    <div class="row">
+                      <!-- Frequency Field -->
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="frequency">Frequency</label>
+                          <select 
+                            id="frequency" 
+                            class="form-control" 
+                            formControlName="frequency"
+                            [class.is-invalid]="frequencyControl.invalid && frequencyControl.touched">
+                            <option *ngFor="let option of frequencies" [value]="option.value">
+                              {{ option.label }}
+                            </option>
+                          </select>
+                          
+                          <div *ngIf="frequencyControl.invalid && frequencyControl.touched" class="invalid-feedback">
+                            <span *ngIf="frequencyControl.errors?.['required']">Frequency is required</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <!-- End Date Field -->
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="endDate">End Date (Optional)</label>
+                          <input 
+                            type="date" 
+                            id="endDate" 
+                            class="form-control" 
+                            formControlName="endDate"
+                            [min]="formatDate(minEndDate)">
+                          <small class="form-text text-muted">Leave blank for no end date</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="form-actions">
+                  <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+                    Cancel
+                  </button>
+                  <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+                    <span *ngIf="isLoading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Schedule Transfer
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="deposit-confirm-container">
+  <!-- Secondary Navigation -->
+  <!-- <app-deposit-withdraw-menu [activeLink]="'deposit'"></app-deposit-withdraw-menu> -->
+
+  <!-- Main Content -->
+  <div class="content-wrapper">
+    <div class="container">
+      <!-- Steps Progress Bar -->
+      <app-steps-progress-bar></app-steps-progress-bar>
+
+      <!-- Page Header -->
+      <div class="page-header text-center">
+        <h2>Deposit Money</h2>
+        <p class="subtitle">Review and confirm your deposit details</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-9 col-lg-7 col-xl-6 mx-auto">
+          <p-toast position="bottom-center"></p-toast>
+          
+          <!-- Deposit Confirmation Card -->
+          <div class="confirm-card">
+            <!-- Payment Method Header -->
+            <div class="payment-method-section">
+              <div class="payment-icon">
+                <i [ngClass]="paymentMethod === 'Credit or Debit Cards' ? 'fas fa-credit-card' : 'fas fa-university'"></i>
+              </div>
+              <h3>{{paymentMethod}}</h3>
+              <p class="payment-note">Your payment is secure and protected by our encryption</p>
+            </div>
+
+            <!-- Account Details -->
+            <div class="account-details">
+              <div class="detail-row">
+                <div class="detail-label">Account Name</div>
+                <div class="detail-value">{{ user?.firstName }} {{user?.lastName}}</div>
+              </div>
+              
+              <div class="detail-row">
+                <div class="detail-label">Wallet Number</div>
+                <div class="detail-value wallet-id">{{ wallet?.walletId }}</div>
+              </div>
+              
+              <div class="detail-row">
+                <div class="detail-label">Wallet Currency</div>
+                <div class="detail-value">{{ wallet?.currency || 'USD' }}</div>
+              </div>
+            </div>
+
+            <!-- Amount Details -->
+            <div class="amount-details">
+              <div class="detail-row">
+                <div class="detail-label">Deposit Amount</div>
+                <div class="detail-value">{{ amount | number : '1.2-2'}} USD</div>
+              </div>
+              
+              <div class="detail-row fee">
+                <div class="detail-label">
+                  <span>Processing fee</span>
+                  <i class="fas fa-info-circle" title="This is the fee for processing your deposit"></i>
+                </div>
+                <div class="detail-value fee-value">
+                  <span class="original-fee">1.00 USD</span>
+                  <span class="fee-badge">Free</span>
+                </div>
+              </div>
+              
+              <div class="detail-divider"></div>
+              
+              <div class="detail-row total">
+                <div class="detail-label">Total Amount</div>
+                <div class="detail-value highlight">{{ amount | number : '1.2-2'}} USD</div>
+              </div>
+            </div>
+
+            <!-- Transaction Notes -->
+            <div class="transaction-notes">
+              <i class="fas fa-shield-alt"></i>
+              <span>Funds will be available immediately after successful payment</span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <button class="btn-back" (click)="goBack()">
+                <i class="fas fa-arrow-left"></i> Back
+              </button>
+              <button class="btn-confirm" [disabled]="isLoading" (click)="goToNextStep()">
+                <span *ngIf="!isLoading">Confirm Deposit</span>
+                <div class="spinner-container" *ngIf="isLoading">
+                  <div class="spinner"></div>
+                </div>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Security Notice -->
+          <div class="security-notice">
+            <i class="fas fa-lock"></i>
+            <p>Your payment information is processed securely by Stripe</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

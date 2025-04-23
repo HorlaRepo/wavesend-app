@@ -1,0 +1,455 @@
+/* filepath: /Users/francis/IdeaProjects/money-transfer/frontend/angular/money-transfer/src/app/modules/account/components/floating-suggestion/floating-suggestion.component.scss */
+:host {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  width: 300px;
+  max-width: calc(100vw - 40px);
+}
+
+.floating-suggestion-wrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Toggle button styles with updated colors */
+.suggestion-toggle {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #39ca6e, #2fbe5f); /* Updated to green gradient */
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  gap: 10px;
+  border-radius: 10px;
+  transition: background 0.2s ease;
+  
+  &:hover {
+    background: linear-gradient(135deg, #2fbe5f, #27a351); /* Slightly darker on hover */
+  }
+  
+  &.expanded {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  
+  .suggestion-icon {
+    position: relative;
+    font-size: 16px;
+    height: 24px;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    .badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: #ff6b6b;
+      color: white;
+      border-radius: 50%;
+      height: 18px;
+      min-width: 18px;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 2px;
+      font-weight: 600;
+    }
+  }
+  
+  .toggle-text {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+/* Content area styles with scrolling */
+.suggestion-content {
+  background-color: white;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 16px;
+  transition: all 0.3s ease;
+  max-height: 350px; /* Set a max height */
+  overflow-y: auto; /* Make it scrollable */
+}
+
+/* Recipient header styles */
+.suggestion-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  
+  .recipient-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(47, 190, 95, 0.1); /* Updated to match green theme */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    flex-shrink: 0;
+    
+    .avatar-initials {
+      font-weight: 600;
+      color: #2fbe5f; /* Updated to match app color */
+      font-size: 16px;
+    }
+  }
+  
+  .recipient-info {
+    .recipient-name {
+      font-weight: 600;
+      font-size: 15px;
+      color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 190px;
+    }
+    
+    .suggestion-type {
+      font-size: 12px;
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      
+      i {
+        font-size: 10px;
+      }
+    }
+  }
+}
+
+/* Suggestion body styles with typing animation */
+.suggestion-body {
+  margin-bottom: 16px;
+  
+  .amount {
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 4px;
+  }
+  
+  .suggestion-message {
+    font-size: 13px;
+    color: #6b7280;
+    margin-top: 4px;
+    min-height: 40px; /* Ensure height even with short messages */
+    
+    /* Add class for the typing animation */
+    &.typing {
+      border-right: 2px solid #2fbe5f;
+      white-space: pre-wrap;
+      overflow: hidden;
+      animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+      display: inline-block;
+      max-width: 100%;
+      height: auto;
+    }
+  }
+}
+
+/* Action buttons styles with updated colors */
+.suggestion-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  
+  .action-button {
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    
+    &.send {
+      background: linear-gradient(135deg, #39ca6e, #2fbe5f); /* Updated to green gradient */
+      color: white;
+      flex: 1;
+      
+      &:hover {
+        background: linear-gradient(135deg, #2fbe5f, #27a351); /* Slightly darker on hover */
+        transform: translateY(-1px);
+      }
+      
+      &:active {
+        transform: translateY(0);
+      }
+    }
+    
+    &.dismiss {
+      background-color: #f3f4f6;
+      color: #6b7280;
+      padding: 8px;
+      
+      &:hover {
+        background-color: #e5e7eb;
+        color: #4b5563;
+      }
+    }
+  }
+}
+
+/* Navigation for multiple suggestions */
+.suggestion-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+  .nav-button {
+    background: none;
+    border: none;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+    
+    &:hover:not(:disabled) {
+      background-color: #f3f4f6;
+      color: #4b5563;
+    }
+    
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+  
+  .suggestion-indicators {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    
+    .suggestion-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #e5e7eb;
+      transition: all 0.2s ease;
+      
+      &.active {
+        background-color: #2fbe5f; /* Updated to match app color */
+        transform: scale(1.2);
+      }
+    }
+  }
+}
+
+/* Loader animation with updated color */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0;
+  
+  .pulse-loader {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(47, 190, 95, 0.2); /* Updated to match app color */
+    position: relative;
+    
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: #2fbe5f; /* Updated to match app color */
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+/* Add these styles for empty states */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px 10px;
+  min-height: 200px;
+  justify-content: center;
+  
+  .empty-icon {
+    font-size: 36px;
+    color: #2fbe5f;
+    margin-bottom: 12px;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(47, 190, 95, 0.1);
+    border-radius: 50%;
+    
+    i {
+      animation: pulse 2s infinite;
+    }
+  }
+  
+  .empty-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+  }
+  
+  .empty-message {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  
+  .empty-actions {
+    margin-top: 5px;
+  }
+  
+  &.error-state {
+    .empty-icon {
+      color: #dc3545;
+      background-color: rgba(220, 53, 69, 0.1);
+    }
+  }
+}
+
+/* Enhanced loader */
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0;
+  min-height: 180px;
+  
+  .pulse-loader {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(47, 190, 95, 0.2);
+    position: relative;
+    margin-bottom: 16px;
+    
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-top-color: #2fbe5f;
+      animation: spin 1s linear infinite;
+    }
+  }
+  
+  .loader-text {
+    font-size: 14px;
+    color: #6b7280;
+    animation: pulse 2s infinite;
+  }
+}
+
+/* New action button styles */
+.action-button.primary {
+  background: linear-gradient(135deg, #39ca6e, #2fbe5f);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: linear-gradient(135deg, #2fbe5f, #27a351);
+    transform: translateY(-1px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  i {
+    font-size: 12px;
+  }
+}
+
+/* Scrollbar styling for better appearance */
+.suggestion-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.suggestion-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.suggestion-content::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 10px;
+}
+
+.suggestion-content::-webkit-scrollbar-thumb:hover {
+  background: #2fbe5f;
+}
+
+/* Animations */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Typing animation */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #2fbe5f }
+}
+
+/* Animation for the empty state icon */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}

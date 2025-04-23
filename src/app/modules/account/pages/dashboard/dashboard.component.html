@@ -1,0 +1,211 @@
+<div class="dashboard-wrapper">
+  <!-- Dashboard Header -->
+  <div class="dashboard-header">
+    <div class="container">
+      <div class="quick-actions-container mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+          <h1 class="page-title">Dashboard</h1>
+          <div class="quick-actions">
+            <button class="btn btn-primary btn-quick-action" routerLink="/account/send">
+              <i class="fas fa-paper-plane"></i> Send Money
+            </button>
+            <button class="btn btn-outline-primary btn-quick-action" routerLink="/account/transfer">
+              <i class="fas fa-exchange-alt"></i> Transfer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div class="dashboard-content">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Left Panel -->
+        <div class="col-lg-3">
+          <div class="sidebar-container">
+            <!-- Profile Card -->
+            
+              <app-profile-details></app-profile-details>
+            
+
+            <!-- Balance Card -->
+            
+              <app-balance></app-balance>
+          
+
+            <!-- Help Card -->
+            <div class="dashboard-card help-card">
+              <app-need-help></app-need-help>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content Panel -->
+        <div class="col-lg-9">
+          <!-- Profile Completeness Card -->
+         
+            <app-profile-completeness></app-profile-completeness>
+
+            <app-beneficiary-suggestion *ngIf="showSuggestions"></app-beneficiary-suggestion>
+          
+          <!-- Recent Transactions Card -->
+          <div class="dashboard-card transactions-card">
+            <div class="card-header">
+              <h2>Recent Activity</h2>
+              <a routerLink="transactions" class="view-all-link">
+                View all <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+
+            <!-- Transaction Headers -->
+            <div class="transaction-headers">
+              <div class="row align-items-center">
+                <div class="col-2 col-sm-1">Date</div>
+                <div class="col col-sm-7">Description</div>
+                <div class="col-auto col-sm-2 d-none d-sm-block text-center">Status</div>
+                <div class="col-3 col-sm-2 text-end">Amount</div>
+              </div>
+            </div>
+
+            <!-- Transaction List -->
+            <div class="transaction-list">
+              <div *ngIf="apiResponseListTransaction?.content?.length === 0" class="empty-state">
+                <i class="fas fa-receipt empty-icon"></i>
+                <p>No transactions yet</p>
+              </div>
+
+              <div *ngFor="let transaction of apiResponseListTransaction?.content" class="transaction-item"
+                data-toggle="modal" data-target="#transaction-detail" (click)="this.selectTransaction(transaction)">
+                <div class="row align-items-center">
+                  <div class="col-2 col-sm-1">
+                    <div class="date-display">
+                      <ng-container *ngIf="transaction?.transactionDate; let date">
+                        <span class="day">{{ formatTransactionDate(date).day }}</span>
+                        <span class="month">{{ formatTransactionDate(date).month }}</span>
+                      </ng-container>
+                      <ng-template #noDate>
+                        <span class="day">--</span>
+                        <span class="month">---</span>
+                      </ng-template>
+                    </div>
+                  </div>
+                  <div class="col col-sm-7">
+                    <div class="transaction-description">
+                      <span class="primary-text">{{ transaction?.description }}</span>
+                      <span class="secondary-text">Ref: {{ transaction?.referenceNumber | slice:0:8 }}...</span>
+                    </div>
+                  </div>
+                  <div class="col-auto col-sm-2 d-none d-sm-block text-center">
+                    <div class="status-indicator" [ngClass]="{
+                           'status-success': transaction.currentStatus === 'SUCCESS',
+                           'status-pending': transaction.currentStatus === 'PENDING',
+                           'status-danger': transaction.currentStatus === 'CANCELLED' || transaction.currentStatus === 'FAILED'
+                         }" matTooltip="{{transaction.currentStatus?.toLowerCase()}}">
+                      <span [ngSwitch]="transaction.currentStatus">
+                        <i *ngSwitchCase="'SUCCESS'" class="fas fa-check-circle"></i>
+                        <i *ngSwitchCase="'PENDING'" class="fas fa-clock"></i>
+                        <i *ngSwitchCase="'CANCELLED'" class="fas fa-times-circle"></i>
+                        <i *ngSwitchCase="'FAILED'" class="fas fa-exclamation-circle"></i>
+                      </span>
+                      <span class="status-text">{{transaction.currentStatus}}</span>
+                    </div>
+                  </div>
+                  <div class="col-3 col-sm-2 text-end">
+                    <div class="amount-display" [ngClass]="{
+                           'amount-negative': transaction.transactionType === 'DEBIT',
+                           'amount-positive': transaction.transactionType === 'CREDIT'
+                         }">
+                      <span *ngIf="transaction.transactionType === 'DEBIT'">-</span>
+                      <span *ngIf="transaction.transactionType === 'CREDIT'">+</span>
+                      ${{ transaction.amount | number : '1.2-2'}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="pagination-controls" *ngIf="(apiResponseListTransaction?.totalPages ?? 0) > 1">
+              <button class="page-control" [disabled]="page === 0" (click)="changePage(page-1)">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <span class="page-indicator">Page {{page+1}} of {{apiResponseListTransaction?.totalPages}}</span>
+              <button class="page-control" [disabled]="page >= (apiResponseListTransaction?.totalPages ?? 0) - 1"
+                (click)="changePage(page+1)">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transaction Detail Modal -->
+  <div id="transaction-detail" class="modal fade" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered transaction-details" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Transaction Details</h5>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="transaction-summary">
+            <div class="transaction-icon" [ngClass]="{
+              'icon-success': selectedTransaction?.currentStatus === 'SUCCESS',
+              'icon-pending': selectedTransaction?.currentStatus === 'PENDING',
+              'icon-danger': selectedTransaction?.currentStatus === 'CANCELLED' || selectedTransaction?.currentStatus === 'FAILED'
+            }">
+              <i class="fas" [ngClass]="{
+                'fa-check': selectedTransaction?.currentStatus === 'SUCCESS',
+                'fa-clock': selectedTransaction?.currentStatus === 'PENDING',
+                'fa-times': selectedTransaction?.currentStatus === 'CANCELLED' || selectedTransaction?.currentStatus === 'FAILED'
+              }"></i>
+            </div>
+            <div class="amount-large">${{ selectedTransaction?.amount | number : '1.2-2'}}</div>
+            <div class="status-badge" [ngClass]="{
+              'badge-success': selectedTransaction?.currentStatus === 'SUCCESS',
+              'badge-warning': selectedTransaction?.currentStatus === 'PENDING',
+              'badge-danger': selectedTransaction?.currentStatus === 'CANCELLED' || selectedTransaction?.currentStatus === 'FAILED'
+            }">{{ selectedTransaction?.currentStatus }}</div>
+            <div class="transaction-date">
+              {{ formatDetailDate(selectedTransaction?.transactionDate) }}
+            </div>
+          </div>
+
+          <div class="transaction-details-list">
+            <div class="detail-item">
+              <div class="detail-label">Description</div>
+              <div class="detail-value">{{ selectedTransaction?.description }}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Transaction ID</div>
+              <div class="detail-value">{{ selectedTransaction?.referenceNumber }}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Amount</div>
+              <div class="detail-value">${{ selectedTransaction?.amount | number : '1.2-2'}}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Fee</div>
+              <div class="detail-value">${{selectedTransaction?.fee | number : '1.2-2'}}</div>
+            </div>
+            <div class="detail-item total">
+              <div class="detail-label">Total</div>
+              <div class="detail-value">${{ selectedTransaction?.amount | number : '1.2-2'}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-floating-suggestion 
+    [autoRotate]="true" 
+    [autoRotateInterval]="10000"
+    (suggestionAction)="handleSuggestionAction($event)">
+  </app-floating-suggestion>
+  
+</div>

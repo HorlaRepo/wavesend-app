@@ -1,0 +1,129 @@
+<div class="profile-completeness-card">
+  <div class="card-header">
+    <div class="header-content">
+      <h3 class="card-title">Profile Completeness</h3>
+      <div class="completion-badge" [ngClass]="{'low': completionPercentage < 30, 'medium': completionPercentage >= 30 && completionPercentage < 70, 'high': completionPercentage >= 70}">
+        {{completionPercentage}}%
+      </div>
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-bar" [style.width.%]="completionPercentage"></div>
+    </div>
+  </div>
+  
+  <div class="completion-items">
+    <!-- Email Verification -->
+    <div class="completion-item verified">
+      <div class="item-icon">
+        <i class="fas fa-envelope"></i>
+      </div>
+      <div class="item-content">
+        <h4>Email Verified</h4>
+        <p>Your email has been successfully verified</p>
+      </div>
+      <div class="item-status">
+        <i class="fas fa-check-circle"></i>
+      </div>
+    </div>
+    
+    <!-- Mobile Verification -->
+    <div class="completion-item verified">
+      <div class="item-icon">
+        <i class="fas fa-mobile-alt"></i>
+      </div>
+      <div class="item-content">
+        <h4>Mobile Added</h4>
+        <p>Your mobile number has been verified</p>
+      </div>
+      <div class="item-status">
+        <i class="fas fa-check-circle"></i>
+      </div>
+    </div>
+    
+    <!-- KYC Verification - Updated with conditional status classes -->
+    <div class="completion-item" 
+         [ngClass]="{'verified': isKycVerified, 
+                    'partial': isKycPartiallyVerified, 
+                    'pending': isKycPending,
+                    'rejected': !isKycVerified && !isKycPartiallyVerified && !isKycPending && kycVerification && (kycVerification.idVerificationStatus === 'REJECTED' || kycVerification.addressVerificationStatus === 'REJECTED')}">
+      <div class="item-icon">
+        <i class="fas fa-id-badge"></i>
+      </div>
+      <div class="item-content">
+        <h4>KYC Verification</h4>
+        <p>{{ getKycStatusMessage() }}</p>
+        
+        <!-- Show verification details if partially verified -->
+        <div *ngIf="isKycPartiallyVerified && kycVerification" class="verification-details">
+          <div class="verification-item" 
+               [ngClass]="{'verified': kycVerification.idVerificationStatus === 'APPROVED', 
+                          'pending': kycVerification.idVerificationStatus === 'PENDING', 
+                          'rejected': kycVerification.idVerificationStatus === 'REJECTED'}">
+            <span class="label">ID:</span>
+            <span class="status">
+              <i *ngIf="kycVerification.idVerificationStatus === 'APPROVED'" class="fas fa-check-circle"></i>
+              <i *ngIf="kycVerification.idVerificationStatus === 'PENDING'" class="fas fa-clock"></i>
+              <i *ngIf="kycVerification.idVerificationStatus === 'REJECTED'" class="fas fa-times-circle"></i>
+              <i *ngIf="kycVerification.idVerificationStatus === 'UNVERIFIED'" class="fas fa-exclamation-circle"></i>
+              {{ kycVerification.idVerificationStatus }}
+            </span>
+          </div>
+          
+          <div class="verification-item"
+               [ngClass]="{'verified': kycVerification.addressVerificationStatus === 'APPROVED', 
+                          'pending': kycVerification.addressVerificationStatus === 'PENDING', 
+                          'rejected': kycVerification.addressVerificationStatus === 'REJECTED'}">
+            <span class="label">Address:</span>
+            <span class="status">
+              <i *ngIf="kycVerification.addressVerificationStatus === 'APPROVED'" class="fas fa-check-circle"></i>
+              <i *ngIf="kycVerification.addressVerificationStatus === 'PENDING'" class="fas fa-clock"></i>
+              <i *ngIf="kycVerification.addressVerificationStatus === 'REJECTED'" class="fas fa-times-circle"></i>
+              <i *ngIf="kycVerification.addressVerificationStatus === 'UNVERIFIED'" class="fas fa-exclamation-circle"></i>
+              {{ kycVerification.addressVerificationStatus }}
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Different status indicators based on verification state -->
+      <div class="item-status" *ngIf="isKycVerified">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <div class="item-status" *ngIf="isKycPartiallyVerified">
+        <i class="fas fa-check-circle partial"></i>
+      </div>
+      <div class="item-status" *ngIf="isKycPending">
+        <i class="fas fa-clock"></i>
+      </div>
+      
+      <!-- Action button for incomplete verification -->
+      <div class="item-action" *ngIf="!isKycVerified">
+        <a routerLink="/account/settings/security" class="action-link">
+          {{ getVerifyButtonText() }}
+          <i class="fas fa-chevron-right"></i>
+        </a>
+      </div>
+    </div>
+    
+    <!-- Bank Account -->
+    <div class="completion-item" [ngClass]="{'verified': (bankAccountCount ?? 0) > 0, 'pending': (bankAccountCount ?? 0) === 0}">
+      <div class="item-icon">
+        <i class="fas fa-university"></i>
+      </div>
+      <div class="item-content">
+        <h4>Bank Account</h4>
+        <p *ngIf="(bankAccountCount ?? 0) > 0">{{bankAccountCount}} bank account(s) connected</p>
+        <p *ngIf="(bankAccountCount ?? 0) === 0">Connect your bank account for withdrawals</p>
+      </div>
+      <div class="item-status" *ngIf="(bankAccountCount ?? 0) > 0">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <div class="item-action" *ngIf="(bankAccountCount ?? 0) === 0">
+        <a routerLink="/account/settings/payment-methods" class="action-link">
+          Add Bank
+          <i class="fas fa-chevron-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

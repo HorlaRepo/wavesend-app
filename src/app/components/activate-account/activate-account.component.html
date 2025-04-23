@@ -1,0 +1,31 @@
+<!--<div class="container py-5" *ngIf="submitted else codeForm">-->
+<!--  <div class="activate-message" *ngIf="isOkay else activationError" >-->
+<!--    <div class="text-center">-->
+<!--      <h4>Your account has been activated successfully</h4>-->
+<!--      <p>You can now login to your account</p>-->
+<!--      <button class="btn btn-primary" (click)="navigateToLogin()">Login</button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <ng-template #activationError>-->
+<!--    <div class="activation-error">-->
+<!--      <h4>Activation failed</h4>-->
+<!--      <p>{{message}}</p>-->
+<!--      <button class="btn btn-primary" (click)="submitted = false">Try again</button>-->
+<!--    </div>-->
+<!--  </ng-template>-->
+<!--</div>-->
+
+<!--<ng-template #codeForm>-->
+<!--  <div class="d-flex align-items-center justify-content-center" style="height: 100vh;">-->
+<!--    <div class="card-container text-center" style="width: 400px">-->
+<!--      <p class="lead text-center">An activation code has been sent to your email address..</p>-->
+<!--      <h4 style="margin-bottom: 50px">Please enter your activation code</h4>-->
+<!--      <code-input [isCodeHidden]="false"-->
+<!--                  [codeLength]="6"-->
+<!--                  [code]="'number'"-->
+<!--                  (codeCompleted)="onCodeCompleted($event)"-->
+<!--      >-->
+<!--      </code-input>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</ng-template>-->

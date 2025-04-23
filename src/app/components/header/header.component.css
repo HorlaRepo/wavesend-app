@@ -1,0 +1,8 @@
+::ng-deep .mat-menu-content {
+  background-color: #333;
+  color: #fff;
+}
+
+::ng-deep .mat-menu-item {
+  font-size: 18px;
+}

@@ -1,0 +1,141 @@
+<div class="settings-container">
+  <div class="container">
+    <div class="row">
+      <!-- Left Panel -->
+      <aside class="col-lg-3">
+        <!-- Profile Details -->
+        <app-profile-details></app-profile-details>
+        
+        <!-- Available Balance -->
+        <app-balance></app-balance>
+        
+        <!-- Need Help? -->
+        <app-need-help></app-need-help>
+      </aside>
+
+      <!-- Main Content Panel -->
+      <div class="col-lg-9">
+        <!-- Page Header -->
+        <div class="page-header">
+          <h2>Notification Settings</h2>
+          <p class="subtitle">Manage your email notifications and account alerts</p>
+        </div>
+        
+        <!-- Notification Settings Card -->
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="header-content">
+              <div class="section-icon">
+                <i class="fas fa-bell"></i>
+              </div>
+              <div>
+                <h3>Email Notifications</h3>
+                <span class="notification-email">Delivered to: {{ userInfo?.email }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="settings-card-body">
+            <p-toast position="bottom-right"></p-toast>
+            
+            <div class="notification-options">
+              <!-- Deposit Notification -->
+              <div class="notification-option">
+                <div class="toggle-wrapper">
+                  <label class="toggle-switch">
+                    <input type="checkbox" 
+                           [checked]="userNotificationPreferences.notifyOnDeposit"
+                           (change)="onCheckboxChange($event, 'notifyOnDeposit')">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+                <div class="notification-content">
+                  <h4>Deposit Confirmation</h4>
+                  <p>Receive email notifications when you make a deposit to your account</p>
+                </div>
+              </div>
+              
+              <!-- Send Payment Notification -->
+              <div class="notification-option">
+                <div class="toggle-wrapper">
+                  <label class="toggle-switch">
+                    <input type="checkbox" 
+                           [checked]="userNotificationPreferences.notifyOnSend"
+                           (change)="onCheckboxChange($event, 'notifyOnSend')">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+                <div class="notification-content">
+                  <h4>Payment Sent</h4>
+                  <p>Receive email notifications when you send money to someone</p>
+                </div>
+              </div>
+              
+              <!-- Receive Payment Notification -->
+              <div class="notification-option">
+                <div class="toggle-wrapper">
+                  <label class="toggle-switch">
+                    <input type="checkbox" 
+                           [checked]="userNotificationPreferences.notifyOnReceive"
+                           (change)="onCheckboxChange($event, 'notifyOnReceive')">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+                <div class="notification-content">
+                  <h4>Payment Received</h4>
+                  <p>Receive email notifications when someone sends you money</p>
+                </div>
+              </div>
+              
+              <!-- Withdrawal Notification -->
+              <div class="notification-option">
+                <div class="toggle-wrapper">
+                  <label class="toggle-switch">
+                    <input type="checkbox" 
+                           [checked]="userNotificationPreferences.notifyOnWithdraw"
+                           (change)="onCheckboxChange($event, 'notifyOnWithdraw')">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+                <div class="notification-content">
+                  <h4>Withdrawal Confirmation</h4>
+                  <p>Receive email notifications when you withdraw funds from your account</p>
+                </div>
+              </div>
+              
+              <!-- Payment Issue Notification -->
+              <div class="notification-option">
+                <div class="toggle-wrapper">
+                  <label class="toggle-switch">
+                    <input type="checkbox" 
+                           [checked]="userNotificationPreferences.notifyOnPaymentFailure"
+                           (change)="onCheckboxChange($event, 'notifyOnPaymentFailure')">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+                <div class="notification-content">
+                  <h4>Payment Issues</h4>
+                  <p>Receive email notifications when there's a problem with one of your transactions</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="settings-footer">
+              <button class="btn-save" type="button" (click)="updateUserNotificationPreferences()" [disabled]="isLoading">
+                <span *ngIf="!isLoading">Save Changes</span>
+                <div *ngIf="isLoading" class="spinner-container">
+                  <div class="spinner"></div>
+                </div>
+              </button>
+              
+              <div class="settings-notice">
+                <i class="fas fa-shield-alt"></i>
+                <span>Your notification preferences are immediately updated when you make changes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+<div class="failed-container">
+  <!-- Secondary Navigation -->
+  <app-deposit-withdraw-menu [activeLink]="'deposit'"></app-deposit-withdraw-menu>
+
+  <!-- Main Content -->
+  <div class="content-wrapper">
+    <div class="container">
+      <!-- Steps Progress Bar -->
+      <!-- <app-steps-progress-bar></app-steps-progress-bar> -->
+
+      <!-- Page Header -->
+      <div class="page-header text-center">
+        <h2>Deposit Money</h2>
+        <p class="subtitle">Your deposit could not be completed</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-9 col-lg-7 col-xl-6 mx-auto">
+          <!-- Failed Card -->
+          <div class="failed-card">
+            <!-- Failed Animation -->
+            <div class="failed-animation">
+              <div class="error-circle">
+                <div class="error-circle-bg"></div>
+                <div class="error-line-1"></div>
+                <div class="error-line-2"></div>
+              </div>
+            </div>
+            
+            <!-- Failed Message -->
+            <div class="failed-message">
+              <h3>Deposit Cancelled</h3>
+              <p>Your deposit transaction was not completed and no funds were transferred.</p>
+            </div>
+
+            <!-- Transaction Details -->
+            <div class="transaction-details">
+              <div class="detail-row">
+                <div class="detail-label">Amount</div>
+                <div class="detail-value highlight-error">${{ transaction?.amount | number : '1.2-2' }}</div>
+              </div>
+              
+              <div class="detail-row" *ngIf="transaction?.referenceNumber">
+                <div class="detail-label">Reference Number</div>
+                <div class="detail-value reference">{{ transaction?.referenceNumber }}</div>
+              </div>
+              
+              <div class="detail-row">
+                <div class="detail-label">Status</div>
+                <div class="detail-value">
+                  <span class="status-badge error">
+                    <i class="fas fa-times-circle"></i> Cancelled
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Error Notice -->
+            <div class="error-notice" *ngIf="errorMessage">
+              <i class="fas fa-exclamation-triangle"></i>
+              <span>{{ errorMessage }}</span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <button class="btn-primary" routerLink="/account/deposit">
+                <i class="fas fa-redo"></i> Try Again
+              </button>
+              <button class="btn-secondary" routerLink="/account/dashboard">
+                <i class="fas fa-home"></i> Go to Dashboard
+              </button>
+            </div>
+
+            <!-- Additional Actions -->
+            <div class="additional-actions">
+              <a routerLink="/account/transactions" class="view-all-link">
+                <i class="fas fa-list-ul"></i> View All Transactions
+              </a>
+              <a href="javascript:void(0)" (click)="printDetails()" class="home-link">
+                <i class="fas fa-print"></i> Print Details
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

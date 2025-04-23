@@ -1,0 +1,107 @@
+<div class="withdraw-confirm-container">
+  <!-- Secondary Navigation -->
+  <!-- <app-deposit-withdraw-menu [activeLink]="'withdraw'"></app-deposit-withdraw-menu> -->
+
+  <!-- Main Content -->
+  <div class="content-wrapper">
+    <div class="container">
+      <!-- Steps Progress Bar -->
+      <app-steps-progress-bar></app-steps-progress-bar>
+
+      <!-- Page Header -->
+      <div class="page-header text-center">
+        <h2>Withdraw Money</h2>
+        <p class="subtitle">Confirm your withdrawal details</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-9 col-lg-7 col-xl-6 mx-auto">
+          <p-toast position="bottom-center"></p-toast>
+
+          <!-- Withdraw Confirmation Card -->
+          <div class="confirm-card">
+            <!-- Recipient Info -->
+            <div class="recipient-section">
+              <div class="recipient-icon">
+                <i class="fas fa-university"></i>
+              </div>
+              <h3>Withdraw to Bank Account</h3>
+              <div class="bank-details">
+                <div class="bank-name">{{ bankAccount.bankName }}</div>
+                <div class="account-number">{{ bankAccount.accountNumber }}</div>
+                <div class="account-name">{{ bankAccount.accountName ? bankAccount.accountName :
+                  bankAccount.beneficiaryName }}</div>
+              </div>
+            </div>
+
+            <!-- Amount Details -->
+            <div class="amount-details">
+              <div class="detail-row">
+                <div class="detail-label">Amount to Withdraw</div>
+                <div class="detail-value">{{ transactionValues.amount | number : '1.2-2' }} {{wallet.currency}}</div>
+              </div>
+
+              <div class="detail-row fee">
+                <div class="detail-label">
+                  <span>Transaction fee</span>
+                  <i class="fas fa-info-circle" title="This is the fee charged for processing the transaction"></i>
+                </div>
+                <div class="detail-value">{{ transactionValues.transactionFee | number : '1.2-2' }} {{wallet.currency}}
+                </div>
+              </div>
+
+              <div class="detail-row fee">
+                <div class="detail-label">
+                  <span>Processing fee</span>
+                  <i class="fas fa-info-circle" title="This is the processing fee charged by the bank"></i>
+                </div>
+                <div class="detail-value">{{ transactionValues.processingFee | number : '1.2-2' }}
+                  {{transactionValues.currency}}</div>
+              </div>
+
+              <div class="detail-divider"></div>
+
+              <div class="detail-row total">
+                <div class="detail-label">Total Amount (Incl. fees)</div>
+                <div class="detail-value">{{ amountWithFee | number : '1.2-2' }} {{wallet.currency}}</div>
+              </div>
+
+              <div class="detail-row you-receive">
+                <div class="detail-label">You will receive</div>
+                <div class="detail-value highlight">{{transactionValues.totalAmountInLocalCurrency | number : '1.2-2'}}
+                  {{transactionValues.currency}}</div>
+              </div>
+            </div>
+
+            <!-- Rate Information -->
+            <div class="exchange-rate-info">
+              <i class="fas fa-sync-alt"></i>
+              <span>Exchange Rate: 1 {{wallet.currency}} = {{transactionValues.exchangeRate}}
+                {{transactionValues.currency}}</span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <button class="btn-back" (click)="goBack()">
+                <i class="fas fa-arrow-left"></i> Back
+              </button>
+              <button [disabled]="isLoading" (click)="initiateWithdrawal()"
+                class="btn-primary transaction-confirmation-button">
+                <span *ngIf="!isLoading">Confirm Withdrawal</span>
+                <div *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Security Notice -->
+          <div class="security-notice">
+            <i class="fas fa-shield-alt"></i>
+            <p>Your transaction is secure and protected by our bank-grade security systems</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,304 @@
+<div class="settings-container">
+  <div class="container">
+    <div class="row">
+      <!-- Left Panel -->
+      <aside class="col-lg-3">
+        <!-- Profile Details -->
+        <app-profile-details></app-profile-details>
+        
+        <!-- Available Balance -->
+        <app-balance></app-balance>
+        
+        <!-- Need Help? -->
+        <app-need-help></app-need-help>
+      </aside>
+
+      <!-- Right Panel -->
+      <div class="col-lg-9">
+        <!-- Page Header -->
+        <div class="page-header">
+          <h2>Profile Settings</h2>
+          <p class="subtitle">Manage your personal information and account preferences</p>
+        </div>
+        
+        <!-- Personal Details Card -->
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="header-content">
+              <h3>Personal Details</h3>
+              <div class="settings-badge">Identity</div>
+            </div>
+            <button class="btn-edit" data-toggle="modal" data-target="#edit-personal-details">
+              <i class="fas fa-edit"></i>
+              <span>Edit</span>
+            </button>
+          </div>
+          
+          <div class="settings-card-body">
+            <div class="details-grid">
+              <div class="detail-item">
+                <div class="detail-label">Full Name</div>
+                <div class="detail-value">{{ userProfile?.firstName }} {{ userProfile?.lastName }}</div>
+              </div>
+              
+              <div class="detail-item">
+                <div class="detail-label">Date of Birth</div>
+                <div class="detail-value">{{ date }}</div>
+              </div>
+              
+              <div class="detail-item address">
+                <div class="detail-label">Address</div>
+                <div class="detail-value">
+                  <p>{{ userInfo?.address?.street_address }}</p>
+                  <p>{{ userInfo?.address?.locality }}</p>
+                  <p>{{ userInfo?.address?.region }} - {{ userInfo?.address?.postal_code }}</p>
+                  <p>{{ userInfo?.address?.country }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Account Settings Card -->
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="header-content">
+              <h3>Account Settings</h3>
+              <div class="settings-badge">Preferences</div>
+            </div>
+            <button class="btn-edit" data-toggle="modal" data-target="#edit-account-settings">
+              <i class="fas fa-edit"></i>
+              <span>Edit</span>
+            </button>
+          </div>
+          
+          <div class="settings-card-body">
+            <div class="details-grid">
+              <div class="detail-item">
+                <div class="detail-label">Language</div>
+                <div class="detail-value">English (United States)</div>
+              </div>
+              
+              <div class="detail-item">
+                <div class="detail-label">Time Zone</div>
+                <div class="detail-value">(GMT-06:00) Central America</div>
+              </div>
+              
+              <div class="detail-item">
+                <div class="detail-label">Account Status</div>
+                <div class="detail-value">
+                  <span class="status-badge active">
+                    <i class="fas fa-check-circle"></i>
+                    Active
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Email Addresses Card -->
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="header-content">
+              <h3>Email Addresses</h3>
+              <div class="settings-badge">Communication</div>
+            </div>
+            <button class="btn-edit" data-toggle="modal" data-target="#edit-email">
+              <i class="fas fa-edit"></i>
+              <span>Edit</span>
+            </button>
+          </div>
+          
+          <div class="settings-card-body">
+            <div class="details-grid">
+              <div class="detail-item">
+                <div class="detail-label">Email ID</div>
+                <div class="detail-value email">
+                  {{ userProfile?.email }}
+                  <span class="primary-badge">Primary</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modals -->
+<!-- Personal Details Modal -->
+<div class="modal fade" id="edit-personal-details" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content custom-modal">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Personal Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="personaldetails" method="post">
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <div class="input-wrapper">
+                  <i class="fas fa-user input-icon"></i>
+                  <input type="text" value="{{ userProfile?.firstName }}" class="form-control" id="firstName" required placeholder="First Name">
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6">
+              <div class="form-group">
+                <label for="fullName">Last Name</label>
+                <div class="input-wrapper">
+                  <i class="fas fa-user input-icon"></i>
+                  <input type="text" value="{{ userProfile?.lastName }}" class="form-control" id="fullName" required placeholder="Last Name">
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label for="birthDate">Date of Birth</label>
+                <div class="input-wrapper">
+                  <i class="fas fa-calendar-alt input-icon"></i>
+                  <input id="birthDate" value="{{ date }}" type="text" class="form-control" required placeholder="Date of Birth">
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="section-separator">
+                <span>Address Information</span>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <label for="address">Street Address</label>
+                <div class="input-wrapper">
+                  <i class="fas fa-map-marker-alt input-icon"></i>
+                  <input type="text" value="{{ userInfo?.address?.street_address}}" class="form-control" id="address" required placeholder="Street Address">
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6">
+              <div class="form-group">
+                <label for="city">City</label>
+                <div class="input-wrapper">
+                  <i class="fas fa-city input-icon"></i>
+                  <input id="city" value="{{ userInfo?.address?.locality }}" type="text" class="form-control" required placeholder="City">
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6">
+              <div class="form-group">
+                <label for="state">State/Province</label>
+                <div class="input-wrapper">
+                  <i class="fas fa-map input-icon"></i>
+                  <input id="state" value="{{ userInfo?.address?.region }}" type="text" class="form-control" required placeholder="State/Province">
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6">
+              <div class="form-group">
+                <label for="zipCode">Postal Code</label>
+                <div class="input-wrapper">
+                  <i class="fas fa-mail-bulk input-icon"></i>
+                  <input id="zipCode" value="{{ userInfo?.address?.postal_code }}" type="text" class="form-control" required placeholder="Postal Code">
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6">
+              <div class="form-group">
+                <label for="country">Country</label>
+                <div class="input-wrapper">
+                  <i class="fas fa-globe input-icon"></i>
+                  <input id="country" value="{{ userInfo?.address?.country }}" type="text" class="form-control" required placeholder="Country">
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-submit" type="submit">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Account Settings Modal -->
+<div class="modal fade" id="edit-account-settings" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content custom-modal">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Account Settings</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="accountSettings" method="post">
+          <div class="form-group">
+            <label for="language">Language</label>
+            <div class="select-wrapper">
+              <i class="fas fa-language input-icon"></i>
+              <select class="form-control custom-select" id="language" name="language_id">
+                <option value="1">English (United States)</option>
+                <option value="2">Spanish</option>
+                <option value="3">Chinese</option>
+                <option value="4">Russian</option>
+              </select>
+              <i class="fas fa-chevron-down select-arrow"></i>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="input-timezone">Time Zone</label>
+            <div class="select-wrapper">
+              <i class="fas fa-clock input-icon"></i>
+              <select class="form-control custom-select" id="input-timezone" name="timezone_id">
+                <option value="-12">(GMT-12:00) International Date Line West</option>
+                <option value="-11">(GMT-11:00) Midway Island, Samoa</option>
+                <option value="-10">(GMT-10:00) Hawaii</option>
+                <option value="-9">(GMT-09:00) Alaska</option>
+                <option value="-8">(GMT-08:00) Pacific Time (US & Canada)</option>
+                <option value="-8">(GMT-08:00) Tijuana, Baja California</option>
+              </select>
+              <i class="fas fa-chevron-down select-arrow"></i>
+            </div>
+          </div>
+          <button class="btn-submit" type="submit">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Email Addresses Modal -->
+<div class="modal fade" id="edit-email" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content custom-modal">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Email Address</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="emailAddresses" method="post">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <div class="input-wrapper">
+              <i class="fas fa-envelope input-icon"></i>
+              <input type="email" value="{{ userProfile?.email }}" class="form-control" id="email" required placeholder="Email Address">
+            </div>
+            <div class="form-text">
+              <i class="fas fa-info-circle"></i>
+              <span>We'll send a verification code to this email</span>
+            </div>
+          </div>
+          <button class="btn-submit" type="submit">Update Email</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

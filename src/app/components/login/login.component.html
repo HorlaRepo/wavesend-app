@@ -1,0 +1,137 @@
+
+<!--&lt;!&ndash; Content-->
+<!--  ============================================= &ndash;&gt;-->
+<!--<div id="top-boss" class="gradient-background">-->
+<!--<div class="container py-5 " >-->
+<!--<div id="content" class="d-flex align-items-center justify-content-center " style="height: 100vh;">-->
+<!--  <div class="container py-5">-->
+<!--    <div class="row">-->
+<!--      <div class="col-md-9 col-lg-7 col-xl-5 mx-auto">-->
+<!--        &lt;!&ndash; Logo &ndash;&gt;-->
+<!--        <div class="text-center mb-0">-->
+<!--          <img ngSrc="assets/images/logo-top.png" alt="Logo" height="200" width="250">-->
+<!--        </div>-->
+
+<!--        <div class="bg-white shadow-md rounded p-3 pt-sm-4 pb-sm-5 px-sm-5">-->
+<!--          <h3 class="font-weight-400 text-center mb-4">Sign In</h3>-->
+<!--          <hr class="mx-n5">-->
+<!--          <p class="lead text-center">We are glad to see you again!</p>-->
+<!--              <p-toast position="bottom-center"></p-toast>-->
+<!--          <form id="loginForm" method="post">-->
+<!--            <div class="form-group">-->
+<!--              <label for="emailAddress">Email Address</label>-->
+<!--              <input [(ngModel)]="authRequest.username" name="username" type="email" class="form-control" id="emailAddress" required placeholder="Enter Your Email">-->
+<!--            </div>-->
+<!--            <div class="form-group">-->
+<!--              <label for="loginPassword">Password</label>-->
+<!--              <input [(ngModel)]="authRequest.password" name="password" type="password" class="form-control" id="loginPassword" required placeholder="Enter Password">-->
+<!--            </div>-->
+<!--            <div class="row">-->
+<!--              <div class="col-sm">-->
+<!--                <div class="form-check custom-control custom-checkbox">-->
+<!--                  <input id="remember-me" name="remember" class="custom-control-input" type="checkbox">-->
+<!--                  <label class="custom-control-label" for="remember-me">Remember Me</label>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="col-sm text-right"><a class="btn-link" href="#">Forgot Password ?</a></div>-->
+<!--            </div>-->
+<!--            <button-->
+<!--              (click)="login()"-->
+<!--              [disabled]="isLoading"-->
+<!--              class="btn btn-primary btn-block my-4"-->
+<!--              type="submit">-->
+<!--              <span *ngIf="isLoading">-->
+<!--                <i class="fa fa-spinner fa-spin"></i> Signing in...-->
+<!--              </span>-->
+<!--              <span *ngIf="!isLoading">-->
+<!--                Sign in-->
+<!--              </span>-->
+<!--            </button>-->
+<!--          </form>-->
+<!--          <p class="text-3 text-center text-muted">Don't have an account? <a class="btn-link" routerLink="/register">Sign Up</a></p>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--</div>-->
+<!--&lt;!&ndash; Content end &ndash;&gt;-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--&lt;!&ndash;<div id="main-wrapper" class="h-100">&ndash;&gt;-->
+<!--&lt;!&ndash;  <div class="container-fluid px-0 h-100">&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="row no-gutters h-100">&ndash;&gt;-->
+<!--&lt;!&ndash;      &lt;!&ndash; Welcome Text&ndash;&gt;-->
+<!--&lt;!&ndash;      ============================================= &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="col-md-6">&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="hero-wrap d-flex align-items-center h-100">&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="hero-mask opacity-8 bg-primary"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="hero-bg hero-bg-scroll" style="background-image:url('assets/images/bg/image-3.jpg');"></div>&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="hero-content mx-auto w-100 h-100 d-flex flex-column">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="row no-gutters">&ndash;&gt;-->
+<!--&lt;!&ndash;              <div class="col-10 col-lg-9 mx-auto">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="logo mt-5 mb-5 mb-md-0"> <a class="d-flex" routerLink="/" title="WaveSend - Money Transfer"><img src="assets/images/logo-light.png" alt="Payyed"></a> </div>&ndash;&gt;-->
+<!--&lt;!&ndash;              </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="row no-gutters my-auto">&ndash;&gt;-->
+<!--&lt;!&ndash;              <div class="col-10 col-lg-9 mx-auto">&ndash;&gt;-->
+<!--&lt;!&ndash;                <h1 class="text-11 text-white mb-4">Welcome back!</h1>&ndash;&gt;-->
+<!--&lt;!&ndash;                <p class="text-4 text-white line-height-4 mb-5">We are glad to see you again! Instant deposits, withdrawals & payouts trusted by millions worldwide.</p>&ndash;&gt;-->
+<!--&lt;!&ndash;              </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      &lt;!&ndash; Welcome Text End &ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;      &lt;!&ndash; Login Form&ndash;&gt;-->
+<!--&lt;!&ndash;      ============================================= &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="col-md-6 d-flex align-items-center">&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="container my-4">&ndash;&gt;-->
+<!--&lt;!&ndash;          <div class="row">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="col-11 col-lg-9 col-xl-8 mx-auto">&ndash;&gt;-->
+<!--&lt;!&ndash;              <h3 class="font-weight-400 mb-4">Log In</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;              <div class="alert alert-danger" role="alert" *ngIf="errorMessage.length">&ndash;&gt;-->
+<!--&lt;!&ndash;                <p *ngFor="let msg of errorMessage">{{ msg }}</p>&ndash;&gt;-->
+<!--&lt;!&ndash;              </div>&ndash;&gt;-->
+<!--&lt;!&ndash;              <form id="loginForm" method="post">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <label for="emailAddress">Email Address</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                  <input [(ngModel)]="authRequest.username" name="username" type="email" class="form-control" id="emailAddress" required placeholder="Enter Your Email">&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="form-group">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <label for="loginPassword">Password</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                  <input [(ngModel)]="authRequest.password" name="password" type="password" class="form-control" id="loginPassword" required placeholder="Enter Password">&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="row">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <div class="col-sm">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="form-check custom-control custom-checkbox">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <input id="remember-me" name="remember" class="custom-control-input" type="checkbox">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <label class="custom-control-label" for="remember-me">Remember Me</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                  </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                  <div class="col-sm text-right"><a class="btn-link" href="#">Forgot Password ?</a></div>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <button (click)="login()"  class="btn btn-primary btn-block my-4" type="submit">Login</button>&ndash;&gt;-->
+<!--&lt;!&ndash;              </form>&ndash;&gt;-->
+<!--&lt;!&ndash;              <p class="text-3 text-center text-muted">Don't have an account? <a class="btn-link" routerLink="/register">Sign Up</a></p>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      &lt;!&ndash; Login Form End &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;  </div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--</div>-->

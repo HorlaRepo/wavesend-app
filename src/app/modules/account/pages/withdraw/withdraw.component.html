@@ -1,0 +1,175 @@
+<div class="withdraw-container">
+  <!-- Secondary Navigation -->
+  <!-- <app-deposit-withdraw-menu [activeLink]="'withdraw'"></app-deposit-withdraw-menu> -->
+
+  <!-- Main Content -->
+  <div class="content-wrapper">
+    <div class="container">
+      <!-- Steps Progress Bar - This will be styled separately -->
+      <app-steps-progress-bar></app-steps-progress-bar>
+
+      <!-- Page Header -->
+      <div class="page-header text-center">
+        <h2>Withdraw Money</h2>
+        <p class="subtitle">Transfer funds from your wallet to your bank account</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-9 col-lg-7 col-xl-6 mx-auto">
+          <!-- Check if banksList is empty, null, or undefined -->
+          <ng-container *ngIf="banksList && banksList.length; else noBankAccounts">
+            <!-- Withdraw Money Form -->
+            <div class="form-card">
+              <!-- Balance Section -->
+              <div class="balance-section">
+                <div class="balance-icon">
+                  <i class="fas fa-wallet"></i>
+                </div>
+                <h3 class="balance-amount">${{ wallet?.balance | number: '1.2-2' }}</h3>
+                <p class="balance-label">Available Balance</p>
+                <button type="button" (click)="setFullAmount()" class="withdraw-full-btn">
+                  Withdraw Full Amount
+                </button>
+              </div>
+              
+              <!-- Form Section -->
+              <div class="form-card-body">
+                <form id="form-withdraw-money">
+                  <!-- Bank Selection -->
+                  <div class="form-group">
+                    <label for="withdrawto">Withdraw to</label>
+                    <div class="select-wrapper">
+                      <select [formControl]="bankControl" id="withdrawto" class="form-control custom-select" required>
+                        <option *ngFor="let bank of banksList" [value]="bank.bankName">
+                          {{ bank.bankName }} - {{ bank.accountNumber }}
+                        </option>
+                      </select>
+                      <i class="fas fa-chevron-down select-icon"></i>
+                    </div>
+                  </div>
+                  
+                  <!-- Amount Input -->
+                  <div class="form-group">
+                    <label for="youSend">Amount</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input
+                        type="text"
+                        [value]="amountControl.value! | amount"
+                        (input)="parseInputValue($event)"
+                        (keydown)="numericOnly($event)"
+                        name="amount"
+                        inputmode="numeric"
+                        pattern="[-+]?[0-9]*[.,]?[0-9]+"
+                        class="form-control"
+                        id="youSend"
+                        placeholder="0.00"
+                        [class.is-invalid]="amountControl.invalid && amountControl.touched"
+                      >
+                    </div>
+                    <div *ngIf="amountControl.invalid && amountControl.touched" class="error-message">
+                      <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+                    </div>
+                  </div>
+                  
+                  <!-- Narration Input -->
+                  <div class="form-group">
+                    <label for="narration">Description</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-pen"></i></span>
+                      </div>
+                      <input 
+                        type="text" 
+                        class="form-control" 
+                        [(ngModel)]="narration" 
+                        name="narration" 
+                        id="narration" 
+                        placeholder="Enter withdrawal description"
+                      >
+                    </div>
+                  </div>
+                  
+                  <!-- Exchange Rate Info -->
+                  <div *ngIf="amount" class="exchange-rate-info">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Exchange Rate: 1 {{ walletCurrency }} = {{ exchangeRate }} {{ currency }}</span>
+                  </div>
+                  
+                  <!-- Fee Summary -->
+                  <div class="fee-summary">
+                    <div class="fee-row">
+                      <div class="fee-label">
+                        <span>Transaction fee</span>
+                        <i class="fas fa-info-circle" data-toggle="tooltip" title="This is the fee charged for the transaction."></i>
+                      </div>
+                      <div class="fee-value" *ngIf="!isLoading">{{ transactionFee + ' USD' }}</div>
+                      <div class="fee-value-loading" *ngIf="isLoading">
+                        <div class="loading-spinner"></div>
+                      </div>
+                    </div>
+                    
+                    <div class="fee-row">
+                      <div class="fee-label">
+                        <span>Processing fee</span>
+                        <i class="fas fa-info-circle" data-toggle="tooltip" title="This is the fee charged by the payment processor."></i>
+                      </div>
+                      <div class="fee-value" *ngIf="!isLoading">{{ processingFee | number: '1.2-2' }} {{ currency }}</div>
+                      <div class="fee-value-loading" *ngIf="isLoading">
+                        <div class="loading-spinner"></div>
+                      </div>
+                    </div>
+                    
+                    <div class="fee-divider"></div>
+                    
+                    <div class="fee-row total">
+                      <div class="fee-label">Amount to Withdraw</div>
+                      <div class="fee-value">{{ amount! | number: '1.2-2' }} USD</div>
+                    </div>
+                    
+                    <div class="fee-row total">
+                      <div class="fee-label">You will receive</div>
+                      <div class="fee-value" *ngIf="!isLoading">{{ totalAmountInLocalCurrency | number: '1.2-2' }} {{ currency }}</div>
+                      <div class="fee-value-loading" *ngIf="isLoading">
+                        <div class="loading-spinner"></div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Submit Button -->
+                  <button 
+                    type="button" 
+                    class="btn-submit" 
+                    [disabled]="amountControl.invalid || bankControl.invalid || isLoading" 
+                    (click)="goToNextStep()"
+                  >
+                    <span *ngIf="!isLoading">Continue</span>
+                    <div class="spinner-container" *ngIf="isLoading">
+                      <div class="spinner"></div>
+                    </div>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- Template to show if no bank accounts are added -->
+          <ng-template #noBankAccounts>
+            <div class="form-card empty-state">
+              <div class="empty-state-icon">
+                <i class="fas fa-university"></i>
+              </div>
+              <h4>No Bank Accounts Found</h4>
+              <p>You need to add a bank account before you can withdraw funds.</p>
+              <a routerLink="/account/settings/payment-methods" class="btn-add-bank">
+                <i class="fas fa-plus-circle"></i> Add Bank Account
+              </a>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

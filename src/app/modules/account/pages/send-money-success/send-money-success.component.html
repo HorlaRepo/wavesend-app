@@ -1,0 +1,89 @@
+<div class="success-container">
+  <!-- Main Content -->
+  <div class="content-wrapper">
+    <div class="container">
+      <!-- Steps Progress Bar -->
+      <app-steps-progress-bar></app-steps-progress-bar>
+
+      <!-- Page Header -->
+      <div class="page-header text-center">
+        <h2>Send Money</h2>
+        <p class="subtitle">Your money has been sent successfully</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-9 col-lg-7 col-xl-6 mx-auto">
+          <!-- Success Card -->
+          <div class="success-card">
+            <!-- Success Animation -->
+            <div class="success-animation">
+              <div class="checkmark-circle">
+                <div class="checkmark-circle-bg"></div>
+                <div class="checkmark draw"></div>
+              </div>
+            </div>
+            
+            <!-- Success Message -->
+            <div class="success-message">
+              <h3>Transfer Complete!</h3>
+              <p>Your money has been sent successfully. The recipient will be notified immediately.</p>
+            </div>
+
+            <!-- Transaction Details -->
+            <div class="transaction-details">
+              <div class="detail-row">
+                <div class="detail-label">Amount Sent</div>
+                <div class="detail-value highlight">${{ paymentResponse?.data?.amount | number : '1.2-2' }}</div>
+              </div>
+              
+              <div class="detail-row">
+                <div class="detail-label">Recipient</div>
+                <div class="detail-value">{{ paymentResponse?.data?.receiverName }}</div>
+              </div>
+              
+              <div class="detail-row">
+                <div class="detail-label">Reference Number</div>
+                <div class="detail-value reference">{{ paymentResponse?.data?.referenceNumber }}</div>
+              </div>
+              
+              <div class="detail-row">
+                <div class="detail-label">Status</div>
+                <div class="detail-value">
+                  <span class="status-badge success">
+                    <i class="fas fa-check-circle"></i> Completed
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Update Notice -->
+            <div class="update-notice">
+              <i class="fas fa-sync-alt"></i>
+              <span>Your transaction history has been updated</span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <button class="btn-primary" routerLink="/account/send">
+                <i class="fas fa-paper-plane"></i> Send Money Again
+              </button>
+              <button class="btn-secondary" routerLink="/account/dashboard">
+                <i class="fas fa-home"></i> Go to Dashboard
+              </button>
+            </div>
+
+            <!-- Additional Actions -->
+            <div class="additional-actions">
+              <a routerLink="/account/transactions" class="view-all-link">
+                <i class="fas fa-list-ul"></i> View All Transactions
+              </a>
+              <a href="javascript:void(0)" (click)="printReceipt()" class="home-link">
+                <i class="fas fa-print"></i> Print Receipt
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="toast-container">
+    <div class="toast" 
+         *ngFor="let notification of notifications" 
+         [@toastAnimation] 
+         [ngClass]="notification.type"
+         (click)="handleNotificationClick(notification)">
+      
+      <div class="toast-content">
+        <div class="toast-icon">
+          <i class="fa" 
+             [ngClass]="{
+               'fa-lightbulb-o': notification.type === 'suggestion',
+               'fa-info-circle': notification.type === 'info',
+               'fa-check-circle': notification.type === 'success',
+               'fa-exclamation-circle': notification.type === 'error'
+             }"></i>
+        </div>
+        <div class="toast-text">
+          <h4>{{ notification.title }}</h4>
+          <p>{{ notification.message }}</p>
+        </div>
+        <button class="toast-close" (click)="closeNotification(notification.id); $event.stopPropagation()">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,656 @@
+<div class="settings-container">
+  <div class="container">
+    <div class="row">
+      <!-- Left Panel -->
+      <aside class="col-lg-3">
+        <!-- Profile Details -->
+        <app-profile-details></app-profile-details>
+
+        <!-- Available Balance -->
+        <app-balance></app-balance>
+
+        <!-- Need Help -->
+        <app-need-help></app-need-help>
+      </aside>
+
+      <!-- Main Content Panel -->
+      <div class="col-lg-9">
+        <!-- Page Header -->
+        <div class="page-header">
+          <h2>Security Settings</h2>
+          <p class="subtitle">Manage your account security and verification settings</p>
+        </div>
+
+        <!-- Password Section -->
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="header-content">
+              <div class="section-icon">
+                <i class="fas fa-lock"></i>
+              </div>
+              <div>
+                <h3>Password</h3>
+                <span class="status-info">Last updated: 15 March, 2025</span>
+              </div>
+            </div>
+            <button class="btn-action" data-toggle="modal" data-target="#change-password">
+              <i class="fas fa-edit"></i>
+              <span>Change</span>
+            </button>
+          </div>
+          <div class="settings-card-body">
+            <p class="description">Create or update your password. A strong password helps protect your account.</p>
+            <div class="password-strength">
+              <div class="strength-label">Password strength:</div>
+              <div class="strength-indicator">
+                <div class="strength-bar strong"></div>
+                <span>Strong</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security Questions Section -->
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="header-content">
+              <div class="section-icon">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+              <div>
+                <h3>Security Questions</h3>
+                <span class="status-info">3 questions configured</span>
+              </div>
+            </div>
+            <button class="btn-action" data-toggle="modal" data-target="#change-security-questions">
+              <i class="fas fa-edit"></i>
+              <span>Update</span>
+            </button>
+          </div>
+          <div class="settings-card-body">
+            <p class="description">For your protection, we use security questions to verify your identity if there's
+              suspicious activity or when you reset your password.</p>
+          </div>
+        </div>
+
+        <!-- Two-Factor Authentication Section -->
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="header-content">
+              <div class="section-icon">
+                <i class="fas fa-mobile-alt"></i>
+              </div>
+              <div>
+                <h3>Two-Factor Authentication</h3>
+                <span class="status-badge not-active">Not Active</span>
+              </div>
+            </div>
+            <button class="btn-action" data-toggle="modal" data-target="#two-step-verification">
+              <i class="fas fa-plus-circle"></i>
+              <span>Set Up</span>
+            </button>
+          </div>
+          <div class="settings-card-body">
+            <p class="description">Add an extra layer of security by requiring a one-time security code in addition to
+              your password each time you log in.</p>
+            <div class="security-benefits">
+              <div class="benefit-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Protect against unauthorized access</span>
+              </div>
+              <div class="benefit-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Get alerted about login attempts</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KYC Verification Section -->
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="header-content">
+              <div class="section-icon">
+                <i class="fas fa-id-card"></i>
+              </div>
+              <div>
+                <h3>KYC Verification</h3>
+                <div class="verification-status-badges">
+                  <div class="verification-badge">
+                    <span>ID: </span>
+                    <span class="status-badge" [ngClass]="getStatusBadgeClass(kycVerification?.idVerificationStatus)">
+                      {{ getStatusDisplayText(kycVerification?.idVerificationStatus) }}
+                    </span>
+                  </div>
+                  <div class="verification-badge">
+                    <span>Address: </span>
+                    <span class="status-badge"
+                      [ngClass]="getStatusBadgeClass(kycVerification?.addressVerificationStatus)">
+                      {{ getStatusDisplayText(kycVerification?.addressVerificationStatus) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="btn-action" [disabled]="isVerifyButtonDisabled()"
+              [ngClass]="{'btn-disabled': isVerifyButtonDisabled()}" (click)="showKycModal()">
+              <i class="fas" [ngClass]="isVerifyButtonDisabled() ? 
+        'fa-check-circle' : (getVerifyButtonText() === 'Re-Upload Documents' ? 'fa-redo-alt' : 'fa-upload')">
+              </i>
+              <span>{{ getVerifyButtonText() }}</span>
+            </button>
+          </div>
+          <div class="settings-card-body">
+            <p class="description">Complete identity verification to unlock higher transaction limits and access all
+              platform features.</p>
+            <div class="verification-steps">
+              <div class="step-item" [ngClass]="{'completed': kycVerification?.idVerificationStatus === 'APPROVED', 
+                      'pending': kycVerification?.idVerificationStatus === 'PENDING',
+                      'rejected': kycVerification?.idVerificationStatus === 'REJECTED'}">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>ID Verification</h4>
+                  <p>Upload a valid government-issued ID</p>
+                </div>
+                <div class="step-status">
+                  <i class="fas"
+                    [ngClass]="{'fa-check-circle': kycVerification?.idVerificationStatus === 'APPROVED',
+                        'fa-clock': kycVerification?.idVerificationStatus === 'PENDING',
+                        'fa-times-circle': kycVerification?.idVerificationStatus === 'REJECTED',
+                        'fa-circle': !kycVerification?.idVerificationStatus || kycVerification?.idVerificationStatus === 'UNVERIFIED'}"></i>
+                </div>
+              </div>
+              <div class="step-item" [ngClass]="{'completed': kycVerification?.addressVerificationStatus === 'APPROVED', 
+                      'pending': kycVerification?.addressVerificationStatus === 'PENDING',
+                      'rejected': kycVerification?.addressVerificationStatus === 'REJECTED'}">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>Address Verification</h4>
+                  <p>Provide proof of your current address</p>
+                </div>
+                <div class="step-status">
+                  <i class="fas"
+                    [ngClass]="{'fa-check-circle': kycVerification?.addressVerificationStatus === 'APPROVED',
+                        'fa-clock': kycVerification?.addressVerificationStatus === 'PENDING',
+                        'fa-times-circle': kycVerification?.addressVerificationStatus === 'REJECTED',
+                        'fa-circle': !kycVerification?.addressVerificationStatus || kycVerification?.addressVerificationStatus === 'UNVERIFIED'}"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Success message when fully verified -->
+            <div
+              *ngIf="kycVerification?.idVerificationStatus === 'APPROVED' && kycVerification?.addressVerificationStatus === 'APPROVED'"
+              class="verification-success">
+              <i class="fas fa-shield-alt"></i>
+              <p>Your account is fully verified. You now have access to all features and higher transaction limits.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Password Change Modal -->
+<div id="change-password" class="modal fade" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content custom-modal">
+      <div class="modal-header">
+        <h5 class="modal-title">Change Password</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="changePassword" method="post">
+          <div class="form-group">
+            <label for="existingPassword">Current Password</label>
+            <div class="input-wrapper">
+              <input type="password" class="form-control" id="existingPassword" required
+                placeholder="Enter your current password">
+              <div class="input-action" onclick="togglePasswordVisibility('existingPassword')">
+                <i class="far fa-eye"></i>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="newPassword">New Password</label>
+            <div class="input-wrapper">
+              <input type="password" class="form-control" id="newPassword" required placeholder="Enter new password">
+              <div class="input-action" onclick="togglePasswordVisibility('newPassword')">
+                <i class="far fa-eye"></i>
+              </div>
+            </div>
+            <div class="password-requirements">
+              <div class="requirement">
+                <i class="fas fa-check-circle"></i>
+                <span>Minimum 8 characters</span>
+              </div>
+              <div class="requirement">
+                <i class="fas fa-check-circle"></i>
+                <span>At least one number</span>
+              </div>
+              <div class="requirement">
+                <i class="fas fa-check-circle"></i>
+                <span>At least one uppercase letter</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirm New Password</label>
+            <div class="input-wrapper">
+              <input type="password" class="form-control" id="confirmPassword" required
+                placeholder="Confirm new password">
+              <div class="input-action" onclick="togglePasswordVisibility('confirmPassword')">
+                <i class="far fa-eye"></i>
+              </div>
+            </div>
+          </div>
+          <button class="btn-submit" type="submit">Update Password</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Security Questions Modal -->
+<div id="change-security-questions" class="modal fade" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content custom-modal">
+      <div class="modal-header">
+        <h5 class="modal-title">Security Questions</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-description">We'll use these questions to verify your identity if you need to recover your
+          account.</p>
+        <form id="securityQuestions" method="post">
+          <div class="security-question-section">
+            <h4>Question 1</h4>
+            <div class="form-group">
+              <label for="question1">Select a question</label>
+              <div class="select-wrapper">
+                <select class="form-control custom-select" id="question1" name="question1">
+                  <option value="">Select a question</option>
+                  <option value="1">What was your childhood nickname?</option>
+                  <option value="2">What is the name of your favorite childhood friend?</option>
+                  <option value="3">What was the name of your first stuffed animal?</option>
+                  <option value="4">In what city or town did your mother and father meet?</option>
+                  <option value="5">What is your youngest brother's birthday year?</option>
+                </select>
+                <i class="fas fa-chevron-down select-arrow"></i>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="answers1">Your Answer</label>
+              <div class="input-wrapper">
+                <input type="text" class="form-control" id="answers1" placeholder="Enter your answer">
+              </div>
+            </div>
+          </div>
+
+          <div class="security-question-section">
+            <h4>Question 2</h4>
+            <div class="form-group">
+              <label for="question2">Select a question</label>
+              <div class="select-wrapper">
+                <select class="form-control custom-select" id="question2" name="question2">
+                  <option value="">Select a question</option>
+                  <option value="1">What was your childhood nickname?</option>
+                  <option value="2">What is the name of your favorite childhood friend?</option>
+                  <option value="3">What was the name of your first stuffed animal?</option>
+                  <option value="4">In what city or town did your mother and father meet?</option>
+                  <option value="5">What is your youngest brother's birthday year?</option>
+                </select>
+                <i class="fas fa-chevron-down select-arrow"></i>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="answers2">Your Answer</label>
+              <div class="input-wrapper">
+                <input type="text" class="form-control" id="answers2" placeholder="Enter your answer">
+              </div>
+            </div>
+          </div>
+
+          <div class="security-question-section">
+            <h4>Question 3</h4>
+            <div class="form-group">
+              <label for="question3">Select a question</label>
+              <div class="select-wrapper">
+                <select class="form-control custom-select" id="question3" name="question3">
+                  <option value="">Select a question</option>
+                  <option value="1">What was your childhood nickname?</option>
+                  <option value="2">What is the name of your favorite childhood friend?</option>
+                  <option value="3">What was the name of your first stuffed animal?</option>
+                  <option value="4">In what city or town did your mother and father meet?</option>
+                  <option value="5">What is your youngest brother's birthday year?</option>
+                </select>
+                <i class="fas fa-chevron-down select-arrow"></i>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="answers3">Your Answer</label>
+              <div class="input-wrapper">
+                <input type="text" class="form-control" id="answers3" placeholder="Enter your answer">
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-submit" type="submit">Save Questions</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Two-Factor Authentication Modal -->
+<div id="two-step-verification" class="modal fade" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content custom-modal">
+      <div class="modal-header">
+        <h5 class="modal-title">Two-Factor Authentication</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="verification-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3 class="verification-title">Add Two-Factor Authentication</h3>
+        <p class="verification-description">Choose how you want to receive verification codes when you sign in.</p>
+
+        <div class="verification-options">
+          <div class="verification-option active">
+            <div class="option-icon">
+              <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div class="option-content">
+              <h4>Text Message (SMS)</h4>
+              <p>We'll send a code to your phone</p>
+            </div>
+            <div class="option-check">
+              <i class="fas fa-check-circle"></i>
+            </div>
+          </div>
+
+          <div class="verification-option">
+            <div class="option-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="option-content">
+              <h4>Email</h4>
+              <p>We'll email you a code</p>
+            </div>
+            <div class="option-check">
+              <i class="far fa-circle"></i>
+            </div>
+          </div>
+
+          <div class="verification-option">
+            <div class="option-icon">
+              <i class="fas fa-qrcode"></i>
+            </div>
+            <div class="option-content">
+              <h4>Authenticator App</h4>
+              <p>Use an authentication app</p>
+            </div>
+            <div class="option-check">
+              <i class="far fa-circle"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group phone-input">
+          <label for="phoneNumber">Enter your phone number</label>
+          <div class="input-wrapper">
+            <div class="country-code">+1</div>
+            <input type="tel" class="form-control" id="phoneNumber" placeholder="(555) 123-4567">
+          </div>
+          <small class="form-text">We'll send a verification code to this number</small>
+        </div>
+
+        <button class="btn-submit" type="submit">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- KYC Verification Modal with Tabs -->
+<p-dialog header="KYC Verification" [(visible)]="kycModalVisible" [modal]="true" [style]="{width: '650px'}" [baseZIndex]="1000" [closable]="true" styleClass="kyc-dialog">
+  <p-toast></p-toast>
+  
+  <p-tabView #kycTabs styleClass="kyc-tabs" [(activeIndex)]="activeTabIndex">
+    <!-- ID Verification Tab -->
+    <p-tabPanel header="ID Verification" [disabled]="!isIdVerificationTabEnabled()">
+      <div class="tab-content">
+        <div *ngIf="kycVerification?.idVerificationStatus === 'REJECTED'" class="rejection-notice">
+          <i class="fas fa-exclamation-circle"></i>
+          <p>Your previous ID verification was rejected. Please upload a clearer document.</p>
+        </div>
+        
+        <p class="verification-intro">Please provide your government-issued ID for verification</p>
+        
+        <form [formGroup]="kycForm" class="verification-form">
+          <div class="form-group">
+            <label for="country">ID Country</label>
+            <div class="select-wrapper">
+              <select id="country" class="form-control custom-select" formControlName="country">
+                <option value="">Select country</option>
+                <option *ngFor="let country of countries" [value]="country">{{country}}</option>
+              </select>
+              <i class="fas fa-chevron-down select-icon"></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="idType">ID Type</label>
+            <div class="select-wrapper">
+              <select id="idType" class="form-control custom-select" formControlName="idType">
+                <option value="">Select ID Type</option>
+                <option *ngFor="let type of idTypes" [value]="type.value">{{type.label}}</option>
+              </select>
+              <i class="fas fa-chevron-down select-icon"></i>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="idNumber">ID Number</label>
+            <div class="input-container">
+              <input type="text" id="idNumber" class="form-control" formControlName="idNumber"
+                placeholder="Enter ID number">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="expiryDate">Expiry Date</label>
+            <div class="input-container">
+              <input type="date" id="expiryDate" class="form-control" formControlName="expiryDate">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>ID Document Upload</label>
+            <div class="file-upload-container" [ngClass]="{'has-file': idProof, 'uploading': isUploadingId}">
+              <input type="file" id="idProofUpload" #idProofInput (change)="onFileSelected($event, 'idProof')"
+                accept="image/*,application/pdf" class="file-input">
+
+              <div class="upload-area" *ngIf="!idProofPreview" (click)="idProofInput.click()">
+                <div class="upload-prompt">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  <span>Drag & Drop or click to upload</span>
+                  <small>Supported formats: JPG, PNG, PDF (Max 5MB)</small>
+                </div>
+              </div>
+
+              <div class="preview-area" *ngIf="idProofPreview">
+                <div class="preview-content">
+                  <div *ngIf="isImageFile(idProof)" class="image-preview">
+                    <img [src]="idProofPreview" alt="ID Preview">
+                  </div>
+                  <div *ngIf="isPdfFile(idProof)" class="pdf-preview">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>{{ idProof?.name }}</span>
+                  </div>
+                </div>
+                <div class="preview-actions">
+                  <button type="button" class="btn-remove" (click)="removeFile('idProof', idProofInput)">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ID Upload Progress Bar -->
+            <div *ngIf="idUploadProgress > 0" class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill" [style.width.%]="idUploadProgress"></div>
+              </div>
+              <div class="progress-text">
+                <span *ngIf="idUploadProgress < 100">Uploading: {{ idUploadProgress }}%</span>
+                <span *ngIf="idUploadProgress === 100" class="success-text">
+                  <i class="fas fa-check-circle"></i> Upload Complete
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="upload-tips">
+            <div class="tip-item">
+              <i class="fas fa-check"></i>
+              <span>Make sure all corners of the document are visible</span>
+            </div>
+            <div class="tip-item">
+              <i class="fas fa-check"></i>
+              <span>Ensure text is clearly readable</span>
+            </div>
+            <div class="tip-item">
+              <i class="fas fa-check"></i>
+              <span>Include both front and back sides if applicable</span>
+            </div>
+          </div>
+
+          <!-- ID Verification Submit Button -->
+          <div class="tab-footer">
+            <button 
+              type="button" 
+              class="btn-submit" 
+              [disabled]="!idProof || isUploadingId" 
+              (click)="onSubmitIdDocument()">
+              <span *ngIf="!isUploadingId">Submit ID Document</span>
+              <div *ngIf="isUploadingId" class="spinner-container">
+                <div class="spinner"></div>
+              </div>
+            </button>
+          </div>
+        </form>
+      </div>
+    </p-tabPanel>
+
+    <!-- Address Verification Tab -->
+    <p-tabPanel header="Address Verification" [disabled]="!isAddressVerificationTabEnabled()">
+      <div class="tab-content">
+        <div *ngIf="kycVerification?.addressVerificationStatus === 'REJECTED'" class="rejection-notice">
+          <i class="fas fa-exclamation-circle"></i>
+          <p>Your previous address verification was rejected. Please upload a valid document.</p>
+        </div>
+        
+        <p class="verification-intro">Please upload a document that proves your current residential address</p>
+        
+        <div class="address-requirements">
+          <h4>Acceptable address documents</h4>
+          <ul>
+            <li>Utility bill (electricity, water, gas) - less than 3 months old</li>
+            <li>Bank statement - less than 3 months old</li>
+            <li>Government-issued tax or residence document</li>
+            <li>Rental agreement or mortgage statement</li>
+          </ul>
+        </div>
+
+        <div class="form-group">
+          <label>Address Document Upload</label>
+          <div class="file-upload-container" [ngClass]="{'has-file': addressProof, 'uploading': isUploadingAddress}">
+            <input type="file" id="addressProofUpload" #addressProofInput
+              (change)="onFileSelected($event, 'addressProof')" accept="image/*,application/pdf" class="file-input">
+
+            <div class="upload-area" *ngIf="!addressProofPreview" (click)="addressProofInput.click()">
+              <div class="upload-prompt">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Drag & Drop or click to upload</span>
+                <small>Supported formats: JPG, PNG, PDF (Max 5MB)</small>
+              </div>
+            </div>
+
+            <div class="preview-area" *ngIf="addressProofPreview">
+              <div class="preview-content">
+                <div *ngIf="isImageFile(addressProof)" class="image-preview">
+                  <img [src]="addressProofPreview" alt="Address Document Preview">
+                </div>
+                <div *ngIf="isPdfFile(addressProof)" class="pdf-preview">
+                  <i class="fas fa-file-pdf"></i>
+                  <span>{{ addressProof?.name }}</span>
+                </div>
+              </div>
+              <div class="preview-actions">
+                <button type="button" class="btn-remove" (click)="removeFile('addressProof', addressProofInput)">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Address Upload Progress Bar -->
+          <div *ngIf="addressUploadProgress > 0" class="progress-container">
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="addressUploadProgress"></div>
+            </div>
+            <div class="progress-text">
+              <span *ngIf="addressUploadProgress < 100">Uploading: {{ addressUploadProgress }}%</span>
+              <span *ngIf="addressUploadProgress === 100" class="success-text">
+                <i class="fas fa-check-circle"></i> Upload Complete
+              </span>
+            </div>
+          </div>
+
+          <div class="upload-tips">
+            <div class="tip-item">
+              <i class="fas fa-check"></i>
+              <span>Document must show your full name and current address</span>
+            </div>
+            <div class="tip-item">
+              <i class="fas fa-check"></i>
+              <span>Document must be recent (within last 3 months)</span>
+            </div>
+            <div class="tip-item">
+              <i class="fas fa-check"></i>
+              <span>Make sure all information is clearly visible</span>
+            </div>
+          </div>
+
+          <!-- Address Verification Submit Button -->
+          <div class="tab-footer">
+            <button 
+              type="button" 
+              class="btn-submit" 
+              [disabled]="!addressProof || isUploadingAddress" 
+              (click)="onSubmitAddressDocument()">
+              <span *ngIf="!isUploadingAddress">Submit Address Document</span>
+              <div *ngIf="isUploadingAddress" class="spinner-container">
+                <div class="spinner"></div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+      </p-tabPanel>
+    </p-tabView>
+
+  <div class="dialog-footer">
+    <button class="btn-cancel" (click)="onNoClick()">Close</button>
+  </div>
+</p-dialog>

@@ -1,0 +1,160 @@
+<div class="send-money-container">
+  <!-- Secondary Navigation -->
+  <!-- <div class="secondary-nav-container">
+    <div class="container">
+      <ul class="secondary-nav">
+        <li class="nav-item"> 
+          <a class="nav-link active" href="javascript:void(0)">Send Money</a>
+        </li>
+        
+      </ul>
+    </div>
+  </div> -->
+
+  <!-- Main Content -->
+  <div class="content-wrapper">
+    <div class="container">
+      <!-- Steps Progress bar - This will be styled separately -->
+      <app-steps-progress-bar></app-steps-progress-bar>
+
+      <!-- Page Header -->
+      <div class="page-header text-center">
+        <h2>Send Money</h2>
+        <p class="subtitle">Send your money anytime, anywhere in the world</p>
+      </div>
+
+      <!-- Form Card -->
+      <div class="row">
+        <div class="col-md-9 col-lg-7 col-xl-6 mx-auto">
+          <div class="form-card">
+            <div class="form-card-header">
+              <h3>Recipient Details</h3>
+            </div>
+
+            <div class="form-card-body">
+              <!-- Send Money Form -->
+              <form id="form-send-money" method="post">
+                <!-- Email Field -->
+                <div class="form-group">
+                  <div class="label-wrapper">
+                    <label for="emailID">Recipient Email</label>
+                    <a *ngIf="beneficiaries && beneficiaries.length > 0" class="select-beneficiary-link"
+                      (click)="openBeneficiarySelector($event)">
+                      <i class="fas fa-address-book"></i> Select from beneficiaries
+                    </a>
+                  </div>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" [formControl]="emailControl"
+                      [class.is-invalid]="emailControl.invalid && emailControl.touched || errorMessage || emailControl.touched && !emailControl.value"
+                      [class.is-valid]="emailControl.valid && emailControl.touched && !errorMessage && emailControl.value"
+                      id="emailID" required placeholder="Enter recipient's email address">
+                  </div>
+                  <div *ngIf="errorMessage" class="error-message">
+                    <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+                  </div>
+                </div>
+
+                <!-- Beneficiary Popup Modal -->
+                <div class="beneficiary-modal" *ngIf="showBeneficiarySelector">
+                  <div class="beneficiary-backdrop" (click)="closeBeneficiarySelector()"></div>
+                  <div class="beneficiary-dialog" [@modalAnimation]>
+                    <div class="beneficiary-header">
+                      <h4>Select a Beneficiary</h4>
+                      <button class="close-btn" (click)="closeBeneficiarySelector()">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
+
+                    <div class="beneficiary-body">
+                      <div *ngIf="isLoading" class="loading-spinner">
+                        <div class="spinner"></div>
+                      </div>
+
+                      <div *ngIf="!isLoading && beneficiaries.length === 0" class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <p>No beneficiaries found</p>
+                      </div>
+
+                      <ul class="beneficiary-list" *ngIf="!isLoading && beneficiaries.length > 0">
+                        <li *ngFor="let beneficiary of beneficiaries" class="beneficiary-item"
+                          (click)="selectBeneficiary(beneficiary)">
+                          <div class="beneficiary-avatar">
+                            {{ getInitials(beneficiary?.name!) }}
+                          </div>
+                          <div class="beneficiary-info">
+                            <div class="beneficiary-name">{{ beneficiary.name }}</div>
+                            <div class="beneficiary-email">{{ beneficiary.email }}</div>
+                          </div>
+                          <i class="fas fa-chevron-right"></i>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Amount Field -->
+                <div class="form-group">
+                  <label for="amount">Amount</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">$</span>
+                    </div>
+                    <input type="text" (input)="parseInputValue($event)" name="amount" inputmode="numeric"
+                      class="form-control" data-bv-field="amount" [formControl]="amountControl" id="amount"
+                      (keydown)="numericOnly($event)" [value]="amountControl.value! | amount"
+                      [class.is-invalid]="amountControl.invalid && amountControl.touched" placeholder="0.00">
+                    <div class="input-group-append">
+                      <span class="input-group-text currency-select">
+                        <span class="currency-flag currency-flag-usd mr-1"></span>USD
+                      </span>
+                    </div>
+                  </div>
+                  <div *ngIf="amountControlError" class="error-message">
+                    <i class="fas fa-exclamation-circle"></i> {{amountControlError}}
+                  </div>
+                </div>
+
+                <!-- Narration Field -->
+                <div class="form-group">
+                  <label for="narration">Narration</label>
+                  <textarea class="form-control" [formControl]="narrationControl" rows="3" id="narration"
+                    [class.is-invalid]="narrationControl.invalid && narrationControl.touched" required
+                    placeholder="Add a message for the recipient"></textarea>
+                </div>
+
+                <!-- Fee Information -->
+                <div class="fee-summary">
+                  <div class="fee-row">
+                    <span>Transaction fee</span>
+                    <div class="fee-value">
+                      <del>10.00 USD</del>
+                      <span class="fee-badge">Free</span>
+                    </div>
+                  </div>
+
+                  <div class="fee-row total">
+                    <span>Total To Pay</span>
+                    <span class="total-amount">${{amountControl.value | number : '1.2-2'}}</span>
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button class="btn-submit"
+                  [disabled]="amountControl.invalid || emailControl.invalid || errorMessage || isLoading || amountControl.value === 0.0 || !emailControl || narrationControl.invalid"
+                  (click)="proceedToConfirmDetails()">
+                  <span *ngIf="!isLoading">Continue</span>
+                  <div *ngIf="isLoading" class="spinner-container">
+                    <div class="spinner"></div>
+                  </div>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

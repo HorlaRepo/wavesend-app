@@ -1,0 +1,93 @@
+<div class="success-container">
+  <!-- Secondary Navigation -->
+  <!-- <app-deposit-withdraw-menu [activeLink]="'deposit'"></app-deposit-withdraw-menu> -->
+
+  <!-- Main Content -->
+  <div class="content-wrapper">
+    <div class="container">
+      <!-- Steps Progress Bar -->
+      <app-steps-progress-bar></app-steps-progress-bar>
+
+      <!-- Page Header -->
+      <div class="page-header text-center">
+        <h2>Deposit Money</h2>
+        <p class="subtitle">Your deposit has been successfully processed</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-9 col-lg-7 col-xl-6 mx-auto">
+          <!-- Success Card -->
+          <div class="success-card">
+            <!-- Success Animation -->
+            <div class="success-animation">
+              <div class="checkmark-circle">
+                <div class="checkmark-circle-bg"></div>
+                <div class="checkmark draw"></div>
+              </div>
+            </div>
+            
+            <!-- Success Message -->
+            <div class="success-message">
+              <h3>Transaction Complete!</h3>
+              <p>Your funds have been successfully added to your account</p>
+            </div>
+            
+            <!-- Transaction Details -->
+            <div class="transaction-details">
+              <div class="detail-row">
+                <div class="detail-label">Amount Deposited</div>
+                <div class="detail-value highlight">${{ transaction?.amount | number : '1.2-2'}} USD</div>
+              </div>
+              
+              <div class="detail-row">
+                <div class="detail-label">Transaction Date</div>
+                <div class="detail-value">{{ transaction?.transactionDate | localDateTime | date:'MMM dd, yyyy, hh:mm a'}}</div>
+              </div>
+              
+              <div class="detail-row">
+                <div class="detail-label">Reference Number</div>
+                <div class="detail-value reference">{{ transaction?.referenceNumber }}</div>
+              </div>
+              
+              <div class="detail-row">
+                <div class="detail-label">Status</div>
+                <div class="detail-value">
+                  <span class="status-badge success">
+                    <i class="fas fa-check-circle"></i>
+                    {{ transaction?.currentStatus }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Instant Update Notice -->
+            <div class="update-notice">
+              <i class="fas fa-info-circle"></i>
+              <span>Your wallet balance has been updated instantly</span>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <button class="btn-primary" (click)="goToDeposit()">
+                <i class="fas fa-plus-circle"></i> Deposit More Money
+              </button>
+              <button class="btn-secondary" (click)="printTransactionDetails()">
+                <i class="fas fa-print"></i> Print Receipt
+              </button>
+            </div>
+            
+            <!-- Additional Actions -->
+            <div class="additional-actions">
+              <a routerLink="/account/transactions" class="view-all-link">
+                <i class="fas fa-list-alt"></i> View All Transactions
+              </a>
+              <a routerLink="/account/dashboard" class="home-link">
+                <i class="fas fa-home"></i> Return to Dashboard
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

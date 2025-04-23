@@ -1,0 +1,79 @@
+<div class="suggestion-overlay" *ngIf="suggestions.length > 0" [@slideIn]="animationState">
+    <div class="backdrop" (click)="dismissCurrentSuggestion()"></div>
+    
+    <div class="suggestion-card" [@pulse]="pulseState">
+      <!-- Glass Card Header -->
+      <div class="card-header">
+        <div class="header-icon">
+          <i class="fas fa-lightbulb"></i>
+        </div>
+        <h3>AI Suggestion</h3>
+        <button class="close-btn" (click)="dismissCurrentSuggestion()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <!-- Card Body -->
+      <div class="card-body">
+        <!-- Person Info -->
+        <div class="person-info">
+          <div class="avatar">
+            <span>{{ getInitials(currentSuggestion?.beneficiaryName) }}</span>
+          </div>
+          <div class="name-amount">
+            <div class="name">{{ currentSuggestion?.beneficiaryName }}</div>
+            <div class="amount">${{ currentSuggestion?.suggestedAmount | number: '1.2-2' }}</div>
+          </div>
+        </div>
+        
+        <!-- Message -->
+        <div class="message-bubble">
+          <p>{{ currentSuggestion?.suggestionText }}</p>
+        </div>
+        
+        <!-- Sparkle Animation -->
+        <div class="sparkle-container">
+          <div class="sparkle" *ngFor="let i of [0,1,2,3,4]"></div>
+        </div>
+        
+        <!-- Actions -->
+        <div class="actions">
+          <button class="action-button secondary" (click)="dismissCurrentSuggestion()">
+            <i class="fas fa-times"></i>
+            <span>Not now</span>
+          </button>
+          <button class="action-button primary" (click)="sendMoney(currentSuggestion, $event)">
+            <i class="fas fa-paper-plane"></i>
+            <span>Send Money</span>
+          </button>
+        </div>
+        
+        <!-- Navigation Dots -->
+        <div class="navigation-dots" *ngIf="suggestions.length > 1">
+          <div class="dots-container">
+            <div 
+              *ngFor="let suggestion of suggestions; let i = index" 
+              class="dot" 
+              [class.active]="i === activeSuggestionIndex"
+              (click)="goToSuggestion(i)">
+            </div>
+          </div>
+          
+          <div class="nav-arrows" *ngIf="suggestions.length > 1">
+            <button 
+              [disabled]="activeSuggestionIndex === 0"
+              (click)="previousSuggestion()"
+              class="nav-arrow">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button 
+              [disabled]="activeSuggestionIndex === suggestions.length - 1"
+              (click)="nextSuggestion()"
+              class="nav-arrow">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

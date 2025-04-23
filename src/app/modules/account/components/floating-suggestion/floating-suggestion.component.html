@@ -1,0 +1,95 @@
+<div class="floating-suggestion-wrapper" [@fadeInOut]="animationState">
+    <!-- Minimized State Toggle Button -->
+    <div class="suggestion-toggle" [class.expanded]="isExpanded" (click)="toggleExpand()">
+      <div class="suggestion-icon">
+        <i class="fas fa-lightbulb"></i>
+        <span class="badge" *ngIf="suggestions.length > 0">{{suggestions.length}}</span>
+      </div>
+      <span class="toggle-text" *ngIf="isExpanded">Smart Suggestions</span>
+      <i class="fas" [ngClass]="isExpanded ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+    </div>
+    
+    <!-- Expanded Suggestion Content -->
+    <div class="suggestion-content" *ngIf="isExpanded" [@cardTransition]="cardState">
+      <!-- Loading State -->
+      <div class="loader-container" *ngIf="loading || noSuggestionsState === 'loading'">
+        <div class="pulse-loader"></div>
+        <div class="loader-text">Looking for smart suggestions...</div>
+      </div>
+      
+      <!-- Error State -->
+      <div class="empty-state error-state" *ngIf="noSuggestionsState === 'error' && !loading">
+        <div class="empty-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="empty-title">Oops!</div>
+        <div class="empty-message">{{ errorMessage }}</div>
+        <button class="action-button primary" (click)="refreshSuggestions()">
+          <i class="fas fa-sync"></i>
+          <span>Try Again</span>
+        </button>
+      </div>
+      
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="suggestions.length === 0 && noSuggestionsState === 'empty' && !loading">
+        <div class="empty-icon">
+          <i class="fas fa-hand-peace"></i>
+        </div>
+        <div class="empty-title">No Suggestions Yet</div>
+        <div class="empty-message">We're analyzing your transaction patterns to provide personalized suggestions.</div>
+        <div class="empty-actions">
+          <button class="action-button primary" (click)="generateNewSuggestions()">
+            <i class="fas fa-magic"></i>
+            <span>Generate Suggestions</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Regular Suggestion Content -->
+      <ng-container *ngIf="currentSuggestion && !loading">
+        <div class="suggestion-header">
+          <div class="recipient-avatar">
+            <div class="avatar-initials">{{ getInitials(currentSuggestion.beneficiaryName) }}</div>
+          </div>
+          <div class="recipient-info">
+            <div class="recipient-name">{{ currentSuggestion.beneficiaryName }}</div>
+            <div class="suggestion-type">
+              <i class="fas fa-history"></i> Regular recipient
+            </div>
+          </div>
+        </div>
+        
+        <div class="suggestion-body">
+          <div class="amount">${{ currentSuggestion.suggestedAmount | number:'1.2-2' }}</div>
+          <div class="suggestion-message typing">{{ typingText }}</div>
+        </div>
+        
+        <div class="suggestion-actions">
+          <button class="action-button send" (click)="sendMoney(currentSuggestion, $event)" title="Send Money">
+            <i class="fas fa-paper-plane"></i>
+            <span>Send</span>
+          </button>
+          <button class="action-button dismiss" (click)="dismissCurrentSuggestion()" title="Dismiss">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        
+        <!-- Navigation pills for multiple suggestions -->
+        <div class="suggestion-navigation" *ngIf="hasMultipleSuggestions">
+          <button class="nav-button prev" [disabled]="activeSuggestionIndex === 0" (click)="previousSuggestion($event)" title="Previous suggestion">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          
+          <div class="suggestion-indicators">
+            <div *ngFor="let suggestion of suggestions; let i = index" 
+                 class="suggestion-dot" 
+                 [class.active]="i === activeSuggestionIndex"></div>
+          </div>
+          
+          <button class="nav-button next" [disabled]="activeSuggestionIndex === suggestions.length - 1" (click)="nextSuggestion($event)" title="Next suggestion">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </div>

@@ -1,0 +1,198 @@
+<div class="transfer-detail-container">
+    <div class="content-wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 col-xl-8 mx-auto">
+            <!-- Page Header -->
+            <div class="page-header">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <button class="btn btn-link text-muted p-0" (click)="goBack()">
+                  <i class="fas fa-arrow-left"></i> Back to Scheduled Transfers
+                </button>
+              </div>
+              <h2>Scheduled Transfer Details</h2>
+            </div>
+
+            <p-toast position="bottom-right"></p-toast>
+            
+            <!-- Loading Indicator -->
+            <div *ngIf="isLoading" class="loading-indicator">
+              <div class="spinner"></div>
+              <p>Loading transfer details...</p>
+            </div>
+            
+            <!-- Transfer Details -->
+            <div *ngIf="!isLoading && transfer" class="card">
+              <!-- Header with status -->
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="status-badge" [ngClass]="transfer.status.toLowerCase()">
+                  {{ formatStatus(transfer.status) }}
+                </div>
+                <div class="action-buttons" *ngIf="transfer.status !== 'CANCELLED'">
+                  <button class="btn btn-link text-muted" 
+                          (click)="toggleEditMode()" 
+                          *ngIf="!isEditing">
+                    <i class="fas fa-edit"></i> Edit
+                  </button>
+                  <button class="btn btn-link text-danger" 
+                          (click)="cancelTransfer()" 
+                          [disabled]="isCancelling">
+                    <i class="fas fa-times"></i> Cancel Transfer
+                  </button>
+                  <button class="btn btn-link text-danger" 
+                          *ngIf="transfer.frequency && transfer.seriesId"
+                          (click)="cancelRecurringSeries()"
+                          [disabled]="isCancelling">
+                    <i class="fas fa-calendar-times"></i> Cancel All Future Transfers
+                  </button>
+                </div>
+              </div>
+              
+              <div class="card-body">
+                <!-- Amount and Recipient -->
+                <div class="transfer-summary">
+                  <div class="amount">${{ transfer.amount | number: '1.2-2' }}</div>
+                  <div class="recipient">
+                    <div class="recipient-name">{{ transfer.recipientName || 'Recipient' }}</div>
+                    <div class="recipient-email">{{ transfer.receiverEmail }}</div>
+                  </div>
+                  <div class="narration">{{ transfer.narration }}</div>
+                </div>
+
+                
+                <!-- Schedule Details - View Mode -->
+                <div class="schedule-details" *ngIf="!isEditing">
+                  <h4>Schedule</h4>
+                  <div class="detail-row">
+                    <div class="detail-label">Transfer Date</div>
+                    <div class="detail-value">{{ transfer.scheduledDateTime | formatDate | date:'MMM dd, yyyy' }}</div>
+                  </div>
+                  <div class="detail-row">
+                    <div class="detail-label">Transfer Time</div>
+                    <div class="detail-value">{{ transfer.scheduledDateTime | date: 'shortTime' }}</div>
+                  </div>
+                  <div class="detail-row">
+                    <div class="detail-label">Frequency</div>
+                    <div class="detail-value">
+                      {{ transfer.frequency ? getFrequencyText(transfer.frequency) : 'One-time' }}
+                    </div>
+                  </div>
+                  <div class="detail-row" *ngIf="transfer.frequency && transfer.endDate">
+                    <div class="detail-label">End Date</div>
+                    <div class="detail-value">{{ transfer.endDate | date: 'MMMM d, y' }}</div>
+                  </div>
+                </div>
+                
+                <!-- Schedule Details - Edit Mode -->
+                <div class="schedule-edit" *ngIf="isEditing">
+                  <h4>Edit Schedule</h4>
+                  <form [formGroup]="editForm">
+                    <div class="row">
+                      <!-- Date Field -->
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="editDate">Date</label>
+                          <input 
+                            type="date" 
+                            id="editDate" 
+                            class="form-control" 
+                            formControlName="date"
+                            [min]="formatDate(minDate)"
+                            [class.is-invalid]="dateControl.invalid && dateControl.touched">
+                          
+                          <div *ngIf="dateControl.invalid && dateControl.touched" class="invalid-feedback">
+                            <span *ngIf="dateControl.errors?.['required']">Date is required</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <!-- Time Field -->
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="editTime">Time</label>
+                          <input 
+                            type="time" 
+                            id="editTime" 
+                            class="form-control" 
+                            formControlName="time"
+                            [class.is-invalid]="timeControl.invalid && timeControl.touched">
+                          
+                          <div *ngIf="timeControl.invalid && timeControl.touched" class="invalid-feedback">
+                            <span *ngIf="timeControl.errors?.['required']">Time is required</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Recurring Toggle -->
+                    <div class="form-group mt-3">
+                      <div class="custom-control custom-switch">
+                        <input 
+                          type="checkbox" 
+                          class="custom-control-input" 
+                          id="editRecurringSwitch" 
+                          formControlName="recurring">
+                        <label class="custom-control-label" for="editRecurringSwitch">
+                          Make this a recurring transfer
+                        </label>
+                      </div>
+                    </div>
+                    
+                    <!-- Recurring Options (conditionally shown) -->
+                    <div class="recurring-options" *ngIf="recurringControl.value">
+                      <div class="row">
+                        <!-- Frequency Field -->
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label for="editFrequency">Frequency</label>
+                            <select 
+                              id="editFrequency" 
+                              class="form-control" 
+                              formControlName="frequency"
+                              [class.is-invalid]="frequencyControl.invalid && frequencyControl.touched">
+                              <option *ngFor="let option of frequencies" [value]="option.value">
+                                {{ option.label }}
+                              </option>
+                            </select>
+                            
+                            <div *ngIf="frequencyControl.invalid && frequencyControl.touched" class="invalid-feedback">
+                              <span *ngIf="frequencyControl.errors?.['required']">Frequency is required</span>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!-- End Date Field -->
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label for="editEndDate">End Date (Optional)</label>
+                            <input 
+                              type="date" 
+                              id="editEndDate" 
+                              class="form-control" 
+                              formControlName="endDate"
+                              [min]="formatDate(minEndDate)">
+                            <small class="form-text text-muted">Leave blank for no end date</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="form-actions">
+                      <button type="button" class="btn btn-outline-secondary" (click)="toggleEditMode()">
+                        Cancel
+                      </button>
+                      <button type="button" class="btn btn-primary" [disabled]="isLoading" (click)="updateTransfer()">
+                        <span *ngIf="isLoading" class="spinner-border spinner-border-sm mr-1"></span>
+                        Update Transfer
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

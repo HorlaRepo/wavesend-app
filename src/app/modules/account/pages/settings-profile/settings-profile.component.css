@@ -1,0 +1,372 @@
+/* Settings Container */
+.settings-container {
+  background-color: #f8f9f7;
+  min-height: calc(100vh - 76px);
+  padding: 2rem 0;
+}
+
+/* Page Header */
+.page-header {
+  margin-bottom: 1.5rem;
+}
+
+.page-header h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #212529;
+}
+
+.page-header .subtitle {
+  font-size: 1.05rem;
+  color: #6c757d;
+}
+
+/* Settings Card */
+.settings-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  border-top: 4px solid #2ebe60;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.settings-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(46, 190, 96, 0.1);
+}
+
+/* Settings Card Header */
+.settings-card-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #f1f1f1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.settings-card-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #212529;
+}
+
+.settings-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: rgba(46, 190, 96, 0.1);
+  color: #2ebe60;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.btn-edit {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  color: #495057;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-edit:hover {
+  background-color: #f8f9fa;
+  color: #2ebe60;
+  border-color: #2ebe60;
+}
+
+.btn-edit i {
+  color: #2ebe60;
+}
+
+/* Settings Card Body */
+.settings-card-body {
+  padding: 1.5rem;
+}
+
+/* Details Grid */
+.details-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detail-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6c757d;
+}
+
+.detail-value {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #212529;
+}
+
+.detail-value p {
+  margin: 0;
+  margin-bottom: 0.25rem;
+}
+
+.detail-value p:last-child {
+  margin-bottom: 0;
+}
+
+/* Email Badge */
+.detail-value.email {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.primary-badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  background-color: rgba(23, 162, 184, 0.15);
+  color: #17a2b8;
+  border-radius: 50px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+/* Status Badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-badge.active {
+  background-color: rgba(46, 190, 96, 0.15);
+  color: #2ebe60;
+}
+
+/* Custom Modal Styling */
+.custom-modal {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.modal-header {
+  border-bottom: 1px solid #e9ecef;
+  padding: 1.25rem 1.5rem;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #212529;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+/* Form Styling */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 1rem;
+  color: #6c757d;
+  transition: color 0.2s;
+}
+
+.form-control {
+  height: 48px;
+  padding-left: 2.75rem;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: #2ebe60;
+  box-shadow: 0 0 0 0.2rem rgba(46, 190, 96, 0.25);
+}
+
+.form-control:focus + .input-icon {
+  color: #2ebe60;
+}
+
+/* Select Styling */
+.select-wrapper {
+  position: relative;
+}
+
+.select-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 1rem;
+  color: #6c757d;
+  pointer-events: none;
+}
+
+.custom-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+/* Submit Button */
+.btn-submit {
+  display: block;
+  width: 100%;
+  padding: 0.875rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  background-color: #2ebe60;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 1.5rem;
+}
+
+.btn-submit:hover {
+  background-color: #27a854;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(46, 190, 96, 0.2);
+}
+
+/* Section Separator */
+.section-separator {
+  position: relative;
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+.section-separator::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 1px;
+  background-color: #dee2e6;
+}
+
+.section-separator span {
+  position: relative;
+  display: inline-block;
+  background-color: white;
+  padding: 0 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #6c757d;
+}
+
+/* Form Text */
+.form-text {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-text i {
+  color: #17a2b8;
+}
+
+/* Media Queries */
+@media (min-width: 768px) {
+  .detail-item {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  
+  .detail-label {
+    width: 30%;
+    text-align: right;
+    padding-right: 1.5rem;
+  }
+  
+  .detail-value {
+    width: 70%;
+  }
+}
+
+@media (max-width: 767px) {
+  .settings-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .btn-edit {
+    align-self: flex-start;
+  }
+  
+  .section-separator {
+    margin: 1.25rem 0;
+  }
+}
+
+@media (max-width: 575px) {
+  .settings-container {
+    padding: 1.5rem 0;
+  }
+  
+  .page-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .settings-card-header h3 {
+    font-size: 1.125rem;
+  }
+  
+  .detail-value.email {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

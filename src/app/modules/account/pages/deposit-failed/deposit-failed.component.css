@@ -1,0 +1,359 @@
+/* Failed Container */
+.failed-container {
+  background-color: #f8f9f7;
+  min-height: calc(100vh - 76px);
+}
+
+/* Content Wrapper */
+.content-wrapper {
+  padding: 1.5rem 0 3rem;
+}
+
+/* Page Header */
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #212529;
+}
+
+.page-header .subtitle {
+  font-size: 1.05rem;
+  color: #6c757d;
+  margin-bottom: 1.5rem;
+}
+
+/* Failed Card */
+.failed-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  border-top: 4px solid #dc3545;
+  padding: 2rem 2rem; 
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.failed-card:hover {
+  box-shadow: 0 8px 24px rgba(220, 53, 69, 0.1);
+}
+
+/* Failed Animation */
+.failed-animation {
+  margin-top: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.error-circle {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+}
+
+.error-circle-bg {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: rgba(220, 53, 69, 0.1);
+  animation: pulse 1.5s infinite;
+}
+
+.error-line-1, .error-line-2 {
+  position: absolute;
+  width: 40px;
+  height: 4px;
+  background-color: #dc3545;
+  top: 38px;
+  left: 20px;
+  border-radius: 2px;
+}
+
+.error-line-1 {
+  transform: rotate(45deg);
+  animation: line1 0.8s ease-in-out forwards;
+  opacity: 0;
+}
+
+.error-line-2 {
+  transform: rotate(-45deg);
+  animation: line2 0.8s ease-in-out forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.3);
+  }
+  
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+  }
+  
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+  }
+}
+
+@keyframes line1 {
+  0% {
+    transform: rotate(45deg) scaleX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(45deg) scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes line2 {
+  0% {
+    transform: rotate(-45deg) scaleX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-45deg) scaleX(1);
+    opacity: 1;
+  }
+}
+
+/* Failed Message */
+.failed-message {
+  margin-bottom: 2rem;
+}
+
+.failed-message h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 0.75rem;
+}
+
+.failed-message p {
+  font-size: 1.05rem;
+  color: #6c757d;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Transaction Details */
+.transaction-details {
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.detail-row:first-child {
+  padding-top: 0;
+}
+
+.detail-label {
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.detail-value {
+  font-weight: 600;
+  color: #212529;
+}
+
+.detail-value.highlight-error {
+  color: #dc3545;
+  font-size: 1.25rem;
+}
+
+.reference {
+  font-family: 'Courier New', monospace;
+  background-color: #f0f0f0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-badge.error {
+  background-color: rgba(220, 53, 69, 0.15);
+  color: #a71d2a;
+}
+
+.status-badge i {
+  margin-right: 0.35rem;
+  font-size: 0.9rem;
+}
+
+/* Error Notice */
+.error-notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  background-color: rgba(220, 53, 69, 0.1);
+  border-radius: 8px;
+  color: #a71d2a;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.error-notice i {
+  margin-right: 0.75rem;
+  font-size: 1.1rem;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-primary,
+.btn-secondary {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+}
+
+.btn-secondary {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border: 1px solid #dee2e6;
+}
+
+.btn-secondary:hover {
+  background-color: #e9ecef;
+  color: #495057;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary i,
+.btn-secondary i {
+  margin-right: 0.5rem;
+}
+
+/* Additional Actions */
+.additional-actions {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.view-all-link,
+.home-link {
+  color: #6c757d;
+  font-weight: 500;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.view-all-link:hover,
+.home-link:hover {
+  color: #dc3545;
+  transform: translateY(-2px);
+}
+
+.view-all-link i,
+.home-link i {
+  margin-right: 0.5rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767px) {
+  .failed-card {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .transaction-details {
+    padding: 1.25rem;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .additional-actions {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .detail-value.highlight-error {
+    font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .page-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .page-header .subtitle {
+    font-size: 0.95rem;
+  }
+
+  .failed-message h3 {
+    font-size: 1.35rem;
+  }
+
+  .failed-message p {
+    font-size: 0.95rem;
+  }
+}

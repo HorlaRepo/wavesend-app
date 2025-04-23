@@ -1,0 +1,148 @@
+<header class="account-header">
+  <div class="container">
+    <div class="header-wrapper">
+      <!-- Logo Section -->
+      <div class="logo-section">
+        <a routerLink="/account/dashboard" class="logo">
+          <img src="assets/images/logo.png" alt="WaveSend" />
+        </a>
+        <button class="menu-toggle d-lg-none" type="button" (click)="toggleMobileMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <!-- Navigation Section -->
+      <nav class="main-navigation" [ngClass]="{'mobile-open': mobileMenuOpen}">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/account" 
+               [ngClass]="{'active': isRouteActive('/account')}">
+              <i class="fas fa-home"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/account/transactions"
+               [ngClass]="{'active': isRouteActive('/account/transactions')}">
+              <i class="fas fa-exchange-alt"></i>
+              <span>Transactions</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/account/send"
+               [ngClass]="{'active': isRouteActive('/account/send')}">
+              <i class="fas fa-paper-plane"></i>
+              <span>Send</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/account/deposit"
+               [ngClass]="{'active': isRouteActive('/account/deposit')}">
+              <i class="fas fa-arrow-circle-up"></i>
+              <span>Deposit</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/account/withdraw"
+               [ngClass]="{'active': isRouteActive('/account/withdraw')}">
+              <i class="fas fa-arrow-circle-down"></i>
+              <span>Withdraw</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- User Controls Section -->
+      <div class="user-controls">
+        <!-- Language Selector -->
+        <div class="dropdown language-dropdown">
+          <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+            <i class="fas fa-globe"></i>
+            <span class="d-none d-md-inline">EN</span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item active" href="#">English</a>
+            <a class="dropdown-item" href="#">French</a>
+            <a class="dropdown-item" href="#">Spanish</a>
+            <a class="dropdown-item" href="#">German</a>
+          </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="dropdown notifications-dropdown">
+          <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+            <i class="far fa-bell"></i>
+            <span class="badge" *ngIf="notificationCount > 0">{{notificationCount}}</span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right">
+            <div class="dropdown-header">
+              <h6>Notifications</h6>
+              <a routerLink="/account/notifications" class="all-link">View All</a>
+            </div>
+            <div class="notification-list">
+              <a *ngIf="!hasNotifications" class="dropdown-item empty-item">
+                <div class="empty-notification">
+                  <i class="far fa-bell-slash"></i>
+                  <p>No new notifications</p>
+                </div>
+              </a>
+              <a *ngFor="let notification of notifications" class="dropdown-item">
+                <div class="notification-icon">
+                  <i class="fas fa-bell"></i>
+                </div>
+                <div class="notification-content">
+                  <p class="notification-text">{{notification.message}}</p>
+                  <p class="notification-time">{{notification.date | date:'MMM d, y'}}</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Profile Menu -->
+        <div class="dropdown profile-dropdown">
+          <button class="dropdown-toggle profile-toggle" type="button" data-toggle="dropdown">
+            <div class="profile-img">
+              <img [src]="profileImageUrl" alt="Profile" />
+              <span class="status-indicator"></span>
+            </div>
+            <span class="username d-none d-lg-inline">{{user?.firstName}} {{user?.lastName}}</span>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right">
+            <div class="dropdown-user-info">
+              <div class="user-info-img">
+                <img [src]="profileImageUrl" alt="Profile" />
+              </div>
+              <div class="user-info-text">
+                <h6>{{user?.firstName}} {{user?.lastName}}</h6>
+                <p>{{user?.email}}</p>
+              </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)="manageProfile()">
+              <i class="fas fa-user"></i> My Profile
+            </a>
+            <a class="dropdown-item" routerLink="/account/settings/security">
+              <i class="fas fa-shield-alt"></i> Security
+            </a>
+            <a class="dropdown-item" routerLink="/account/settings/payment-methods">
+              <i class="fas fa-credit-card"></i> Payment Methods
+            </a>
+            <a class="dropdown-item" routerLink="/account/settings/notifications">
+              <i class="fas fa-bell"></i> Notifications
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="/account/help">
+              <i class="fas fa-question-circle"></i> Help Center
+            </a>
+            <a class="dropdown-item" (click)="logout()">
+              <i class="fas fa-sign-out-alt"></i> Sign Out
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

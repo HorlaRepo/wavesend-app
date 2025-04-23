@@ -1,0 +1,1058 @@
+.custom-divider {
+  border-top: 1px solid #007bff; /* Change this to your desired color */
+  margin-top: 1em; /* Optional: adjust margin */
+}
+
+.gradient-background {
+  background: linear-gradient(to top right, #d0f0c0, #ffffff, #ffffff);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.btn-primary:disabled {
+  background-color: green;
+  border-color: green;
+}
+
+.is-invalid {
+  border-color: red;
+}
+
+.is-valid {
+  border-color: green;
+}
+
+/* Settings Container */
+.settings-container {
+  background-color: #f8f9f7;
+  min-height: calc(100vh - 76px);
+  padding: 2rem 0;
+}
+
+/* Settings Card */
+.settings-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  border-top: 4px solid #2ebe60;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.settings-card:hover {
+  box-shadow: 0 8px 24px rgba(46, 190, 96, 0.1);
+}
+
+.settings-card-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.settings-card-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #212529;
+}
+
+.settings-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: rgba(46, 190, 96, 0.1);
+  color: #2ebe60;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.settings-card-body {
+  padding: 1.5rem;
+}
+
+/* Payment Card Styling */
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -0.75rem; /* Negative margin to offset the padding in columns */
+}
+
+.cards-container > div.col-md-6 {
+  padding: 0 0.75rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .cards-container > div.col-md-6 {
+    width: 50%;
+    flex: 0 0 50%;
+  }
+}
+
+.payment-card {
+  position: relative;
+  height: 200px;
+  width: 100%;
+  aspect-ratio: 1.6 / 1; /* Standard credit card ratio */
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.payment-card.visa {
+  background: linear-gradient(135deg, #0052a4, #012169);
+  color: white;
+}
+
+.payment-card.mastercard {
+  background: linear-gradient(135deg, #1a1f71, #c4000a);
+  color: white;
+}
+
+.payment-card::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 100px;
+  height: 100px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.payment-card::after {
+  content: '';
+  position: absolute;
+  bottom: -65px;
+  left: -25px;
+  width: 120px;
+  height: 120px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+}
+
+.card-brand {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.card-brand img {
+  height: 100%;
+  width: auto;
+}
+
+.card-details {
+  position: relative;
+  z-index: 1;
+  margin-top: 1rem; /* Add some space at the top */
+}
+
+.card-number {
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-bottom: 1.75rem; /* Increase space below card number */
+}
+
+.card-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.expiry {
+  display: flex;
+  flex-direction: column;
+}
+
+.expiry .label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 0.25rem;
+}
+
+.expiry .value {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.card-status {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.6rem;
+  border-radius: 50px;
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.card-status.locked i {
+  margin-right: 0.25rem;
+}
+
+.card-actions {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.payment-card:hover .card-actions {
+  height: 50px;
+  opacity: 1;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.action-btn i {
+  margin-right: 0.35rem;
+}
+
+.action-btn.view:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.action-btn.delete:hover {
+  background-color: rgba(220, 53, 69, 0.3);
+}
+
+/* Add New Card Styling */
+.add-new-card {
+  height: 200px;
+  width: 100%;
+  aspect-ratio: 1.6 / 1; /* Match card aspect ratio */
+  border: 2px dashed #dee2e6;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.add-new-card:hover {
+  border-color: #2ebe60;
+  background-color: rgba(46, 190, 96, 0.03);
+}
+
+.add-new-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.add-icon {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(46, 190, 96, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+
+.add-new-card:hover .add-icon {
+  background-color: rgba(46, 190, 96, 0.2);
+}
+
+.add-icon i {
+  font-size: 1.5rem;
+  color: #2ebe60;
+}
+
+.add-new-content span {
+  font-weight: 500;
+  color: #6c757d;
+  transition: all 0.2s ease;
+}
+
+.add-new-card:hover .add-new-content span {
+  color: #2ebe60;
+}
+
+/* Bank Account Card Styling */
+.bank-accounts-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.bank-account-card {
+  position: relative;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  border-left: 4px solid #2ebe60;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.bank-account-card:hover {
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.bank-icon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  background-color: rgba(46, 190, 96, 0.1);
+  color: #2ebe60;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  margin-right: 1rem;
+}
+
+.bank-details {
+  flex: 1;
+}
+
+.bank-name {
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 0.35rem;
+}
+
+.account-number {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.account-name {
+  color: #6c757d;
+  font-size: 0.85rem;
+}
+
+.bank-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.bank-actions .action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6c757d;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.bank-actions .action-btn i {
+  margin-right: 0;
+  font-size: 0.9rem;
+}
+
+.bank-actions .view:hover {
+  color: #2ebe60;
+  box-shadow: 0 3px 6px rgba(46, 190, 96, 0.2);
+}
+
+.bank-actions .delete:hover {
+  color: #dc3545;
+  box-shadow: 0 3px 6px rgba(220, 53, 69, 0.2);
+}
+
+/* Add New Bank Account */
+.add-new-bank {
+  background-color: #f8f9fa;
+  border: 2px dashed #dee2e6;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  min-height: 118px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.add-new-bank:hover {
+  border-color: #2ebe60;
+  background-color: rgba(46, 190, 96, 0.03);
+}
+
+.add-new-bank .add-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 0.5rem;
+}
+
+/* Dialog Styling */
+:host ::ng-deep .card-dialog .p-dialog-header,
+:host ::ng-deep .bank-dialog .p-dialog-header {
+  background-color: #2ebe60;
+  color: white;
+  border-radius: 12px 12px 0 0;
+  padding: 1rem 1.5rem;
+}
+
+:host ::ng-deep .card-dialog .p-dialog-content,
+:host ::ng-deep .bank-dialog .p-dialog-content {
+  padding: 0;
+  border-radius: 0 0 12px 12px;
+}
+
+/* Force dialog to be visible and prevent immediate closing */
+:host ::ng-deep .p-dialog-mask.p-component-overlay {
+  pointer-events: auto !important;
+  z-index: 1000; /* Base z-index for all dialog masks */
+}
+
+:host ::ng-deep .p-dialog {
+  position: relative;
+  pointer-events: auto !important;
+  z-index: 1001 !important; /* Ensure dialog is above mask */
+}
+
+/* Card info dialog should be above other dialogs */
+:host ::ng-deep .card-dialog.p-dialog {
+  z-index: 1050 !important; 
+}
+
+/* Prevent dialog close on backdrop click */
+:host ::ng-deep .p-dialog-mask {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Dialog animation duration */
+:host ::ng-deep .p-dialog-enter-active {
+  transition-duration: 400ms !important;
+}
+
+:host ::ng-deep .p-dialog-leave-active {
+  transition-duration: 400ms !important;
+}
+
+.dialog-content {
+  padding: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.pin-input-container,
+.input-container {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: #adb5bd;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: #2ebe60;
+  box-shadow: 0 0 0 0.2rem rgba(46, 190, 96, 0.25);
+  outline: none;
+}
+
+/* Custom Select Styling */
+.custom-select-wrapper {
+  position: relative;
+}
+
+.custom-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+.select-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #6c757d;
+  transition: color 0.2s;
+}
+
+.custom-select:focus + .select-icon {
+  color: #2ebe60;
+}
+
+/* Card Options in Dialog */
+.card-options {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.card-option {
+  flex: 1;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.card-option:hover {
+  border-color: #2ebe60;
+}
+
+.card-option.selected {
+  border-color: #2ebe60;
+  background-color: rgba(46, 190, 96, 0.05);
+}
+
+.card-option-icon {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.card-option-icon img {
+  height: 100%;
+  width: auto;
+}
+
+.card-option-name {
+  font-weight: 500;
+  color: #495057;
+}
+
+.selected-indicator {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: #2ebe60;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.card-option.selected .selected-indicator {
+  opacity: 1;
+}
+
+/* Account Types in Dialog */
+.account-types {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.account-type {
+  flex: 1;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.account-type:hover {
+  border-color: #2ebe60;
+}
+
+.account-type.selected {
+  border-color: #2ebe60;
+  background-color: rgba(46, 190, 96, 0.05);
+}
+
+.account-type-icon {
+  width: 48px;
+  height: 48px;
+  background-color: #f8f9fa;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.75rem;
+  font-size: 1.25rem;
+  color: #6c757d;
+  transition: all 0.2s;
+}
+
+.account-type.selected .account-type-icon {
+  background-color: rgba(46, 190, 96, 0.1);
+  color: #2ebe60;
+}
+
+.account-type-name {
+  font-weight: 500;
+  color: #495057;
+}
+
+.account-type.selected .selected-indicator {
+  opacity: 1;
+}
+
+/* Security Note */
+.security-note {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.75rem 1rem;
+  background-color: rgba(46, 190, 96, 0.1);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.security-note i {
+  color: #2ebe60;
+  margin-right: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.security-note span {
+  font-size: 0.9rem;
+  color: #495057;
+  line-height: 1.4;
+}
+
+/* Custom Checkbox */
+.confirmation-group {
+  margin-top: 2rem;
+}
+
+.custom-checkbox {
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.custom-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-right: 0.75rem;
+  margin-top: 0.25rem;
+  accent-color: #2ebe60;
+  cursor: pointer;
+}
+
+.custom-checkbox label {
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: #495057;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+/* Dialog Actions */
+.dialog-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 0.875rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  background-color: #2ebe60;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: #27a854;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(46, 190, 96, 0.2);
+}
+
+.btn-submit:disabled {
+  background-color: rgba(46, 190, 96, 0.65);
+  cursor: not-allowed;
+}
+
+/* Preview Card in Dialog - make it look like a real card */
+.preview-card {
+  position: relative;
+  height: 240px;
+  width: 100%;
+  aspect-ratio: 1.85 / 1; /* Match the wider aspect ratio */
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.preview-card.visa {
+  background: linear-gradient(135deg, #0052a4, #012169);
+  color: white;
+}
+
+.preview-card.mastercard {
+  background: linear-gradient(135deg, #1a1f71, #c4000a);
+  color: white;
+}
+
+.preview-card-details {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.preview-card-number {
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-top: 1.5rem;
+}
+
+.preview-card-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+/* Card Details in View Dialog */
+.card-detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.card-detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.detail-value {
+  font-weight: 500;
+  color: #212529;
+}
+
+/* Add a style for unmasked card number */
+.unmasked-value {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+  background-color: #f8f9fb;
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  border-left: 4px solid #2ebe60;
+  user-select: all; /* Allow users to select the text easily */
+}
+
+/* Add CVV visible style */
+.cvv-visible {
+  font-family: 'Courier New', monospace;
+  background-color: #fff4e5;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #ff9800;
+}
+
+/* Loading Spinner */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Adjustments */
+@media (min-width: 1200px) {
+  .payment-card,
+  .preview-card,
+  .add-new-card {
+    max-width: 450px; /* Make cards even wider on large screens */
+  }
+}
+
+@media (max-width: 767px) {
+  .settings-card-header,
+  .settings-card-body {
+    padding: 1.25rem;
+  }
+  
+  .payment-card, 
+  .add-new-card {
+    height: 180px; /* Slightly smaller on mobile */
+  }
+  
+  .preview-card {
+    height: 220px;
+  }
+  
+  .card-options,
+  .account-types {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .bank-account-card {
+    padding: 1rem;
+  }
+  
+  .bank-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+    margin-right: 0.75rem;
+  }
+  
+  .card-number {
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+  }
+}
+
+@media (min-width: 992px) {
+  /* Ensure cards have proper width on larger screens too */
+  .payment-card,
+  .add-new-card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 575px) {
+  .settings-container {
+    padding: 1.5rem 0;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .payment-card {
+    height: 160px;
+  }
+  
+  .preview-card {
+    height: 180px;
+    padding: 1.25rem;
+  }
+  
+  .preview-card-number {
+    font-size: 1rem;
+  }
+  
+  .card-detail-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .card-detail-item .detail-value {
+    margin-top: 0.25rem;
+    width: 100%;
+  }
+  
+  .unmasked-value {
+    font-size: 0.95rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+  
+  .card-number {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .security-note {
+    padding: 0.75rem;
+  }
+  
+  .security-note span {
+    font-size: 0.85rem;
+  }
+}
+
+/* Add this to your existing CSS */
+:host ::ng-deep .p-dropdown {
+  width: 100%;
+  border-radius: 8px;
+}
+
+:host ::ng-deep .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+  padding: 0.75rem 1.25rem;
+}
+
+:host ::ng-deep .p-dropdown-panel .p-dropdown-header .p-dropdown-filter {
+  padding: 0.5rem 1rem;
+}
+
+:host ::ng-deep .p-dropdown-label {
+  padding: 0.75rem 1rem;
+}
+
+/* Spinner for dropdown loading */
+.spinner-small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner-small .spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(46, 190, 96, 0.2);
+  border-radius: 50%;
+  border-top-color: #2ebe60;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Dialog actions */
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn-cancel {
+  padding: 0.75rem 1.5rem;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  color: #495057;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background-color: #e0e0e0;
+}
+
+.btn-submit {
+  padding: 0.75rem 1.5rem;
+  background-color: #2ebe60;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-submit:disabled {
+  background-color: rgba(46, 190, 96, 0.6);
+  cursor: not-allowed;
+}
+
+.btn-submit:not(:disabled):hover {
+  background-color: #27a854;
+}
+

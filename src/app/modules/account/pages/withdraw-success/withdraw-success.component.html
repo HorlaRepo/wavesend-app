@@ -1,0 +1,86 @@
+<div class="success-container">
+  <!-- Main Content -->
+  <div class="content-wrapper">
+    <div class="container">
+      <!-- Steps Progress Bar -->
+      <app-steps-progress-bar></app-steps-progress-bar>
+
+      <div class="row">
+        <div class="col-md-9 col-lg-7 col-xl-6 mx-auto">
+          <!-- Success Card -->
+          <div class="result-card success-card">
+            <!-- Success Animation -->
+            <div class="result-animation success-animation">
+              <div class="success-checkmark">
+                <div class="check-icon">
+                  <span class="icon-line line-tip"></span>
+                  <span class="icon-line line-long"></span>
+                  <div class="icon-circle"></div>
+                  <div class="icon-fix"></div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Success Message -->
+            <div class="result-message">
+              <h3>Withdrawal Successful</h3>
+              <p>Your withdrawal request has been queued and is being processed.</p>
+            </div>
+
+            <!-- Transaction Details -->
+            <div class="transaction-details">
+              <div class="detail-row">
+                <div class="detail-label">Amount</div>
+                <div class="detail-value highlight-success">{{ withdrawalResponse.data?.currency }} {{ withdrawalResponse.data?.amount | number : '1.2-2'}}</div>
+              </div>
+              
+              <div class="detail-row">
+                <div class="detail-label">Recipient Account</div>
+                <div class="detail-value">{{ withdrawalResponse.data?.bank_name }}</div>
+              </div>
+              
+              <div class="detail-row">
+                <div class="detail-label">Account Number</div>
+                <div class="detail-value">{{ withdrawalResponse.data?.account_number }}</div>
+              </div>
+              
+              <div class="detail-row">
+                <div class="detail-label">Status</div>
+                <div class="detail-value">
+                  <span class="status-badge success">
+                    <i class="fas fa-clock"></i> Processing
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-notice">
+              <i class="fas fa-info-circle"></i>
+              <span>Funds will typically appear in the recipient's account within 1-5 minutes.</span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <button class="btn-primary" (click)="withdrawMoneyAgain()">
+                <i class="fas fa-repeat"></i> Withdraw Again
+              </button>
+              <button class="btn-secondary" routerLink="/account">
+                <i class="fas fa-home"></i> Go to Dashboard
+              </button>
+            </div>
+
+            <!-- Additional Actions -->
+            <div class="additional-actions">
+              <a routerLink="/account/transactions" class="view-all-link">
+                <i class="fas fa-list-ul"></i> View All Transactions
+              </a>
+              <a href="javascript:void(0)" (click)="printReceipt()" class="print-link">
+                <i class="fas fa-print"></i> Print Receipt
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

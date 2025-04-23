@@ -1,0 +1,5524 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "https://api.wavesend.cc/api/v1",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/user-notification-preferences/update": {
+      "put": {
+        "tags": [
+          "user-notification-preferences-controller"
+        ],
+        "operationId": "updateNotificationPreferences",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserNotificationPreferencesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseUserNotificationPreferences"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/update/{id}": {
+      "put": {
+        "tags": [
+          "transaction-controller"
+        ],
+        "operationId": "updateTransaction",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionStatusDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTransactionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scheduled-transfers/{id}": {
+      "put": {
+        "tags": [
+          "scheduled-transfer-controller"
+        ],
+        "operationId": "updateTransfer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScheduledTransferRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseScheduledTransferResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "scheduled-transfer-controller"
+        ],
+        "operationId": "cancelTransfer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseScheduledTransferResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kyc-verification/reject-id-verification": {
+      "put": {
+        "tags": [
+          "kyc-verification-controller"
+        ],
+        "operationId": "rejectIdVerification",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "rejectionReason",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kyc-verification/reject-address-verification": {
+      "put": {
+        "tags": [
+          "kyc-verification-controller"
+        ],
+        "operationId": "rejectAddressVerification",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "rejectionReason",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kyc-verification/approve-id-verification": {
+      "put": {
+        "tags": [
+          "kyc-verification-controller"
+        ],
+        "operationId": "approveIdVerification",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kyc-verification/approve-address-verification": {
+      "put": {
+        "tags": [
+          "kyc-verification-controller"
+        ],
+        "operationId": "approveAddressVerification",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/card/set-pin/{id}": {
+      "put": {
+        "tags": [
+          "card-controller"
+        ],
+        "operationId": "setCardPin",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PinRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/account-limits/level/{level}": {
+      "get": {
+        "tags": [
+          "account-limit-controller"
+        ],
+        "operationId": "getLimitsForLevel",
+        "parameters": [
+          {
+            "name": "level",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "UNVERIFIED",
+                "EMAIL_VERIFIED",
+                "ID_VERIFIED",
+                "FULLY_VERIFIED"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseAccountLimitDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "account-limit-controller"
+        ],
+        "operationId": "updateLimitsForLevel",
+        "parameters": [
+          {
+            "name": "level",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "UNVERIFIED",
+                "EMAIL_VERIFIED",
+                "ID_VERIFIED",
+                "FULLY_VERIFIED"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountLimitDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseAccountLimitDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/withdrawals": {
+      "post": {
+        "tags": [
+          "withdrawal-controller"
+        ],
+        "operationId": "withdraw",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WithdrawalRequestMapper"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseWithdrawalData"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/withdrawals/verify": {
+      "post": {
+        "tags": [
+          "withdrawal-controller"
+        ],
+        "operationId": "verifyAndWithdraw",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WithdrawalVerificationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseWithdrawalData"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/withdrawals/initiate": {
+      "post": {
+        "tags": [
+          "withdrawal-controller"
+        ],
+        "operationId": "initiateWithdrawal",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WithdrawalRequestMapper"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseWithdrawalInitiationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wallet": {
+      "get": {
+        "tags": [
+          "wallet-controller"
+        ],
+        "operationId": "getWalletByUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseWallet"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "wallet-controller"
+        ],
+        "operationId": "createWallet",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseWallet"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-profile-image/upload": {
+      "post": {
+        "tags": [
+          "user-profile-image-controller"
+        ],
+        "operationId": "uploadUserProfileImage",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transfers/verify": {
+      "post": {
+        "tags": [
+          "money-transfer-controller"
+        ],
+        "operationId": "verifyAndTransfer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferVerificationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTransactionResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transfers/initiate": {
+      "post": {
+        "tags": [
+          "money-transfer-controller"
+        ],
+        "operationId": "initiateTransfer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTransactionRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTransferInitiationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/status/{referenceNumber}": {
+      "post": {
+        "tags": [
+          "transaction-controller"
+        ],
+        "operationId": "updateTransactionStatus",
+        "parameters": [
+          {
+            "name": "referenceNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTransactionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTransactionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scheduled-transfers/verify": {
+      "post": {
+        "tags": [
+          "scheduled-transfer-controller"
+        ],
+        "operationId": "verifyAndScheduleTransfer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScheduledTransferVerificationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseScheduledTransferResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scheduled-transfers/schedule": {
+      "post": {
+        "tags": [
+          "scheduled-transfer-controller"
+        ],
+        "operationId": "scheduleTransfer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScheduledTransferRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseScheduledTransferResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scheduled-transfers/initiate": {
+      "post": {
+        "tags": [
+          "scheduled-transfer-controller"
+        ],
+        "operationId": "initiateScheduleTransfer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScheduledTransferRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseScheduledTransferInitiationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payment/withdraw": {
+      "post": {
+        "tags": [
+          "payment-processing-controller"
+        ],
+        "operationId": "withdraw_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WithdrawalRequestMapper"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseWithdrawalData"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payment/stripe-webhook": {
+      "post": {
+        "tags": [
+          "payment-processing-controller"
+        ],
+        "operationId": "handleStripeWebhook",
+        "parameters": [
+          {
+            "name": "Stripe-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payment/send": {
+      "post": {
+        "tags": [
+          "payment-processing-controller"
+        ],
+        "operationId": "sendMoney",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTransactionRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTransactionResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payment/flutterwave-webhook": {
+      "post": {
+        "tags": [
+          "payment-processing-controller"
+        ],
+        "operationId": "handleWebhook",
+        "parameters": [
+          {
+            "name": "verif-hash",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebhookPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payment/deposit": {
+      "post": {
+        "tags": [
+          "payment-processing-controller"
+        ],
+        "operationId": "createStripePayment",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/otp/resend": {
+      "post": {
+        "tags": [
+          "otp-controller"
+        ],
+        "operationId": "resendOtp",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtpResendRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kyc-verification/id-document": {
+      "post": {
+        "tags": [
+          "kyc-verification-controller"
+        ],
+        "operationId": "uploadIdDocument",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kyc-verification/address-document": {
+      "post": {
+        "tags": [
+          "kyc-verification-controller"
+        ],
+        "operationId": "uploadAddressDocument",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keycloak/events": {
+      "post": {
+        "tags": [
+          "keycloak-events-controller"
+        ],
+        "operationId": "receiveEvent",
+        "parameters": [
+          {
+            "name": "Sig-Header",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/flutter/withdraw": {
+      "post": {
+        "tags": [
+          "flutterwave-controller"
+        ],
+        "operationId": "withdraw_2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FlutterwaveWithdrawalRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseWithdrawalData"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/flutter/webhook": {
+      "post": {
+        "tags": [
+          "flutterwave-controller"
+        ],
+        "operationId": "handleWebhook_1",
+        "parameters": [
+          {
+            "name": "verif-hash",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WebhookPayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/flutter/beneficiaries": {
+      "post": {
+        "tags": [
+          "flutterwave-controller"
+        ],
+        "operationId": "addBeneficiary",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddBeneficiaryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseBeneficiary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/countries": {
+      "get": {
+        "tags": [
+          "country-controller"
+        ],
+        "operationId": "getAllSupportedCountries",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListCountry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "country-controller"
+        ],
+        "operationId": "addNewCountry",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCountryRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseCountry"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/card/verify-pin/{cardId}": {
+      "post": {
+        "tags": [
+          "card-controller"
+        ],
+        "operationId": "verifyPin",
+        "parameters": [
+          {
+            "name": "cardId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PinRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/card/unlock/{id}": {
+      "post": {
+        "tags": [
+          "card-controller"
+        ],
+        "operationId": "unlockCard",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/card/lock/{id}": {
+      "post": {
+        "tags": [
+          "card-controller"
+        ],
+        "operationId": "lockCard",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/card/generate": {
+      "post": {
+        "tags": [
+          "card-controller"
+        ],
+        "operationId": "generateCard",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateCardRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseCard"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/beneficiary/suggestions/{suggestionId}/dismiss": {
+      "post": {
+        "tags": [
+          "beneficiary-ai-suggestion-controller"
+        ],
+        "operationId": "dismissSuggestion",
+        "parameters": [
+          {
+            "name": "suggestionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/beneficiary/suggestions/generate": {
+      "post": {
+        "tags": [
+          "beneficiary-ai-suggestion-controller"
+        ],
+        "operationId": "generateSuggestions",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/beneficiaries/add": {
+      "post": {
+        "tags": [
+          "user-beneficiaries-controller"
+        ],
+        "operationId": "addUserBeneficiary",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserBeneficiaryRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseUserBeneficiaryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bank-account": {
+      "get": {
+        "tags": [
+          "bank-account-controller"
+        ],
+        "operationId": "getBankAccountsByUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListBankAccount"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "bank-account-controller"
+        ],
+        "operationId": "addBankAccount",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddBankAccountRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseBankAccount"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-profile-image/url": {
+      "get": {
+        "tags": [
+          "user-profile-image-controller"
+        ],
+        "operationId": "getUserProfileImageUrl",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-profile-image/get": {
+      "get": {
+        "tags": [
+          "user-profile-image-controller"
+        ],
+        "operationId": "getUserProfileImage",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "image/jpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "byte"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-notification-preferences": {
+      "get": {
+        "tags": [
+          "user-notification-preferences-controller"
+        ],
+        "operationId": "getNotificationPreferences",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseUserNotificationPreferences"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions": {
+      "get": {
+        "tags": [
+          "transaction-controller"
+        ],
+        "operationId": "getAllTransactions",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponsePagedTransactionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/{id}": {
+      "get": {
+        "tags": [
+          "transaction-controller"
+        ],
+        "operationId": "getTransactionById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTransactionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/wallet/{walletId}": {
+      "get": {
+        "tags": [
+          "transaction-controller"
+        ],
+        "operationId": "getTransactionsByWallet",
+        "parameters": [
+          {
+            "name": "walletId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponsePagedTransactionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/wallet/{walletId}/sort": {
+      "get": {
+        "tags": [
+          "transaction-controller"
+        ],
+        "operationId": "getUserTransactionsBetweenDates",
+        "parameters": [
+          {
+            "name": "walletId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 8
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponsePagedTransactionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/wallet/{walletId}/filter": {
+      "get": {
+        "tags": [
+          "transaction-controller"
+        ],
+        "operationId": "getTransactionsByFilter",
+        "parameters": [
+          {
+            "name": "walletId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 8
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponsePagedTransactionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/transaction-fee": {
+      "get": {
+        "tags": [
+          "transaction-controller"
+        ],
+        "operationId": "getTransactionFee",
+        "parameters": [
+          {
+            "name": "amount",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTransactionFee"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/search": {
+      "get": {
+        "tags": [
+          "transaction-controller"
+        ],
+        "operationId": "searchTransactions",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "asc"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponsePagedTransactionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/reference/{referenceNumber}": {
+      "get": {
+        "tags": [
+          "transaction-controller"
+        ],
+        "operationId": "getTransactionByReferenceNumber",
+        "parameters": [
+          {
+            "name": "referenceNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListTransactionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transaction-reference/{referenceNumber}": {
+      "get": {
+        "tags": [
+          "transaction-reference-controller"
+        ],
+        "operationId": "getTransactionReferenceByReferenceNumber",
+        "parameters": [
+          {
+            "name": "referenceNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseTransactionReference"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/statements/generate": {
+      "get": {
+        "tags": [
+          "statement-controller"
+        ],
+        "operationId": "generateStatement",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scheduled-transfers": {
+      "get": {
+        "tags": [
+          "scheduled-transfer-controller"
+        ],
+        "operationId": "getUserTransfers",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": [
+                "scheduledDateTime",
+                "desc"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponsePageResponseScheduledTransferResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scheduled-transfers/recurring/{parentId}": {
+      "get": {
+        "tags": [
+          "scheduled-transfer-controller"
+        ],
+        "operationId": "getRecurringSeries",
+        "parameters": [
+          {
+            "name": "parentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListScheduledTransferResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "scheduled-transfer-controller"
+        ],
+        "operationId": "cancelRecurringSeries",
+        "parameters": [
+          {
+            "name": "parentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseScheduledTransferResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scheduled-transfers/all": {
+      "get": {
+        "tags": [
+          "scheduled-transfer-controller"
+        ],
+        "operationId": "getAllUserTransfers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListScheduledTransferResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ping": {
+      "get": {
+        "tags": [
+          "ping"
+        ],
+        "operationId": "test",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/paystack/resolve": {
+      "get": {
+        "tags": [
+          "pay-stack-controller"
+        ],
+        "operationId": "resolveBankAccount",
+        "parameters": [
+          {
+            "name": "account_number",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bank_code",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BankResolverResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payment-methods/countryAcronym": {
+      "get": {
+        "tags": [
+          "payment-methods-controller"
+        ],
+        "operationId": "getPaymentMethodsByCountryAcronym",
+        "parameters": [
+          {
+            "name": "countryAcronym",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListPaymentMethod"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kyc-verification/status": {
+      "get": {
+        "tags": [
+          "kyc-verification-controller"
+        ],
+        "operationId": "getKycStatus",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseKycVerification"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keycloak/check-user": {
+      "get": {
+        "tags": [
+          "keycloak-events-controller"
+        ],
+        "operationId": "checkUser",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseUserRepresentation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "redis-health-controller"
+        ],
+        "operationId": "checkHealth",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/redis": {
+      "get": {
+        "tags": [
+          "redis-health-controller"
+        ],
+        "operationId": "redisHealth",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/flutter/rates": {
+      "get": {
+        "tags": [
+          "flutterwave-controller"
+        ],
+        "operationId": "getExchangeRate",
+        "parameters": [
+          {
+            "name": "request",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/ExchangeRateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeRateResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/flutter/fees": {
+      "get": {
+        "tags": [
+          "flutterwave-controller"
+        ],
+        "operationId": "getFees",
+        "parameters": [
+          {
+            "name": "amount",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResponseListFeeData"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/flutter/banks/{country}": {
+      "get": {
+        "tags": [
+          "flutterwave-controller"
+        ],
+        "operationId": "getBanks",
+        "parameters": [
+          {
+            "name": "country",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlutterwaveResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/currentUser": {
+      "get": {
+        "tags": [
+          "ping"
+        ],
+        "operationId": "getCurrentUserDetails",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/currentAdminOrUser": {
+      "get": {
+        "tags": [
+          "ping"
+        ],
+        "operationId": "getCurrentAdminOrUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/country-payment-method/{acronym}": {
+      "get": {
+        "tags": [
+          "country-payment-method-controller"
+        ],
+        "operationId": "getPaymentMethodsByCountryAcronym_1",
+        "parameters": [
+          {
+            "name": "acronym",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListPaymentMethod"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/countries/{countryName}": {
+      "get": {
+        "tags": [
+          "country-controller"
+        ],
+        "operationId": "getCountryByName",
+        "parameters": [
+          {
+            "name": "countryName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseCountry"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/countries/mobile-money-options/{acronym}": {
+      "get": {
+        "tags": [
+          "country-controller"
+        ],
+        "operationId": "getAllMobileMoneyOptions",
+        "parameters": [
+          {
+            "name": "acronym",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseSetMobileMoneyOption"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/card/{walletId}": {
+      "get": {
+        "tags": [
+          "card-controller"
+        ],
+        "operationId": "findCardByWalletId",
+        "parameters": [
+          {
+            "name": "walletId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListCard"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/beneficiary/suggestions": {
+      "get": {
+        "tags": [
+          "beneficiary-ai-suggestion-controller"
+        ],
+        "operationId": "getUserSuggestions",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListBeneficiaryAiSuggestion"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/beneficiaries": {
+      "get": {
+        "tags": [
+          "user-beneficiaries-controller"
+        ],
+        "operationId": "getUserBeneficiaries",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseUserBeneficiariesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/beneficiaries/{beneficiaryId}": {
+      "get": {
+        "tags": [
+          "user-beneficiaries-controller"
+        ],
+        "operationId": "getUserBeneficiary",
+        "parameters": [
+          {
+            "name": "beneficiaryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseUserBeneficiaryResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user-beneficiaries-controller"
+        ],
+        "operationId": "deleteUserBeneficiary",
+        "parameters": [
+          {
+            "name": "beneficiaryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bank-account/{accountNumber}": {
+      "get": {
+        "tags": [
+          "bank-account-controller"
+        ],
+        "operationId": "getBankAccountByAccountNumber",
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseBankAccount"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bank-account/count": {
+      "get": {
+        "tags": [
+          "bank-account-controller"
+        ],
+        "operationId": "getBankAccountCountByUserId",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseLong"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth-user": {
+      "get": {
+        "tags": [
+          "my-controller"
+        ],
+        "operationId": "getAuthUser",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/cache/{cacheName}/keys": {
+      "get": {
+        "tags": [
+          "cache-admin-controller"
+        ],
+        "operationId": "getCacheKeys",
+        "parameters": [
+          {
+            "name": "cacheName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseSetString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/cache/stats": {
+      "get": {
+        "tags": [
+          "cache-admin-controller"
+        ],
+        "operationId": "getCacheStats",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseMapStringMapStringObject"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/account-limits/my-limits": {
+      "get": {
+        "tags": [
+          "account-limit-controller"
+        ],
+        "operationId": "getMyAccountLimits",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseAccountLimitDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/admin": {
+      "get": {
+        "tags": [
+          "admin-controller"
+        ],
+        "operationId": "getAllAdmins",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseListAdmin"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/card/delete/{cardId}": {
+      "delete": {
+        "tags": [
+          "card-controller"
+        ],
+        "operationId": "deleteCard",
+        "parameters": [
+          {
+            "name": "cardId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bank-account/{bankAccountId}": {
+      "delete": {
+        "tags": [
+          "bank-account-controller"
+        ],
+        "operationId": "deleteBankAccount",
+        "parameters": [
+          {
+            "name": "bankAccountId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/cache/{cacheName}/keys/{key}": {
+      "delete": {
+        "tags": [
+          "cache-admin-controller"
+        ],
+        "operationId": "evictCacheKey",
+        "parameters": [
+          {
+            "name": "cacheName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseBoolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/cache/{cacheName}/clear": {
+      "delete": {
+        "tags": [
+          "cache-admin-controller"
+        ],
+        "operationId": "clearCache",
+        "parameters": [
+          {
+            "name": "cacheName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserNotificationPreferencesRequest": {
+        "required": [
+          "notifyOnDeposit",
+          "notifyOnPaymentFailure",
+          "notifyOnReceive",
+          "notifyOnSend",
+          "notifyOnWithdraw"
+        ],
+        "type": "object",
+        "properties": {
+          "notifyOnSend": {
+            "type": "boolean"
+          },
+          "notifyOnReceive": {
+            "type": "boolean"
+          },
+          "notifyOnWithdraw": {
+            "type": "boolean"
+          },
+          "notifyOnDeposit": {
+            "type": "boolean"
+          },
+          "notifyOnPaymentFailure": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ApiResponseUserNotificationPreferences": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/UserNotificationPreferences"
+          }
+        }
+      },
+      "UserNotificationPreferences": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "lastModifiedBy": {
+            "type": "string"
+          },
+          "notifyOnSend": {
+            "type": "boolean"
+          },
+          "notifyOnReceive": {
+            "type": "boolean"
+          },
+          "notifyOnWithdraw": {
+            "type": "boolean"
+          },
+          "notifyOnDeposit": {
+            "type": "boolean"
+          },
+          "notifyOnPaymentFailure": {
+            "type": "boolean"
+          },
+          "notifyOnScheduledTransfers": {
+            "type": "boolean"
+          },
+          "notifyOnExecutedTransfers": {
+            "type": "boolean"
+          },
+          "notifyOnCancelledTransfers": {
+            "type": "boolean"
+          }
+        }
+      },
+      "TransactionStatusDTO": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponseTransactionResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/TransactionResponse"
+          }
+        }
+      },
+      "TransactionResponse": {
+        "type": "object",
+        "properties": {
+          "transactionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "providerId": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "currentStatus": {
+            "type": "string"
+          },
+          "transactionDate": {
+            "type": "string"
+          },
+          "referenceNumber": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "narration": {
+            "type": "string"
+          },
+          "fee": {
+            "type": "number",
+            "format": "double"
+          },
+          "operation": {
+            "type": "string",
+            "enum": [
+              "DEPOSIT",
+              "WITHDRAWAL",
+              "TRANSFER",
+              "REVERSAL",
+              "REFUND"
+            ]
+          },
+          "transactionType": {
+            "type": "string",
+            "enum": [
+              "DEBIT",
+              "CREDIT"
+            ]
+          },
+          "sessionId": {
+            "type": "string"
+          },
+          "flagged": {
+            "type": "boolean"
+          },
+          "refundStatus": {
+            "type": "string",
+            "enum": [
+              "PARTIALLY_REFUNDABLE",
+              "FULLY_REFUNDABLE",
+              "NON_REFUNDABLE"
+            ]
+          },
+          "walletId": {
+            "type": "string"
+          }
+        }
+      },
+      "ScheduledTransferRequestDTO": {
+        "required": [
+          "amount",
+          "receiverEmail",
+          "scheduledDateTime",
+          "senderEmail"
+        ],
+        "type": "object",
+        "properties": {
+          "senderEmail": {
+            "type": "string"
+          },
+          "receiverEmail": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "scheduledDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "recurrenceType": {
+            "type": "string",
+            "enum": [
+              "NONE",
+              "DAILY",
+              "WEEKLY",
+              "MONTHLY"
+            ]
+          },
+          "recurrenceEndDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalOccurrences": {
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ApiResponseScheduledTransferResponseDTO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ScheduledTransferResponseDTO"
+          }
+        }
+      },
+      "ScheduledTransferResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "senderEmail": {
+            "type": "string"
+          },
+          "receiverEmail": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "scheduledDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "EXECUTED",
+              "PROCESSING",
+              "FAILED",
+              "CANCELLED"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "recurrenceType": {
+            "type": "string",
+            "enum": [
+              "NONE",
+              "DAILY",
+              "WEEKLY",
+              "MONTHLY"
+            ]
+          },
+          "recurrenceEndDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalOccurrences": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentOccurrence": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "parentTransferId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "isRecurring": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ApiResponseString": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "string"
+          }
+        }
+      },
+      "PinRequest": {
+        "type": "object",
+        "properties": {
+          "pin": {
+            "pattern": "\\d+",
+            "type": "string"
+          }
+        }
+      },
+      "AccountLimitDTO": {
+        "type": "object",
+        "properties": {
+          "verificationLevel": {
+            "type": "string",
+            "enum": [
+              "UNVERIFIED",
+              "EMAIL_VERIFIED",
+              "ID_VERIFIED",
+              "FULLY_VERIFIED"
+            ]
+          },
+          "dailyTransactionLimit": {
+            "type": "number"
+          },
+          "maxWalletBalance": {
+            "type": "number"
+          },
+          "maxDepositAmount": {
+            "type": "number"
+          },
+          "maxWithdrawalAmount": {
+            "type": "number"
+          },
+          "maxTransferAmount": {
+            "type": "number"
+          },
+          "formattedDailyLimit": {
+            "type": "string"
+          },
+          "formattedMaxBalance": {
+            "type": "string"
+          },
+          "formattedMaxDeposit": {
+            "type": "string"
+          },
+          "formattedMaxWithdrawal": {
+            "type": "string"
+          },
+          "formattedMaxTransfer": {
+            "type": "string"
+          },
+          "unlimited": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ApiResponseAccountLimitDTO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AccountLimitDTO"
+          }
+        }
+      },
+      "BankAccount": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "lastModifiedBy": {
+            "type": "string"
+          },
+          "bankName": {
+            "type": "string"
+          },
+          "accountNumber": {
+            "type": "string"
+          },
+          "accountName": {
+            "type": "string"
+          },
+          "accountType": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "bankCountry": {
+            "type": "string"
+          },
+          "bankCode": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "swiftCode": {
+            "type": "string"
+          },
+          "routingNumber": {
+            "type": "string"
+          },
+          "beneficiaryName": {
+            "type": "string"
+          },
+          "beneficiaryAddress": {
+            "type": "string"
+          },
+          "beneficiaryCountry": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "streetNumber": {
+            "type": "string"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "paymentMethod": {
+            "type": "string"
+          }
+        }
+      },
+      "WithdrawalInfo": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "narration": {
+            "type": "string"
+          },
+          "bankAccount": {
+            "$ref": "#/components/schemas/BankAccount"
+          }
+        }
+      },
+      "WithdrawalRequestMapper": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "walletId": {
+            "type": "string"
+          },
+          "fee": {
+            "type": "number",
+            "format": "double"
+          },
+          "withdrawalInfo": {
+            "$ref": "#/components/schemas/WithdrawalInfo"
+          },
+          "referenceNumber": {
+            "type": "string"
+          }
+        }
+      },
+      "GenericResponseWithdrawalData": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/WithdrawalData"
+          }
+        }
+      },
+      "WithdrawalData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "account_number": {
+            "type": "string"
+          },
+          "bank_code": {
+            "type": "string"
+          },
+          "full_name": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "fee": {
+            "type": "number",
+            "format": "double"
+          },
+          "status": {
+            "type": "string"
+          },
+          "complete_message": {
+            "type": "string"
+          },
+          "requires_approval": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "is_approved": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bank_name": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "reference": {
+            "type": "string"
+          },
+          "narration": {
+            "type": "string"
+          }
+        }
+      },
+      "WithdrawalVerificationRequest": {
+        "required": [
+          "otp",
+          "withdrawalToken"
+        ],
+        "type": "object",
+        "properties": {
+          "withdrawalToken": {
+            "type": "string"
+          },
+          "otp": {
+            "maxLength": 6,
+            "minLength": 6,
+            "type": "string"
+          }
+        }
+      },
+      "GenericResponseWithdrawalInitiationResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/WithdrawalInitiationResponse"
+          }
+        }
+      },
+      "WithdrawalInitiationResponse": {
+        "type": "object",
+        "properties": {
+          "withdrawalToken": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponseWallet": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Wallet"
+          }
+        }
+      },
+      "Wallet": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "lastModifiedBy": {
+            "type": "string"
+          },
+          "walletId": {
+            "type": "string"
+          },
+          "balance": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "flagged": {
+            "type": "boolean"
+          }
+        }
+      },
+      "TransferVerificationRequest": {
+        "required": [
+          "otp",
+          "transferToken"
+        ],
+        "type": "object",
+        "properties": {
+          "transferToken": {
+            "type": "string"
+          },
+          "otp": {
+            "maxLength": 6,
+            "minLength": 6,
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponseTransactionResponseDTO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/TransactionResponseDTO"
+          }
+        }
+      },
+      "TransactionResponseDTO": {
+        "type": "object",
+        "properties": {
+          "transactionDate": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string"
+          },
+          "transactionType": {
+            "type": "string",
+            "enum": [
+              "DEBIT",
+              "CREDIT"
+            ]
+          },
+          "senderName": {
+            "type": "string"
+          },
+          "senderWalletNumber": {
+            "type": "string"
+          },
+          "receiverName": {
+            "type": "string"
+          },
+          "receiverWalletNumber": {
+            "type": "string"
+          },
+          "referenceNumber": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateTransactionRequestBody": {
+        "type": "object",
+        "properties": {
+          "senderEmail": {
+            "type": "string"
+          },
+          "receiverEmail": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "narration": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponseTransferInitiationResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/TransferInitiationResponse"
+          }
+        }
+      },
+      "TransferInitiationResponse": {
+        "type": "object",
+        "properties": {
+          "transferToken": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateTransactionRequest": {
+        "required": [
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "ScheduledTransferVerificationRequest": {
+        "required": [
+          "otp",
+          "scheduledTransferToken"
+        ],
+        "type": "object",
+        "properties": {
+          "scheduledTransferToken": {
+            "type": "string"
+          },
+          "otp": {
+            "maxLength": 6,
+            "minLength": 6,
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponseScheduledTransferInitiationResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ScheduledTransferInitiationResponse"
+          }
+        }
+      },
+      "ScheduledTransferInitiationResponse": {
+        "type": "object",
+        "properties": {
+          "scheduledTransferToken": {
+            "type": "string"
+          }
+        }
+      },
+      "WebhookPayload": {
+        "type": "object",
+        "properties": {
+          "event": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/WithdrawalData"
+          },
+          "event.type": {
+            "type": "string"
+          }
+        }
+      },
+      "CreatePaymentRequestBody": {
+        "required": [
+          "amount",
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "amount": {
+            "minimum": 1,
+            "type": "number",
+            "format": "double"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "PaymentResponse": {
+        "type": "object",
+        "properties": {
+          "paymentUrl": {
+            "type": "string"
+          },
+          "sessionId": {
+            "type": "string"
+          },
+          "transactionReference": {
+            "type": "string"
+          }
+        }
+      },
+      "OtpResendRequest": {
+        "required": [
+          "operationType",
+          "transactionToken"
+        ],
+        "type": "object",
+        "properties": {
+          "transactionToken": {
+            "type": "string"
+          },
+          "operationType": {
+            "pattern": "TRANSFER|WITHDRAWAL|SCHEDULED_TRANSFER",
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponseVoid": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "FlutterwaveWithdrawalRequest": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "reference": {
+            "type": "string"
+          },
+          "narration": {
+            "type": "string"
+          },
+          "account_bank": {
+            "type": "string"
+          },
+          "account_number": {
+            "type": "string"
+          },
+          "meta": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WithdrawalMeta"
+            }
+          },
+          "beneficiary_name": {
+            "type": "string"
+          },
+          "bank_name": {
+            "type": "string"
+          },
+          "account_name": {
+            "type": "string"
+          },
+          "account_type": {
+            "type": "string"
+          },
+          "bank_country": {
+            "type": "string"
+          },
+          "bank_code": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "swift_code": {
+            "type": "string"
+          },
+          "routing_number": {
+            "type": "string"
+          },
+          "beneficiary_address": {
+            "type": "string"
+          },
+          "beneficiary_country": {
+            "type": "string"
+          },
+          "postal_code": {
+            "type": "string"
+          },
+          "street_number": {
+            "type": "string"
+          },
+          "street_name": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          }
+        }
+      },
+      "WithdrawalMeta": {
+        "type": "object",
+        "properties": {
+          "beneficiary_name": {
+            "type": "string"
+          },
+          "account_number": {
+            "type": "string"
+          },
+          "routing_number": {
+            "type": "string"
+          },
+          "swift_code": {
+            "type": "string"
+          },
+          "bank_name": {
+            "type": "string"
+          },
+          "beneficiary_country": {
+            "type": "string"
+          },
+          "postal_code": {
+            "type": "string"
+          },
+          "street_number": {
+            "type": "string"
+          },
+          "street_name": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "sender": {
+            "type": "string"
+          },
+          "sender_country": {
+            "type": "string"
+          },
+          "mobile_number": {
+            "type": "string"
+          },
+          "merchant_name": {
+            "type": "string"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "beneficiary_address": {
+            "type": "string"
+          }
+        }
+      },
+      "AddBeneficiaryRequest": {
+        "type": "object",
+        "properties": {
+          "account_number": {
+            "type": "string"
+          },
+          "account_bank": {
+            "type": "string"
+          },
+          "beneficiary_name": {
+            "type": "string"
+          }
+        }
+      },
+      "Beneficiary": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "account_number": {
+            "type": "string"
+          },
+          "bank_code": {
+            "type": "string"
+          },
+          "full_name": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "bank_name": {
+            "type": "string"
+          }
+        }
+      },
+      "GenericResponseBeneficiary": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Beneficiary"
+          }
+        }
+      },
+      "CreateCountryRequestBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ApiResponseCountry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Country"
+          }
+        }
+      },
+      "Country": {
+        "type": "object",
+        "properties": {
+          "countryId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "acronym": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "region": {
+            "type": "string"
+          },
+          "mobileMoneyOption": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MobileMoneyOption"
+            }
+          }
+        }
+      },
+      "MobileMoneyOption": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "GenerateCardRequest": {
+        "required": [
+          "cardType",
+          "userEmail",
+          "walletId"
+        ],
+        "type": "object",
+        "properties": {
+          "cardType": {
+            "type": "string"
+          },
+          "walletId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userEmail": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponseCard": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Card"
+          }
+        }
+      },
+      "Card": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cardType": {
+            "type": "string"
+          },
+          "cardNumber": {
+            "type": "string"
+          },
+          "expiryDate": {
+            "type": "string"
+          },
+          "cvv": {
+            "type": "string"
+          },
+          "cardName": {
+            "type": "string"
+          },
+          "pin": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "locked": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UserBeneficiaryRequest": {
+        "required": [
+          "email",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponseUserBeneficiaryResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/UserBeneficiaryResponse"
+          }
+        }
+      },
+      "UserBeneficiaryResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "AddBankAccountRequest": {
+        "type": "object",
+        "properties": {
+          "region": {
+            "type": "string",
+            "enum": [
+              "AFRICA",
+              "EU",
+              "US"
+            ]
+          },
+          "bankAccountDetails": {
+            "type": "object"
+          }
+        }
+      },
+      "ApiResponseBankAccount": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/BankAccount"
+          }
+        }
+      },
+      "ApiResponsePagedTransactionResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PagedTransactionResponse"
+          }
+        }
+      },
+      "PagedTransactionResponse": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionResponse"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "first": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ApiResponseTransactionFee": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/TransactionFee"
+          }
+        }
+      },
+      "TransactionFee": {
+        "type": "object",
+        "properties": {
+          "fee": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ApiResponseListTransactionResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionResponse"
+            }
+          }
+        }
+      },
+      "ApiResponseTransactionReference": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/TransactionReference"
+          }
+        }
+      },
+      "FlaggedTransactionReason": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "transaction": {
+            "$ref": "#/components/schemas/Transaction"
+          }
+        }
+      },
+      "SecurityQuestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "question": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          }
+        }
+      },
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "transactionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "providerId": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "refundableAmount": {
+            "type": "number"
+          },
+          "mtcn": {
+            "type": "string"
+          },
+          "currentStatus": {
+            "type": "string"
+          },
+          "transactionDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "referenceNumber": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "narration": {
+            "type": "string"
+          },
+          "failureReason": {
+            "type": "string"
+          },
+          "completedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fee": {
+            "type": "number",
+            "format": "double"
+          },
+          "operation": {
+            "type": "string",
+            "enum": [
+              "DEPOSIT",
+              "WITHDRAWAL",
+              "TRANSFER",
+              "REVERSAL",
+              "REFUND"
+            ]
+          },
+          "sendingMethod": {
+            "type": "string",
+            "enum": [
+              "FROM_WALLET",
+              "FROM_AGENT_LOCATION"
+            ]
+          },
+          "deliveryMethod": {
+            "type": "string",
+            "enum": [
+              "WALLET",
+              "AGENT_LOCATION"
+            ]
+          },
+          "wallet": {
+            "$ref": "#/components/schemas/Wallet"
+          },
+          "transactionType": {
+            "type": "string",
+            "enum": [
+              "DEBIT",
+              "CREDIT"
+            ]
+          },
+          "sessionId": {
+            "type": "string"
+          },
+          "securityQuestion": {
+            "$ref": "#/components/schemas/SecurityQuestion"
+          },
+          "flagged": {
+            "type": "boolean"
+          },
+          "flaggedTransactionReasons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlaggedTransactionReason"
+            }
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "STRIPE_DEPOSIT",
+              "FLUTTERWAVE_DEPOSIT",
+              "CRYPTOCURRENCY"
+            ]
+          },
+          "refundStatus": {
+            "type": "string",
+            "enum": [
+              "PARTIALLY_REFUNDABLE",
+              "FULLY_REFUNDABLE",
+              "NON_REFUNDABLE"
+            ]
+          }
+        }
+      },
+      "TransactionReference": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "debitTransaction": {
+            "$ref": "#/components/schemas/Transaction"
+          },
+          "creditTransaction": {
+            "$ref": "#/components/schemas/Transaction"
+          },
+          "referenceNumber": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponsePageResponseScheduledTransferResponseDTO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/PageResponseScheduledTransferResponseDTO"
+          }
+        }
+      },
+      "PageResponseScheduledTransferResponseDTO": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduledTransferResponseDTO"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ApiResponseListScheduledTransferResponseDTO": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScheduledTransferResponseDTO"
+            }
+          }
+        }
+      },
+      "AccountData": {
+        "type": "object",
+        "properties": {
+          "account_number": {
+            "type": "string"
+          },
+          "account_name": {
+            "type": "string"
+          },
+          "bank_id": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "BankResolverResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/AccountData"
+          }
+        }
+      },
+      "ApiResponseListPaymentMethod": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PaymentMethod"
+            }
+          }
+        }
+      },
+      "PaymentMethod": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiResponseKycVerification": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/KycVerification"
+          }
+        }
+      },
+      "KycVerification": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "idCountry": {
+            "type": "string"
+          },
+          "idType": {
+            "type": "string"
+          },
+          "idNumber": {
+            "type": "string"
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "addressDocumentUrl": {
+            "type": "string"
+          },
+          "idDocumentUrl": {
+            "type": "string"
+          },
+          "idRejectionReason": {
+            "type": "string"
+          },
+          "addressRejectionReason": {
+            "type": "string"
+          },
+          "addressVerificationStatus": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "APPROVED",
+              "REJECTED",
+              "UNVERIFIED"
+            ]
+          },
+          "idVerificationStatus": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "APPROVED",
+              "REJECTED",
+              "UNVERIFIED"
+            ]
+          }
+        }
+      },
+      "ApiResponseUserRepresentation": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/UserRepresentation"
+          }
+        }
+      },
+      "CredentialRepresentation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "userLabel": {
+            "type": "string"
+          },
+          "createdDate": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "secretData": {
+            "type": "string"
+          },
+          "credentialData": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "value": {
+            "type": "string"
+          },
+          "temporary": {
+            "type": "boolean"
+          },
+          "device": {
+            "type": "string",
+            "deprecated": true
+          },
+          "hashedSaltedValue": {
+            "type": "string",
+            "deprecated": true
+          },
+          "salt": {
+            "type": "string",
+            "deprecated": true
+          },
+          "hashIterations": {
+            "type": "integer",
+            "format": "int32",
+            "deprecated": true
+          },
+          "counter": {
+            "type": "integer",
+            "format": "int32",
+            "deprecated": true
+          },
+          "algorithm": {
+            "type": "string",
+            "deprecated": true
+          },
+          "digits": {
+            "type": "integer",
+            "format": "int32",
+            "deprecated": true
+          },
+          "period": {
+            "type": "integer",
+            "format": "int32",
+            "deprecated": true
+          },
+          "config": {
+            "type": "object",
+            "properties": {
+              "empty": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "deprecated": true
+          }
+        }
+      },
+      "FederatedIdentityRepresentation": {
+        "type": "object",
+        "properties": {
+          "identityProvider": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "userName": {
+            "type": "string"
+          }
+        }
+      },
+      "SocialLinkRepresentation": {
+        "type": "object",
+        "properties": {
+          "socialProvider": {
+            "type": "string"
+          },
+          "socialUserId": {
+            "type": "string"
+          },
+          "socialUsername": {
+            "type": "string"
+          }
+        }
+      },
+      "UserConsentRepresentation": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string"
+          },
+          "grantedClientScopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "createdDate": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lastUpdatedDate": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "grantedRealmRoles": {
+            "type": "array",
+            "deprecated": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "UserProfileAttributeGroupMetadata": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "displayHeader": {
+            "type": "string"
+          },
+          "displayDescription": {
+            "type": "string"
+          },
+          "annotations": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "UserProfileAttributeMetadata": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "readOnly": {
+            "type": "boolean"
+          },
+          "annotations": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          },
+          "validators": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          },
+          "group": {
+            "type": "string"
+          },
+          "multivalued": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UserProfileMetadata": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserProfileAttributeMetadata"
+            }
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserProfileAttributeGroupMetadata"
+            }
+          }
+        }
+      },
+      "UserRepresentation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "emailVerified": {
+            "type": "boolean"
+          },
+          "attributes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "userProfileMetadata": {
+            "$ref": "#/components/schemas/UserProfileMetadata"
+          },
+          "self": {
+            "type": "string"
+          },
+          "origin": {
+            "type": "string"
+          },
+          "createdTimestamp": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "totp": {
+            "type": "boolean",
+            "deprecated": true
+          },
+          "federationLink": {
+            "type": "string"
+          },
+          "serviceAccountClientId": {
+            "type": "string"
+          },
+          "credentials": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CredentialRepresentation"
+            }
+          },
+          "disableableCredentialTypes": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "requiredActions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "federatedIdentities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FederatedIdentityRepresentation"
+            }
+          },
+          "realmRoles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "clientRoles": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "clientConsents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserConsentRepresentation"
+            }
+          },
+          "notBefore": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "applicationRoles": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "deprecated": true
+          },
+          "socialLinks": {
+            "type": "array",
+            "deprecated": true,
+            "items": {
+              "$ref": "#/components/schemas/SocialLinkRepresentation"
+            }
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "access": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "ExchangeRateRequest": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "destinationCurrency": {
+            "type": "string"
+          },
+          "sourceCurrency": {
+            "type": "string"
+          }
+        }
+      },
+      "CurrencyData": {
+        "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "ExchangeData": {
+        "type": "object",
+        "properties": {
+          "rate": {
+            "type": "number",
+            "format": "double"
+          },
+          "source": {
+            "$ref": "#/components/schemas/CurrencyData"
+          },
+          "destination": {
+            "$ref": "#/components/schemas/CurrencyData"
+          }
+        }
+      },
+      "ExchangeRateResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ExchangeData"
+          }
+        }
+      },
+      "FeeData": {
+        "type": "object",
+        "properties": {
+          "fee_type": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "fee": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "GenericResponseListFeeData": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FeeData"
+            }
+          }
+        }
+      },
+      "Bank": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "FlutterwaveResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Bank"
+            }
+          }
+        }
+      },
+      "ApiResponseListCountry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Country"
+            }
+          }
+        }
+      },
+      "ApiResponseSetMobileMoneyOption": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MobileMoneyOption"
+            }
+          }
+        }
+      },
+      "ApiResponseListCard": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Card"
+            }
+          }
+        }
+      },
+      "ApiResponseListBeneficiaryAiSuggestion": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BeneficiaryAiSuggestion"
+            }
+          }
+        }
+      },
+      "BeneficiaryAiSuggestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "beneficiaryId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "beneficiaryName": {
+            "type": "string"
+          },
+          "suggestedAmount": {
+            "type": "number"
+          },
+          "suggestionText": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "seen": {
+            "type": "boolean"
+          },
+          "dismissed": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ApiResponseUserBeneficiariesResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/UserBeneficiariesResponse"
+          }
+        }
+      },
+      "UserBeneficiariesResponse": {
+        "type": "object",
+        "properties": {
+          "beneficiaries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserBeneficiaryResponse"
+            }
+          }
+        }
+      },
+      "ApiResponseListBankAccount": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BankAccount"
+            }
+          }
+        }
+      },
+      "ApiResponseLong": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ApiResponseSetString": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ApiResponseMapStringMapStringObject": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "Admin": {
+        "type": "object",
+        "properties": {
+          "adminId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "email": {
+            "type": "string"
+          },
+          "accountLocked": {
+            "type": "boolean"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ApiResponseListAdmin": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Admin"
+            }
+          }
+        }
+      },
+      "ApiResponseBoolean": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

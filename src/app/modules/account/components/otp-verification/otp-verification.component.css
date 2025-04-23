@@ -1,0 +1,235 @@
+/* filepath: /Users/francis/IdeaProjects/money-transfer/frontend/angular/money-transfer/src/app/shared/components/otp-verification/otp-verification.component.scss */
+.otp-verification-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+  }
+  
+  .otp-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(to right, #2fbe5f, #39ca6e);
+    }
+  }
+  
+  .otp-header {
+    margin-bottom: 30px;
+    
+    .icon-container {
+      width: 70px;
+      height: 70px;
+      background: rgba(47, 190, 95, 0.08);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      
+      i {
+        font-size: 30px;
+        color: #2fbe5f;
+      }
+    }
+    
+    h2 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 10px;
+    }
+    
+    .description {
+      font-size: 15px;
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 0;
+      
+      strong {
+        color: #333;
+        font-weight: 600;
+      }
+    }
+  }
+  
+  .otp-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    
+    .digit-input {
+      position: relative;
+      width: 50px;
+      
+      input {
+        width: 50px;
+        height: 60px;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 700;
+        color: #333;
+        transition: all 0.3s ease;
+        background-color: #f9f9f9;
+        
+        &:focus {
+          border-color: #2fbe5f;
+          box-shadow: 0 0 0 3px rgba(47, 190, 95, 0.15);
+          background-color: white;
+          outline: none;
+        }
+        
+        &.is-invalid {
+          border-color: #dc3545;
+          background-color: rgba(220, 53, 69, 0.05);
+        }
+      }
+    }
+  }
+  
+  .otp-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-direction: column;
+    gap: 15px;
+    
+    .timer {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: #888;
+      
+      &.active {
+        color: #2fbe5f;
+      }
+      
+      i {
+        font-size: 16px;
+      }
+    }
+    
+    .resend-button {
+      background: none;
+      border: none;
+      color: #2fbe5f;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      
+      &:hover:not(.disabled) {
+        background-color: rgba(47, 190, 95, 0.08);
+      }
+      
+      &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+  
+  .verify-button {
+    width: 100%;
+    height: 54px;
+    background: linear-gradient(to right, #2fbe5f, #39ca6e);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &:hover:not(:disabled) {
+      background: linear-gradient(to right, #27a351, #2fbe5f);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px rgba(47, 190, 95, 0.15);
+    }
+    
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+    
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+  
+  /* Spinner animation */
+  .spinner {
+    display: flex;
+    justify-content: center;
+    
+    > div {
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border-radius: 50%;
+      display: inline-block;
+      margin: 0 3px;
+      animation: bounce 1.4s infinite ease-in-out both;
+    }
+    
+    .bounce1 {
+      animation-delay: -0.32s;
+    }
+    
+    .bounce2 {
+      animation-delay: -0.16s;
+    }
+  }
+  
+  @keyframes bounce {
+    0%, 80%, 100% { 
+      transform: scale(0);
+    }
+    40% { 
+      transform: scale(1.0);
+    }
+  }
+  
+  
+  @media (max-width: 576px) {
+    .otp-card {
+      padding: 25px 15px;
+    }
+    
+    .otp-inputs .digit-input {
+      width: 40px;
+      
+      input {
+        width: 40px;
+        height: 50px;
+        font-size: 20px;
+      }
+    }
+  }

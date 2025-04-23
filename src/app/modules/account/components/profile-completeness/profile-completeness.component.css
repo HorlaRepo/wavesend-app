@@ -1,0 +1,285 @@
+/* Profile Completeness Card */
+.profile-completeness-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  border-top: 4px solid #2ebe60;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-completeness-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(46, 190, 96, 0.15);
+}
+
+/* Card Header */
+.card-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.completion-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  height: 28px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0 0.75rem;
+}
+
+.completion-badge.low {
+  background-color: rgba(255, 107, 107, 0.15);
+  color: #e74c3c;
+}
+
+.completion-badge.medium {
+  background-color: rgba(255, 193, 7, 0.15);
+  color: #f39c12;
+}
+
+.completion-badge.high {
+  background-color: rgba(46, 190, 96, 0.15);
+  color: #2ebe60;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 8px;
+  background-color: #f1f1f1;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #2ebe60, #34d56e);
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+
+/* Completion Items */
+.completion-items {
+  padding: 1rem 1.5rem;
+}
+
+.completion-item {
+  display: flex;
+  align-items: center;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid #f1f1f1;
+  transition: all 0.2s ease;
+}
+
+.completion-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0.5rem;
+}
+
+.completion-item:hover {
+  background-color: #f9f9f9;
+  transform: translateX(4px);
+  border-radius: 8px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
+.item-icon {
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.item-icon i {
+  font-size: 1.25rem;
+}
+
+.completion-item.verified .item-icon {
+  background-color: rgba(46, 190, 96, 0.1);
+  color: #2ebe60;
+}
+
+.completion-item.pending .item-icon {
+  background-color: rgba(255, 193, 7, 0.1);
+  color: #f39c12;
+}
+
+.completion-item.partial .item-icon {
+  background-color: rgba(247, 184, 75, 0.15);
+  color: #f7b84b;
+}
+
+.completion-item.partial .item-status i.partial {
+  color: #f7b84b;
+}
+
+.completion-item.rejected .item-icon {
+  background-color: rgba(220, 53, 69, 0.15);
+  color: #dc3545;
+}
+
+.completion-item.rejected .item-status i {
+  color: #dc3545;
+}
+
+.item-content {
+  flex: 1;
+}
+
+.item-content h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+  color: #333;
+}
+
+.item-content p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.item-status {
+  margin-left: 1rem;
+  font-size: 1.25rem;
+  color: #2ebe60;
+}
+
+.item-action {
+  margin-left: 1rem;
+}
+
+.action-link {
+  display: flex;
+  align-items: center;
+  color: #2ebe60;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.action-link:hover {
+  color: #25a651;
+}
+
+.action-link i {
+  margin-left: 0.5rem;
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.action-link:hover i {
+  transform: translateX(3px);
+}
+
+/* Verification details for partial verification */
+.verification-details {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+  font-size: 0.8rem;
+}
+
+.verification-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+}
+
+.verification-item.verified {
+  background-color: rgba(46, 190, 96, 0.1);
+}
+
+.verification-item.verified .status {
+  color: #2ebe60;
+}
+
+.verification-item.pending {
+  background-color: rgba(247, 184, 75, 0.1);
+}
+
+.verification-item.pending .status {
+  color: #f7b84b;
+}
+
+.verification-item.rejected {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+.verification-item.rejected .status {
+  color: #dc3545;
+}
+
+.verification-item .status i {
+  margin-right: 3px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .completion-item {
+    padding: 1rem 0;
+  }
+  
+  .item-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    margin-right: 1rem;
+  }
+  
+  .item-icon i {
+    font-size: 1rem;
+  }
+  
+  .item-content h4 {
+    font-size: 0.9375rem;
+  }
+  
+  .item-content p {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .card-header {
+    padding: 1.25rem;
+  }
+  
+  .completion-items {
+    padding: 0.5rem 1.25rem;
+  }
+  
+  .card-title {
+    font-size: 1.125rem;
+  }
+}

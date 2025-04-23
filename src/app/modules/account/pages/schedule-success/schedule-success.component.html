@@ -1,0 +1,87 @@
+<div class="schedule-success-container">
+    <div class="success-card" *ngIf="!errorMessage">
+      <div class="success-header">
+        <div class="success-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h1>Transfer Scheduled Successfully!</h1>
+        <p class="subtitle">Your transfer has been scheduled and will be processed automatically.</p>
+      </div>
+  
+      <div class="transfer-details">
+        <div class="amount-section">
+          <span class="label">Amount</span>
+          <div class="amount">${{ amount | number:'1.2-2' }}</div>
+        </div>
+  
+        <div class="details-grid">
+          <div class="detail-item">
+            <span class="detail-label">To</span>
+            <div class="detail-value">
+              <strong>{{ recipientName || 'Unnamed Recipient' }}</strong>
+              <span class="detail-subtext">{{ recipientEmail }}</span>
+            </div>
+          </div>
+  
+          <div class="detail-item">
+            <span class="detail-label">Transaction ID</span>
+            <div class="detail-value">
+              <span class="transaction-id">{{ getTransactionId() }}</span>
+            </div>
+          </div>
+  
+          <div class="detail-item">
+            <span class="detail-label">Scheduled For</span>
+            <div class="detail-value">
+              <strong>{{ getFormattedDate() }}</strong>
+            </div>
+          </div>
+  
+          <div class="detail-item">
+            <span class="detail-label">Recurrence</span>
+            <div class="detail-value">
+              <span class="recurrence-badge" [ngClass]="getRecurrenceBadgeClass()">
+                <i class="fas" [ngClass]="recurrenceType === 'NONE' ? 'fa-calendar-day' : 'fa-calendar-alt'"></i>
+                {{ getRecurrenceText() }}
+              </span>
+            </div>
+          </div>
+        </div>
+  
+        <div class="transaction-note" *ngIf="transferDetails?.data?.description">
+          <div class="note-heading">Note</div>
+          <div class="note-content">
+            {{ transferDetails?.data?.description }}
+          </div>
+        </div>
+      </div>
+  
+      <div class="helpful-tip">
+        <i class="fas fa-info-circle"></i>
+        <span>You can view and manage your scheduled transfers in your account dashboard.</span>
+      </div>
+  
+      <div class="action-buttons">
+        <button class="btn-secondary" (click)="scheduleAnother()">
+          <i class="fas fa-plus-circle"></i>
+          Schedule Another
+        </button>
+        <button class="btn-primary" (click)="goToDashboard()">
+          <i class="fas fa-home"></i>
+          Go to Dashboard
+        </button>
+      </div>
+    </div>
+  
+    <!-- Error state -->
+    <div class="error-card" *ngIf="errorMessage">
+      <div class="error-icon">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <h2>Something went wrong</h2>
+      <p>{{ errorMessage }}</p>
+      <button class="btn-primary" (click)="router.navigate(['/account/dashboard'])">
+        Return to Dashboard
+      </button>
+    </div>
+  </div>

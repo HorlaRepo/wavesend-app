@@ -1,0 +1,77 @@
+/* filepath: /Users/francis/IdeaProjects/money-transfer/frontend/angular/money-transfer/src/app/modules/account/pages/scheduled-transfer-otp/scheduled-transfer-otp.component.scss */
+.scheduled-transfer-otp-container {
+    padding: 40px 20px;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9fb;
+  }
+  
+  .otp-header-summary {
+    margin-bottom: 25px;
+    width: 100%;
+    max-width: 500px;
+    
+    .summary-card {
+      background: linear-gradient(135deg, #2fbe5f, #39ca6e);
+      border-radius: 16px;
+      padding: 20px;
+      color: white;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(47, 190, 95, 0.15);
+      
+      .amount {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      
+      .recipient {
+        font-size: 15px;
+        margin-bottom: 10px;
+        
+        .label {
+          opacity: 0.8;
+          margin-right: 5px;
+        }
+        
+        .value {
+          font-weight: 600;
+        }
+      }
+      
+      .scheduled-info {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        padding: 10px;
+        margin-top: 10px;
+        
+        .schedule-date {
+          margin-bottom: 5px;
+          
+          .label {
+            opacity: 0.8;
+            margin-right: 5px;
+          }
+          
+          .value {
+            font-weight: 600;
+          }
+        }
+        
+        .recurrence-type {
+          font-size: 13px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+          
+          i {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }

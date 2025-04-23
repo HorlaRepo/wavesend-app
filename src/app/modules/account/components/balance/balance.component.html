@@ -1,0 +1,42 @@
+<!-- Available Balance Card -->
+<div class="balance-card-container">
+  <div class="balance-header">
+    <div class="balance-icon">
+      <i class="fas fa-wallet"></i>
+    </div>
+    <div class="balance-label">Available Balance</div>
+    
+    <!-- Toggle visibility button -->
+    <button class="toggle-visibility-btn" (click)="toggleBalanceVisibility()" aria-label="Toggle balance visibility">
+      <i class="fas" [ngClass]="isBalanceVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
+    </button>
+  </div>
+  
+  <div class="balance-amount-container">
+    <div class="currency-symbol">$</div>
+    <div class="balance-amount" [class.hidden-balance]="!isBalanceVisible">
+      <ng-container *ngIf="isBalanceVisible">
+        {{ userWallet?.balance | number : '1.2-2' }}
+      </ng-container>
+      <ng-container *ngIf="!isBalanceVisible">
+        {{ getHiddenBalance() }}
+      </ng-container>
+    </div>
+  </div>
+  
+  <div class="update-time">
+    <i class="fas fa-sync-alt"></i>
+    <span>Updated just now</span>
+  </div>
+  
+  <div class="balance-actions">
+    <a routerLink="/account/withdraw" class="action-button withdraw">
+      <i class="fas fa-arrow-up"></i>
+      <span>Withdraw</span>
+    </a>
+    <a routerLink="/account/deposit" class="action-button deposit">
+      <i class="fas fa-arrow-down"></i>
+      <span>Deposit</span>
+    </a>
+  </div>
+</div>

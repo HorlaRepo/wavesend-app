@@ -1,0 +1,24 @@
+<div class="withdrawal-otp-container">
+    <div class="otp-header-summary" *ngIf="withdrawalDetails">
+      <div class="summary-card">
+        <div class="amount">${{ withdrawalDetails.amount | number:'1.2-2' }}</div>
+        <div class="bank-account" *ngIf="withdrawalDetails.bankAccount">
+          <span class="label">To:</span>
+          <span class="value">{{ withdrawalDetails.bankAccount.bankName }} ({{ withdrawalDetails.bankAccount.accountNumber | slice:-4 }})</span>
+        </div>
+        <div class="total" *ngIf="withdrawalDetails.totalAmount">
+          <span class="label">Total with fees:</span>
+          <span class="value">${{ withdrawalDetails.totalAmount | number:'1.2-2' }}</span>
+        </div>
+      </div>
+    </div>
+    
+    <app-otp-verification
+      [operationType]="'withdrawal'"
+      [email]="email"
+      (verifyOtp)="verifyOtp($event)"
+      (resendOtp)="resendOtp()">
+    </app-otp-verification>
+    
+    <p-toast position="bottom-right"></p-toast>
+  </div>

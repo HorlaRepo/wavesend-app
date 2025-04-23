@@ -1,0 +1,30 @@
+<div class="scheduled-transfer-otp-container">
+    <div class="otp-header-summary" *ngIf="transferDetails">
+      <div class="summary-card">
+        <div class="amount">${{ transferDetails.amount | number:'1.2-2' }}</div>
+        <div class="recipient">
+          <span class="label">To:</span>
+          <span class="value">{{ transferDetails.recipientName || transferDetails.recipientEmail }}</span>
+        </div>
+        <div class="scheduled-info">
+          <div class="schedule-date">
+            <span class="label">Scheduled for:</span>
+            <span class="value">{{ getFormattedDate() }}</span>
+          </div>
+          <div class="recurrence-type">
+            <i class="fas" [ngClass]="transferDetails.recurrenceType === 'NONE' ? 'fa-calendar-day' : 'fa-calendar-alt'"></i>
+            <span>{{ getRecurrenceText() }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <app-otp-verification
+      [operationType]="'scheduledTransfer'"
+      [email]="email"
+      (verifyOtp)="verifyOtp($event)"
+      (resendOtp)="resendOtp()">
+    </app-otp-verification>
+    
+    <p-toast position="bottom-right"></p-toast>
+  </div>

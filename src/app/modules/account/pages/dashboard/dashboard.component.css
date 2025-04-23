@@ -1,0 +1,485 @@
+/* Dashboard Layout */
+.dashboard-wrapper {
+  background-color: #f8f9f7;
+  min-height: 100vh;
+}
+
+/* Dashboard Header with Transparent Background */
+.dashboard-header {
+  background: transparent;
+  color: #212529;
+  padding: 1.25rem 0;
+  margin-bottom: 1.5rem;
+  box-shadow: none;
+}
+
+.welcome-text {
+  font-size: 1.5rem;  /* Reduced from 1.75rem */
+  font-weight: 600;
+  margin-bottom: 0;
+  color: white;
+  line-height: 1.2;  /* Added to ensure proper text height */
+}
+
+.dashboard-content {
+  padding-top: 2.5rem;  /* Add extra top padding to create space */
+  padding-bottom: 3rem;
+}
+
+/* Card Styling */
+.dashboard-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(46, 190, 96, 0.1);
+}
+
+/* Sidebar Styling */
+.sidebar-container {
+  position: sticky;
+  top: 20px;
+}
+
+.profile-card {
+  border-top: 4px solid #2ebe60;
+}
+
+.balance-card {
+  border-top: 4px solid #2ebe60;
+}
+
+.help-card {
+  border-top: 4px solid #2ebe60;
+}
+
+/* Transactions Card */
+.transactions-card {
+  padding: 0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.card-header h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  color: #212529;
+}
+
+.view-all-link {
+  color: #2ebe60;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.view-all-link i {
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+  transition: transform 0.2s;
+}
+
+.view-all-link:hover {
+  color: #229d4a;
+}
+
+.view-all-link:hover i {
+  transform: translateX(3px);
+}
+
+/* Transaction List */
+.transaction-headers {
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #6c757d;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.transaction-list {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.transaction-item {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.transaction-item:hover {
+  background-color: #f8f9fc;
+}
+
+.transaction-item:last-child {
+  border-bottom: none;
+}
+
+/* Date Display */
+.date-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.2;
+}
+
+.date-display .day {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #343a40;
+}
+
+.date-display .month {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #6c757d;
+}
+
+/* Transaction Description */
+.transaction-description {
+  display: flex;
+  flex-direction: column;
+}
+
+.primary-text {
+  font-weight: 500;
+  color: #212529;
+}
+
+.secondary-text {
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-top: 0.25rem;
+}
+
+/* Status Indicator */
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+}
+
+.status-success {
+  background-color: rgba(46, 190, 96, 0.15);
+  color: #1a7a39;
+}
+
+.status-pending {
+  background-color: rgba(255, 193, 7, 0.15);
+  color: #997404;
+}
+
+.status-danger {
+  background-color: rgba(220, 53, 69, 0.15);
+  color: #a71d2a;
+}
+
+.status-indicator i {
+  margin-right: 0.35rem;
+}
+
+/* Amount Display */
+.amount-display {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.amount-positive {
+  color: #2ebe60;
+}
+
+.amount-negative {
+  color: #fa5252;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  color: #adb5bd;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+/* Pagination Controls */
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.page-control {
+  background-color: white;
+  border: 1px solid #dee2e6;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.page-control:hover:not([disabled]) {
+  background-color: #f5f9f7;
+  border-color: #2ebe60;
+  color: #2ebe60;
+}
+
+.page-control[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-indicator {
+  margin: 0 1rem;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+/* Modal Styling */
+.modal-content {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.modal-header {
+  border-bottom: 1px solid #e9ecef;
+  padding: 1.25rem 1.5rem;
+}
+
+.modal-title {
+  font-weight: 600;
+}
+
+.transaction-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.transaction-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.icon-success {
+  background-color: rgba(46, 190, 96, 0.15);
+  color: #1a7a39;
+}
+
+.icon-pending {
+  background-color: rgba(255, 193, 7, 0.15);
+  color: #997404;
+}
+
+.icon-danger {
+  background-color: rgba(220, 53, 69, 0.15);
+  color: #a71d2a;
+}
+
+.amount-large {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.status-badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.badge-success {
+  background-color: rgba(46, 190, 96, 0.15);
+  color: #1a7a39;
+}
+
+.badge-warning {
+  background-color: rgba(255, 193, 7, 0.15);
+  color: #997404;
+}
+
+.badge-danger {
+  background-color: rgba(220, 53, 69, 0.15);
+  color: #a71d2a;
+}
+
+.transaction-date {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.transaction-details-list {
+  padding: 1.5rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.detail-value {
+  font-weight: 500;
+  color: #212529;
+}
+
+.detail-item.total {
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* Quick Actions Container */
+.quick-actions-container {
+  padding: 1rem 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* Updated Page Title for Dark Background */
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 0;
+}
+
+/* Quick Action Buttons */
+.quick-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-quick-action {
+  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  margin-left: 0.75rem;
+}
+
+.btn-primary {
+  background-color: #2ebe60;
+  border-color: #2ebe60;
+  color: white;
+  box-shadow: 0 2px 8px rgba(46, 190, 96, 0.2);
+}
+
+.btn-primary:hover {
+  background-color: #27a854;
+  border-color: #27a854;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(46, 190, 96, 0.3);
+}
+
+.btn-outline-primary {
+  background-color: transparent;
+  color: #2ebe60;
+  border: 1px solid #2ebe60;
+}
+
+.btn-outline-primary:hover {
+  background-color: rgba(46, 190, 96, 0.08);
+  color: #2ebe60;
+  border-color: #2ebe60;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(46, 190, 96, 0.15);
+}
+
+.btn-quick-action i {
+  color: inherit;
+  margin-right: 6px;
+}
+
+/* Add these styles for proper spacing if header is removed */
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 0;
+}
+
+.quick-actions-container {
+  padding: 1rem 0;
+  border-bottom: 1px solid #e9ecef;
+  color: transparent;
+}
+
+/* Media query for mobile responsiveness */
+@media (max-width: 768px) {
+  .dashboard-header .d-flex {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;  /* Reduced spacing between elements */
+  }
+  
+  .welcome-text {
+    font-size: 1.3rem;  /* Even smaller on mobile */
+  }
+  
+  .quick-actions {
+    margin-top: 0.5rem;  /* Reduced from 1rem */
+    width: 100%;
+  }
+  
+  .btn-quick-action {
+    flex: 1;
+    text-align: center;
+    padding: 0.35rem 0.5rem;  /* Even smaller padding on mobile */
+  }
+}

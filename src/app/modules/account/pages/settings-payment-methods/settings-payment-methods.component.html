@@ -1,0 +1,542 @@
+<!-- Content Area -->
+<div class="settings-container">
+  <div class="container">
+    <div class="row">
+      <!-- Left Panel -->
+      <aside class="col-lg-3">
+        <!-- Profile Details -->
+        <app-profile-details></app-profile-details>
+
+        <!-- Available Balance -->
+        <app-balance></app-balance>
+
+        <!-- Need Help? -->
+        <app-need-help></app-need-help>
+      </aside>
+
+      <!-- Right Panel -->
+      <div class="col-lg-9">
+        <!-- Credit or Debit Cards Section -->
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="header-content">
+              <h2>Credit or Debit Cards</h2>
+              <span class="settings-badge">For Payments</span>
+            </div>
+          </div>
+
+          <div class="settings-card-body">
+            <div class="row cards-container">
+              <!-- Display existing cards -->
+              <ng-container *ngFor="let card of cards">
+                <!-- Visa Card -->
+                <div *ngIf="card.cardType === 'Visa'" class="col-12 col-md-6">
+                  <div class="payment-card visa">
+                    <div class="card-brand">
+                      <img src="assets/images/payment/visa.png" alt="Visa">
+                    </div>
+                    <div class="card-details">
+                      <div class="card-number">{{formatCardNumber(card.cardNumber)}}</div>
+                      <div class="card-info">
+                        <div class="expiry">
+                          <span class="label">Expires</span>
+                          <span class="value">{{card.expiryDate}}</span>
+                        </div>
+                        <div class="name">{{card.cardName}}</div>
+                      </div>
+                      <div *ngIf="card.locked" class="card-status locked">
+                        <i class="fas fa-lock"></i> Locked
+                      </div>
+                    </div>
+                    <div class="card-actions">
+                      <button class="action-btn view" (click)="viewCard(card)">
+                        <i class="fas fa-eye"></i>
+                        <span>View</span>
+                      </button>
+                      <button class="action-btn delete">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>Delete</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- MasterCard -->
+                <div *ngIf="card.cardType === 'MasterCard'" class="col-12 col-md-6">
+                  <div class="payment-card mastercard">
+                    <div class="card-brand">
+                      <img src="assets/images/payment/mastercard.png" alt="MasterCard">
+                    </div>
+                    <div class="card-details">
+                      <div class="card-number">{{formatCardNumber(card.cardNumber)}}</div>
+                      <div class="card-info">
+                        <div class="expiry">
+                          <span class="label">Expires</span>
+                          <span class="value">{{card.expiryDate}}</span>
+                        </div>
+                        <div class="name">{{card.cardName}}</div>
+                      </div>
+                      <div *ngIf="card.locked" class="card-status locked">
+                        <i class="fas fa-lock"></i> Locked
+                      </div>
+                    </div>
+                    <div class="card-actions">
+                      <button class="action-btn view" (click)="viewCard(card)">
+                        <i class="fas fa-eye"></i>
+                        <span>View</span>
+                      </button>
+                      <button class="action-btn delete">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>Delete</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <!-- Add New Card -->
+              <div class="col-12 col-md-6">
+                <div class="add-new-card" (click)="showCardRequestDialog()">
+                  <div class="add-new-content">
+                    <div class="add-icon">
+                      <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <span>Request a New Card</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bank Accounts Section -->
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="header-content">
+              <h2>Bank Accounts</h2>
+              <span class="settings-badge">For Withdrawals</span>
+            </div>
+          </div>
+
+          <div class="settings-card-body">
+            <div class="row bank-accounts-container">
+              <!-- Display existing bank accounts -->
+              <ng-container *ngFor="let bank of banksList">
+                <div class="col-12 col-md-6">
+                  <div class="bank-account-card">
+                    <div class="bank-icon">
+                      <i class="fas fa-university"></i>
+                    </div>
+                    <div class="bank-details">
+                      <div class="bank-name">{{bank.bankName}}</div>
+                      <div class="account-number">{{formatAccountNumber(bank.accountNumber)}}</div>
+                      <div class="account-name">{{bank.accountName || bank.beneficiaryName}}</div>
+                    </div>
+                    <div class="bank-actions">
+                      <button class="action-btn view" (click)="viewBankAccount(bank)">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                      <button class="action-btn delete">
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <!-- Add New Bank Account -->
+              <div class="col-12 col-md-6">
+                <div class="add-new-bank" (click)="showAddBankAccountDialog()">
+                  <div class="add-new-content">
+                    <div class="add-icon">
+                      <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <span>Add New Bank Account</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Messages -->
+<p-toast position="bottom-center"></p-toast>
+
+<!-- Activate Card Dialog -->
+<p-dialog header="Activate Card" [(visible)]="displayActivateDialog" [modal]="true" styleClass="card-dialog"
+  [closable]="true" (onHide)="hideDialog()">
+  <div class="dialog-content">
+    <div class="form-group">
+      <label for="createPin">Create PIN</label>
+      <div class="pin-input-container">
+        <input type="password" class="form-control" id="createPin" name="createPin" [(ngModel)]="createPin"
+          pattern="^[0-9]{4}$" maxlength="4" (keydown)="numericOnly($event)" placeholder="Create 4-digit PIN">
+        <div class="input-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="confirmPin">Confirm PIN</label>
+      <div class="pin-input-container">
+        <input type="password" class="form-control" id="confirmPin" name="confirmPin" [(ngModel)]="confirmPin"
+          pattern="^[0-9]{4}$" maxlength="4" (keydown)="numericOnly($event)" placeholder="Confirm 4-digit PIN">
+        <div class="input-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="security-note">
+      <i class="fas fa-info-circle"></i>
+      <span>Your PIN secures your card and will be required for all transactions.</span>
+    </div>
+
+    <div class="dialog-actions">
+      <button (click)="createCardPin()" class="btn-submit"
+        [disabled]="isLoading || !createPin || !confirmPin || createPin !== confirmPin">
+        <span *ngIf="!isLoading">Submit</span>
+        <div class="spinner-container" *ngIf="isLoading">
+          <div class="spinner"></div>
+        </div>
+      </button>
+    </div>
+  </div>
+</p-dialog>
+
+<!-- Verify Card PIN Dialog -->
+<p-dialog header="Verify PIN" [(visible)]="displayVerifyDialog" [modal]="true" styleClass="card-dialog"
+  [closable]="true" [baseZIndex]="1000" [autoZIndex]="true" appendTo="body" (onHide)="onVerifyDialogHide()">
+  <div class="dialog-content" (click)="$event.stopPropagation()">
+    <div class="dialog-content">
+      <div class="form-group">
+        <label for="enterPin">Enter PIN</label>
+        <div class="pin-input-container">
+          <input type="password" class="form-control" id="enterPin" name="enterPin" pattern="^[0-9]{4}$" maxlength="4"
+            [disabled]="isLoading" [(ngModel)]="enterPin" (keydown)="numericOnly($event)"
+            placeholder="Enter 4-digit PIN">
+          <div class="input-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="security-note">
+        <i class="fas fa-info-circle"></i>
+        <span>Enter your PIN to view card details.</span>
+      </div>
+
+      <div class="dialog-actions">
+        <button (click)="validateCardPin()" class="btn-submit" [disabled]="isLoading || !enterPin">
+          <span *ngIf="!isLoading">Submit</span>
+          <div class="spinner-container" *ngIf="isLoading">
+            <div class="spinner"></div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+<!-- View Card Dialog -->
+<p-dialog header="Card Information" [(visible)]="displayCardInfo" [modal]="true" [closable]="true"
+  styleClass="card-dialog" [baseZIndex]="1050" [autoZIndex]="true" [closeOnEscape]="false" appendTo="body">
+  <div class="dialog-content" (click)="$event.stopPropagation()">
+
+
+    <!-- Preview Card -->
+    <div class="preview-card" [ngClass]="selectedCard?.cardType === 'Visa' ? 'visa' : 'mastercard'">
+      <div class="card-brand">
+        <img
+          [src]="selectedCard?.cardType === 'Visa' ? 'assets/images/payment/visa.png' : 'assets/images/payment/mastercard.png'"
+          [alt]="selectedCard?.cardType">
+      </div>
+      <div class="preview-card-details">
+        <div class="preview-card-number">{{isCardPinValidated ? selectedCard?.cardNumber :
+          formatCardNumber(selectedCard?.cardNumber)}}</div>
+        <div class="preview-card-info">
+          <div class="preview-expiry">
+            <span class="label">Expires</span>
+            <span class="value">{{selectedCard?.expiryDate}}</span>
+          </div>
+          <div class="preview-name">{{selectedCard?.cardName}}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Details -->
+    <div class="card-detail-item">
+      <div class="detail-label">Card Number</div>
+      <div [class.unmasked-value]="isCardPinValidated" class="detail-value">
+        {{isCardPinValidated ? selectedCard?.cardNumber : formatCardNumber(selectedCard?.cardNumber)}}
+      </div>
+    </div>
+
+    <div class="card-detail-item">
+      <div class="detail-label">Expiry Date</div>
+      <div class="detail-value">{{selectedCard?.expiryDate}}</div>
+    </div>
+
+    <div class="card-detail-item">
+      <div class="detail-label">CVV</div>
+      <div class="detail-value" [class.cvv-visible]="isCardPinValidated">
+        {{isCardPinValidated ? selectedCard?.cvv : '***'}}
+      </div>
+    </div>
+
+    <div class="card-detail-item">
+      <div class="detail-label">Card Holder Name</div>
+      <div class="detail-value">{{selectedCard?.cardName}}</div>
+    </div>
+
+    <div *ngIf="isCardPinValidated" class="security-note">
+      <i class="fas fa-shield-alt"></i>
+      <span>Card details are now visible. Please keep this information secure.</span>
+    </div>
+  </div>
+</p-dialog>
+
+<!-- Request New Card Dialog -->
+<p-dialog header="Request New Card" [(visible)]="requestNewCard" [modal]="true" styleClass="card-dialog"
+  [closable]="true" (onHide)="hideDialog()">
+  <div class="dialog-content">
+    <div class="card-options">
+      <div class="card-option" [class.selected]="cardType === 'Visa'" (click)="cardType = 'Visa'">
+        <div class="card-option-icon">
+          <img src="assets/images/payment/visa.png" alt="Visa">
+        </div>
+        <div class="card-option-name">Visa</div>
+        <div class="selected-indicator">
+          <i class="fas fa-check-circle"></i>
+        </div>
+      </div>
+
+      <div class="card-option" [class.selected]="cardType === 'MasterCard'" (click)="cardType = 'MasterCard'">
+        <div class="card-option-icon">
+          <img src="assets/images/payment/mastercard.png" alt="MasterCard">
+        </div>
+        <div class="card-option-name">MasterCard</div>
+        <div class="selected-indicator">
+          <i class="fas fa-check-circle"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="security-note">
+      <i class="fas fa-info-circle"></i>
+      <span>Your card will be ready for activation immediately after generation.</span>
+    </div>
+
+    <div class="dialog-actions">
+      <button (click)="generateCard()" class="btn-submit" [disabled]="isLoading || !cardType">
+        <span *ngIf="!isLoading">Generate Card</span>
+        <div class="spinner-container" *ngIf="isLoading">
+          <div class="spinner"></div>
+        </div>
+      </button>
+    </div>
+  </div>
+</p-dialog>
+
+<!-- Add this after your other p-dialogs at the bottom of the file -->
+
+<!-- Add Bank Account Dialog -->
+<p-dialog header="Add Bank Account" [(visible)]="addBankAccount" [modal]="true" styleClass="bank-dialog" [closable]="true">
+  <div class="dialog-content">
+    <form [formGroup]="addBankAccountForm">
+      <!-- Account Type Selection -->
+      <div class="form-group">
+        <label>Account Type</label>
+        <div class="account-types">
+          <div class="account-type" [class.selected]="addBankAccountForm.get('accountType')?.value === 'personal'" (click)="addBankAccountForm.get('accountType')?.setValue('personal')">
+            <div class="account-type-icon">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="account-type-name">Personal</div>
+            <div class="selected-indicator">
+              <i class="fas fa-check-circle"></i>
+            </div>
+          </div>
+          
+          <div class="account-type" [class.selected]="addBankAccountForm.get('accountType')?.value === 'business'" (click)="addBankAccountForm.get('accountType')?.setValue('business')">
+            <div class="account-type-icon">
+              <i class="fas fa-briefcase"></i>
+            </div>
+            <div class="account-type-name">Business</div>
+            <div class="selected-indicator">
+              <i class="fas fa-check-circle"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Country is fixed based on user profile -->
+      <div class="form-group">
+        <label>Country</label>
+        <div class="input-container">
+          <input type="text" class="form-control" [value]="country?.name" readonly>
+        </div>
+      </div>
+
+      <!-- Dynamic form fields based on region -->
+      <ng-container *ngIf="country?.region === 'Africa'">
+        <!-- Payment Method -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('paymentMethod')">
+          <label for="paymentMethod">Payment Method</label>
+          <div class="custom-select-wrapper">
+            <select id="paymentMethod" class="form-control custom-select" formControlName="paymentMethod">
+              <option value="">Select payment method</option>
+              <option *ngFor="let method of paymentMethods" [value]="method.name">{{method.name}}</option>
+            </select>
+            <i class="fas fa-chevron-down select-icon"></i>
+          </div>
+        </div>
+        
+        <!-- Bank Name with Search -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('bankName')">
+          <label for="bankName">Bank Name</label>
+          <div class="position-relative">
+            <p-dropdown
+              formControlName="bankName"
+              [options]="currentBankOptions"
+              optionLabel="name" 
+              optionValue="name"
+              [filter]="true"
+              filterBy="name"
+              placeholder="Select or search bank"
+              styleClass="w-100"
+            ></p-dropdown>
+            <div *ngIf="isLoadingBanksList" class="spinner-small position-absolute" style="right: 40px; top: 10px;">
+              <div class="spinner"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Account Number -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('accountNumber')">
+          <label for="accountNumber">Account Number</label>
+          <div class="input-container">
+            <input type="text" class="form-control" formControlName="accountNumber" placeholder="Enter account number">
+          </div>
+        </div>
+        
+        <!-- Bank Code -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('bankCode')">
+          <label for="bankCode">Bank Code</label>
+          <div class="input-container">
+            <input type="text" class="form-control" formControlName="bankCode" readonly>
+          </div>
+        </div>
+        
+        <!-- Account Name -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('accountName')">
+          <label for="accountName">Account Name</label>
+          <div class="input-container">
+            <input type="text" class="form-control" formControlName="accountName">
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- US Region Fields -->
+      <ng-container *ngIf="country?.region === 'US'">
+        <!-- Account Number -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('accountNumber')">
+          <label for="accountNumber">Account Number</label>
+          <div class="input-container">
+            <input type="text" class="form-control" formControlName="accountNumber" placeholder="Enter account number">
+          </div>
+        </div>
+        
+        <!-- Routing Number -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('routingNumber')">
+          <label for="routingNumber">Routing Number</label>
+          <div class="input-container">
+            <input type="text" class="form-control" formControlName="routingNumber">
+          </div>
+        </div>
+        
+        <!-- Swift Code -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('swiftCode')">
+          <label for="swiftCode">Swift Code</label>
+          <div class="input-container">
+            <input type="text" class="form-control" formControlName="swiftCode">
+          </div>
+        </div>
+        
+        <!-- Bank Name with Search -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('bankName')">
+          <label for="bankName">Bank Name</label>
+          <div class="position-relative">
+            <p-dropdown
+              formControlName="bankName"
+              [options]="currentBankOptions"
+              optionLabel="name" 
+              optionValue="name"
+              [filter]="true"
+              filterBy="name"
+              placeholder="Select or search bank"
+              styleClass="w-100"
+            ></p-dropdown>
+            <div *ngIf="isLoadingBanksList" class="spinner-small position-absolute" style="right: 40px; top: 10px;">
+              <div class="spinner"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Beneficiary Name -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('beneficiaryName')">
+          <label for="beneficiaryName">Beneficiary Name</label>
+          <div class="input-container">
+            <input type="text" class="form-control" formControlName="beneficiaryName">
+          </div>
+        </div>
+        
+        <!-- Beneficiary Address -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('beneficiaryAddress')">
+          <label for="beneficiaryAddress">Beneficiary Address</label>
+          <div class="input-container">
+            <input type="text" class="form-control" formControlName="beneficiaryAddress">
+          </div>
+        </div>
+      </ng-container>
+      
+      <!-- EU Region Fields -->
+      <ng-container *ngIf="country?.region === 'EU'">
+        <!-- EU specific fields -->
+        <!-- (Similar structure to US fields) -->
+      </ng-container>
+      
+      <!-- Confirmation Checkbox -->
+      <div class="form-group confirmation-group" *ngIf="addBankAccountForm.get('isConfirmed')">
+        <label class="custom-checkbox">
+          <input type="checkbox" formControlName="isConfirmed">
+          <span>I confirm the bank account details above are correct</span>
+        </label>
+      </div>
+    </form>
+    
+    <div class="security-note">
+      <i class="fas fa-shield-alt"></i>
+      <span>Your bank account details are securely stored and encrypted.</span>
+    </div>
+    
+    <!-- Add Bank Account Button -->
+    <div class="dialog-actions">
+      <button class="btn-cancel" (click)="addBankAccount = false">Cancel</button>
+      <button 
+        class="btn-submit" 
+        [disabled]="addBankAccountForm.invalid || !addBankAccountForm.get('isConfirmed')?.value || isLoading"
+        (click)="addBankAccountDetails()">
+        <span *ngIf="!isLoading">Add Bank Account</span>
+        <div *ngIf="isLoading" class="spinner-container">
+          <div class="spinner"></div>
+        </div>
+      </button>
+    </div>
+  </div>
+</p-dialog>

@@ -1,0 +1,63 @@
+/* Account Footer Styles */
+.account-footer {
+    background-color: #f8f8fb;
+    padding: 1.25rem 0;
+    color: #6c757d;
+    position: relative;
+    border-top: 1px solid #e9ecef;
+  }
+  
+  /* Compact Footer */
+  .compact-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  /* Copyright Text */
+  .copyright-text {
+    font-size: 0.875rem;
+  }
+  
+  .brand {
+    font-weight: 600;
+    color: #2ebe60;
+  }
+  
+  /* Legal Links */
+  .legal-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .legal-links a {
+    color: #6c757d;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s ease;
+  }
+  
+  .legal-links a:hover {
+    color: #2ebe60;
+  }
+  
+  .link-divider {
+    color: #dee2e6;
+    font-size: 0.75rem;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 767px) {
+    .compact-footer {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .legal-links {
+      justify-content: center;
+    }
+  }

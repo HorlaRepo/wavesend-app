@@ -1,0 +1,544 @@
+<!-- Content -->
+<div id="content" class="py-4">
+  <div class="container">
+    <div class="row">
+      <!-- Left Panel (Imported components - already styled) -->
+      <aside class="col-lg-3">
+        <app-profile-details></app-profile-details>
+        <app-balance></app-balance>
+        <app-need-help></app-need-help>
+      </aside>
+
+      <!-- Right Content Panel -->
+      <div class="col-lg-9">
+        <!-- Transaction Tabs -->
+        <div class="transaction-tabs mb-3">
+          <button class="tab-btn" [class.active]="activeTab === 'transactions'" (click)="switchTab('transactions')">
+            Recent Transactions
+          </button>
+          <button class="tab-btn" [class.active]="activeTab === 'scheduled'" (click)="switchTab('scheduled')">
+            Scheduled Transfers
+          </button>
+        </div>
+
+        <!-- Transaction tab content -->
+        <div *ngIf="activeTab === 'transactions'">
+          <!-- Page Header -->
+          <div class="page-header">
+            <h2>Transactions</h2>
+            <p class="text-muted">View and manage all your transaction history</p>
+          </div>
+
+          <!-- Transactions Card -->
+          <div class="transactions-card dashboard-card">
+            <!-- Filter Section -->
+            <div class="filter-section">
+              <div class="filters-row mb-3">
+                <!-- Date Range -->
+                <div class="date-range-wrapper">
+                  <input type="text" name="dateSelector" class="form-control" placeholder="Select date range"
+                    ngxDaterangepickerMd [ranges]="ranges" [showCustomRangeLabel]="true" [alwaysShowCalendars]="false"
+                    [linkedCalendars]="true" [locale]="{applyLabel: 'Apply', format: 'YYYY-MM-DD'}"
+                    (datesUpdated)="onDatesUpdated($event)" />
+                  <span class="date-icon"><i class="fas fa-calendar-alt"></i></span>
+                </div>
+
+                <!-- Filter Toggle -->
+                <button class="filter-toggle" data-toggle="collapse" href="#allFilters">
+                  <i class="fas fa-sliders-h"></i>
+                  <span>Filters</span>
+                </button>
+
+                <!-- Export Options -->
+                <div class="export-dropdown">
+                  <button class="export-button" id="statements" data-toggle="dropdown">
+                    <i class="fas fa-file-download"></i>
+                    <span>Export</span>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="statements">
+                    <a class="dropdown-item" href="javascript:void(0)" (click)="openDateModal('csv')">
+                      <i class="fas fa-file-csv"></i> CSV Format
+                    </a>
+                    <a class="dropdown-item" href="javascript:void(0)" (click)="openDateModal('pdf')">
+                      <i class="fas fa-file-pdf"></i> PDF Format
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <p-toast></p-toast>
+
+              <!-- Advanced Filters Collapse -->
+              <div class="collapse filter-collapse" id="allFilters">
+                <div class="filter-options">
+                  <div class="filter-options-grid">
+                    <label class="filter-option">
+                      <input type="radio" id="allTransactions" [(ngModel)]="selectedFilter" value="All Transactions"
+                        (change)="filterTransactions()" name="transactionFilter" checked>
+                      <span class="filter-checkmark"></span>
+                      <span class="filter-label">All Transactions</span>
+                    </label>
+
+                    <label class="filter-option">
+                      <input type="radio" id="paymentsSend" name="transactionFilter" [(ngModel)]="selectedFilter"
+                        value="PAYMENTS_SENT" (change)="filterTransactions()">
+                      <span class="filter-checkmark"></span>
+                      <span class="filter-label">Payments Sent</span>
+                    </label>
+
+                    <label class="filter-option">
+                      <input type="radio" id="paymentsReceived" name="transactionFilter" [(ngModel)]="selectedFilter"
+                        value="PAYMENTS_RECEIVED" (change)="filterTransactions()">
+                      <span class="filter-checkmark"></span>
+                      <span class="filter-label">Payments Received</span>
+                    </label>
+
+                    <label class="filter-option">
+                      <input type="radio" id="refunds" name="transactionFilter" [(ngModel)]="selectedFilter"
+                        value="REFUNDS" (change)="filterTransactions()">
+                      <span class="filter-checkmark"></span>
+                      <span class="filter-label">Refunds</span>
+                    </label>
+
+                    <label class="filter-option">
+                      <input type="radio" id="withdrawal" name="transactionFilter" [(ngModel)]="selectedFilter"
+                        value="WITHDRAWAL" (change)="filterTransactions()">
+                      <span class="filter-checkmark"></span>
+                      <span class="filter-label">Withdrawal</span>
+                    </label>
+
+                    <label class="filter-option">
+                      <input type="radio" id="deposit" name="transactionFilter" [(ngModel)]="selectedFilter"
+                        value="DEPOSIT" (change)="filterTransactions()">
+                      <span class="filter-checkmark"></span>
+                      <span class="filter-label">Deposit</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Transaction Headers -->
+            <div class="transaction-headers">
+              <div class="row align-items-center">
+                <div class="col-2 col-sm-1">Date</div>
+                <div class="col col-sm-7">Description</div>
+                <div class="col-auto col-sm-2 d-none d-sm-block text-center">Status</div>
+                <div class="col-3 col-sm-2 text-end">Amount</div>
+              </div>
+            </div>
+
+            <!-- Transaction List -->
+            <div class="transaction-list">
+              <!-- No Transactions State -->
+              <div *ngIf="apiResponseListTransaction?.content?.length === 0" class="empty-state">
+                <div class="empty-icon">
+                  <i class="fas fa-receipt"></i>
+                </div>
+                <h4>No transactions found</h4>
+                <p>No transactions match your current filters</p>
+                <button class="btn btn-outline-primary" (click)="fetchTransactions()">
+                  Reset Filters
+                </button>
+              </div>
+
+              <!-- Transactions List -->
+              <div *ngFor="let transaction of apiResponseListTransaction?.content" class="transaction-item"
+                data-toggle="modal" data-target="#transaction-detail" (click)="this.selectTransaction(transaction)">
+                <div class="row align-items-center">
+                  <!-- Date -->
+                  <div class="col-2 col-sm-1">
+                    <div class="date-display">
+                      <ng-container *ngIf="transaction?.transactionDate; let date">
+                        <span class="day">{{ formatTransactionDate(date).day }}</span>
+                        <span class="month">{{ formatTransactionDate(date).month }}</span>
+                      </ng-container>
+                      <ng-template #noDate>
+                        <span class="day">--</span>
+                        <span class="month">---</span>
+                      </ng-template>
+                    </div>
+                  </div>
+
+                  <!-- Description -->
+                  <div class="col col-sm-7">
+                    <div class="transaction-description">
+                      <span class="primary-text" *ngIf="transaction?.narration; else noNarration">
+                        {{ transaction?.narration }}
+                      </span>
+                      <ng-template #noNarration>
+                        <span class="primary-text">{{ transaction?.description }}</span>
+                      </ng-template>
+                      <span class="secondary-text">Ref: {{ transaction?.referenceNumber | slice:0:12 }}...</span>
+                    </div>
+                  </div>
+
+                  <!-- Status -->
+                  <div class="col-auto col-sm-2 d-none d-sm-block text-center">
+                    <div class="status-indicator" [ngClass]="{
+                    'status-success': transaction.currentStatus === 'SUCCESS',
+                    'status-pending': transaction.currentStatus === 'PENDING',
+                    'status-danger': transaction.currentStatus === 'CANCELLED' || transaction.currentStatus === 'FAILED'
+                  }">
+                      <i class="fas" [ngClass]="{
+                      'fa-check-circle': transaction.currentStatus === 'SUCCESS',
+                      'fa-clock': transaction.currentStatus === 'PENDING',
+                      'fa-times-circle': transaction.currentStatus === 'CANCELLED',
+                      'fa-exclamation-circle': transaction.currentStatus === 'FAILED'
+                    }"></i>
+                      <span class="status-text">{{transaction.currentStatus}}</span>
+                    </div>
+                  </div>
+
+                  <!-- Amount -->
+                  <div class="col-3 col-sm-2 text-end">
+                    <div class="amount-display" [ngClass]="{
+                    'amount-negative': transaction.transactionType === 'DEBIT',
+                    'amount-positive': transaction.transactionType === 'CREDIT'
+                  }">
+                      <span *ngIf="transaction.transactionType === 'DEBIT'">-</span>
+                      <span *ngIf="transaction.transactionType === 'CREDIT'">+</span>
+                      ${{ transaction.amount | number : '1.2-2'}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="pagination-controls" *ngIf="(apiResponseListTransaction?.totalPages ?? 0) > 1">
+              <button class="page-control" [disabled]="page === 0" (click)="gotoFirstPage()" title="First page">
+                <i class="fas fa-angle-double-left"></i>
+              </button>
+              <button class="page-control" [disabled]="page === 0" (click)="gotoPreviousPage()" title="Previous page">
+                <i class="fas fa-angle-left"></i>
+              </button>
+
+              <div class="page-numbers">
+                <ng-container *ngFor="let p of getDisplayedPages(); let i = index">
+                  <button *ngIf="p !== -1" class="page-number" [ngClass]="{'active': page === p}" (click)="gotoPage(p)">
+                    {{p + 1}}
+                  </button>
+                  <span *ngIf="p === -1" class="page-ellipsis">...</span>
+                </ng-container>
+              </div>
+
+              <button class="page-control" [disabled]="isLastPage" (click)="gotoNextPage()" title="Next page">
+                <i class="fas fa-angle-right"></i>
+              </button>
+              <button class="page-control" [disabled]="isLastPage" (click)="gotoLastPage()" title="Last page">
+                <i class="fas fa-angle-double-right"></i>
+              </button>
+
+              <span class="page-indicator">Page {{page + 1}} of {{apiResponseListTransaction.totalPages}}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scheduled transfers tab content -->
+        <div *ngIf="activeTab === 'scheduled'" class="scheduled-tab">
+          <div class="page-header">
+            <h2>Scheduled Transfers</h2>
+            <p class="text-muted">Manage your scheduled and recurring transfers</p>
+          </div>
+
+          <div class="scheduled-header">
+            <a class="btn-link text-success" routerLink="/account/schedule-transfer">
+              <i class="fas fa-calendar-plus"></i> Schedule New Transfer
+            </a>
+          </div>
+
+          <div *ngIf="isLoadingScheduled" class="loading-indicator">
+            <div class="spinner"></div>
+            <p>Loading scheduled transfers...</p>
+          </div>
+
+          <div *ngIf="!isLoadingScheduled && (!scheduledTransfers || scheduledTransfers.length === 0)"
+            class="empty-state">
+            <i class="fas fa-calendar-alt"></i>
+            <p>You don't have any scheduled transfers</p>
+            <a class="btn btn-primary" routerLink="/account/schedule-transfer">
+              Schedule Your First Transfer
+            </a>
+          </div>
+
+          <div *ngIf="!isLoadingScheduled && scheduledTransfers && scheduledTransfers.length > 0"
+            class="transactions-card dashboard-card">
+            <!-- Transaction Headers -->
+            <div class="transaction-headers">
+              <div class="row align-items-center">
+                <div class="col-5">Recipient</div>
+                <div class="col-3">Amount</div>
+                <div class="col-2 text-center">Status</div>
+                <div class="col-2 text-end">Actions</div>
+              </div>
+            </div>
+
+            <!-- Scheduled Transfers List -->
+            <div class="transaction-list">
+              <div *ngFor="let transfer of scheduledTransfers" class="transaction-item"
+                (click)="viewScheduledTransfer(transfer)" style="cursor: pointer;">
+                <div class="row align-items-center">
+                  <!-- Recipient -->
+                  <div class="col-5">
+                    <div class="transaction-description">
+                      <span class="primary-text text-truncate">{{ transfer.receiverEmail }}</span>
+                      <span class="secondary-text text-truncate">{{ transfer.description }}</span>
+                    </div>
+                  </div>
+
+                  <!-- Amount -->
+                  <div class="col-3">
+                    <div class="amount-display amount-negative">
+                      <span>-</span>${{ transfer.amount | number:'1.2-2' }}
+                    </div>
+                  </div>
+
+                  <!-- Status -->
+                  <div class="col-2 text-center">
+                    <div class="status-indicator" [ngClass]="{
+                      'status-success': transfer.status === 'EXECUTED',
+                      'status-pending': transfer.status === 'PENDING',
+                      'status-danger': transfer.status === 'CANCELLED' || transfer.status === 'FAILED'
+                    }">
+                      <i class="fas" [ngClass]="{
+                        'fa-clock': transfer.status === 'PENDING',
+                        'fa-times-circle': transfer.status === 'CANCELLED' || transfer.status === 'FAILED',
+                        'fa-check-circle': transfer.status === 'EXECUTED'
+                      }"></i>
+                      <span class="status-text">{{ formatStatus(transfer.status) }}</span>
+                    </div>
+                  </div>
+
+                  <!-- Actions -->
+                  <div class="col-2 text-end">
+                    <div class="action-icons">
+                      <a [routerLink]="['/account/scheduled-transfer', transfer.id]" class="action-btn edit-btn"
+                        title="Edit Transfer" (click)="$event.stopPropagation()">
+                        <i class="fas fa-pen"></i>
+                      </a>
+                      <a href="javascript:void(0)" *ngIf="transfer.status !== 'CANCELLED'" class="action-btn cancel-btn"
+                        title="Cancel Transfer" (click)="$event.stopPropagation(); showCancelConfirmation(transfer.id)">
+                        <i class="fas fa-trash-alt"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Transaction Detail Modal -->
+<div id="transaction-detail" class="modal fade transaction-detail-modal" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Transaction Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="transaction-summary">
+          <div class="transaction-icon" [ngClass]="{
+                 'icon-success': selectedTransaction?.currentStatus === 'SUCCESS',
+                 'icon-pending': selectedTransaction?.currentStatus === 'PENDING',
+                 'icon-danger': selectedTransaction?.currentStatus === 'CANCELLED' || selectedTransaction?.currentStatus === 'FAILED'
+               }">
+            <i class="fas" [ngClass]="{
+              'fa-check': selectedTransaction?.currentStatus === 'SUCCESS',
+              'fa-clock': selectedTransaction?.currentStatus === 'PENDING',
+              'fa-times': selectedTransaction?.currentStatus === 'CANCELLED',
+              'fa-exclamation': selectedTransaction?.currentStatus === 'FAILED'
+            }"></i>
+          </div>
+          <div class="amount-large">${{ selectedTransaction?.amount | number : '1.2-2'}}</div>
+          <div class="status-badge" [ngClass]="{
+                 'badge-success': selectedTransaction?.currentStatus === 'SUCCESS',
+                 'badge-warning': selectedTransaction?.currentStatus === 'PENDING',
+                 'badge-danger': selectedTransaction?.currentStatus === 'CANCELLED' || selectedTransaction?.currentStatus === 'FAILED'
+               }">
+            {{ selectedTransaction?.currentStatus }}
+          </div>
+          <div class="transaction-date">
+            {{ formatDetailDate(selectedTransaction?.transactionDate) }}
+          </div>
+        </div>
+
+        <div class="transaction-details-content">
+          <div class="transaction-detail-row">
+            <div class="detail-label">Description</div>
+            <div class="detail-value">{{ selectedTransaction?.description }}</div>
+          </div>
+          <div class="transaction-detail-row">
+            <div class="detail-label">Transaction ID</div>
+            <div class="detail-value">{{ selectedTransaction?.referenceNumber }}</div>
+          </div>
+          <div class="transaction-detail-row">
+            <div class="detail-label">Amount</div>
+            <div class="detail-value">${{ selectedTransaction?.amount | number : '1.2-2'}}</div>
+          </div>
+          <div class="transaction-detail-row">
+            <div class="detail-label">Fee</div>
+            <div class="detail-value">${{selectedTransaction?.fee | number : '1.2-2'}}</div>
+          </div>
+          <div class="transaction-detail-row total">
+            <div class="detail-label">Total</div>
+            <div class="detail-value">
+              ${{ (+(selectedTransaction?.amount || 0) + +(selectedTransaction?.fee || 0)) | number : '1.2-2'}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Scheduled Transfer Dialog with Enhanced Layout -->
+<p-dialog [(visible)]="showScheduledTransferDialog" [modal]="true" [draggable]="false" [resizable]="false"
+  [style]="{width: '650px'}" [baseZIndex]="10000" header="Scheduled Transfer Details"
+  styleClass="scheduled-transfer-dialog">
+
+  <ng-container *ngIf="selectedScheduledTransfer">
+    <!-- Top Summary Section - Keep Styling -->
+    <div class="transfer-summary">
+      <div class="transfer-icon" [ngClass]="{
+        'icon-success': selectedScheduledTransfer.status === 'EXECUTED',
+        'icon-pending': selectedScheduledTransfer.status === 'PENDING',
+        'icon-danger': selectedScheduledTransfer.status === 'CANCELLED' || selectedScheduledTransfer.status === 'FAILED'
+      }">
+        <i class="fas" [ngClass]="{
+          'fa-check': selectedScheduledTransfer.status === 'EXECUTED',
+          'fa-clock': selectedScheduledTransfer.status === 'PENDING',
+          'fa-times': selectedScheduledTransfer.status === 'CANCELLED',
+          'fa-exclamation': selectedScheduledTransfer.status === 'FAILED'
+        }"></i>
+      </div>
+      <div class="amount-large">${{ selectedScheduledTransfer.amount | number:'1.2-2' }}</div>
+      <div class="status-badge" [ngClass]="{
+        'badge-success': selectedScheduledTransfer.status === 'EXECUTED',
+        'badge-warning': selectedScheduledTransfer.status === 'PENDING',
+        'badge-danger': selectedScheduledTransfer.status === 'CANCELLED' || selectedScheduledTransfer.status === 'FAILED'
+      }">
+        {{ formatStatus(selectedScheduledTransfer.status) }}
+      </div>
+      <div class="transfer-date" *ngIf="selectedScheduledTransfer.scheduledDateTime">
+        {{ selectedScheduledTransfer.scheduledDateTime | formatDate | date:'MMM dd, yyyy' }} at
+        {{ selectedScheduledTransfer.scheduledDateTime | formatDate:'shortTime' }}
+      </div>
+    </div>
+
+    <!-- Redesigned Details Section -->
+    <div class="transfer-details">
+      <!-- Primary Information Section -->
+      <div class="detail-section">
+        <h6 class="detail-section-title">Transfer Information</h6>
+        <div class="detail-table">
+          <div class="detail-row">
+            <div class="detail-label">Recipient:</div>
+            <div class="detail-value">{{ selectedScheduledTransfer.receiverEmail }}</div>
+          </div>
+          
+          <div class="detail-row">
+            <div class="detail-label">Description:</div>
+            <div class="detail-value">{{ selectedScheduledTransfer.description || 'No description' }}</div>
+          </div>
+
+          <div class="detail-row">
+            <div class="detail-label">Transfer ID:</div>
+            <div class="detail-value detail-id">{{ selectedScheduledTransfer.id }}</div>
+          </div>
+
+          <div class="detail-row">
+            <div class="detail-label">Amount:</div>
+            <div class="detail-value amount-value">${{ selectedScheduledTransfer.amount | number:'1.2-2' }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Schedule Information Section -->
+      <div class="detail-section" *ngIf="selectedScheduledTransfer.recurrenceType">
+        <h6 class="detail-section-title">Schedule Details</h6>
+        <div class="detail-table">
+          <div class="detail-row" *ngIf="selectedScheduledTransfer.createdAt">
+            <div class="detail-label">Created On:</div>
+            <div class="detail-value">
+              {{ selectedScheduledTransfer.createdAt | formatDate | date:'MMM dd, yyyy' }} at
+              {{ selectedScheduledTransfer.createdAt | formatDate:'shortTime' }}
+            </div>
+          </div>
+
+          <div class="detail-row">
+            <div class="detail-label">Transfer Type:</div>
+            <div class="detail-value">
+              <span *ngIf="selectedScheduledTransfer.recurrenceType !== 'NONE'">
+                {{ getFrequencyText(selectedScheduledTransfer.recurrenceType) }} recurring transfer
+              </span>
+              <span *ngIf="selectedScheduledTransfer.recurrenceType === 'NONE'">
+                One-time transfer
+              </span>
+            </div>
+          </div>
+          
+          <div class="detail-row" *ngIf="selectedScheduledTransfer.recurrenceType !== 'NONE' && selectedScheduledTransfer.recurrenceEndDate">
+            <div class="detail-label">Ends On:</div>
+            <div class="detail-value">{{ formatDateTime(selectedScheduledTransfer.recurrenceEndDate) }}</div>
+          </div>
+
+          <div class="detail-row" *ngIf="selectedScheduledTransfer.recurrenceType !== 'NONE'">
+            <div class="detail-label">Occurrence:</div>
+            <div class="detail-value">{{ selectedScheduledTransfer.currentOccurrence }} of {{ selectedScheduledTransfer.totalOccurrences || '∞' }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Information Section -->
+      <div class="detail-section" *ngIf="selectedScheduledTransfer.referenceNumber || selectedScheduledTransfer.notes">
+        <h6 class="detail-section-title">Additional Information</h6>
+        <div class="detail-table">
+          <div class="detail-row" *ngIf="selectedScheduledTransfer.referenceNumber">
+            <div class="detail-label">Reference Number:</div>
+            <div class="detail-value">{{ selectedScheduledTransfer.referenceNumber }}</div>
+          </div>
+          
+          <div class="detail-row" *ngIf="selectedScheduledTransfer.notes">
+            <div class="detail-label">Notes:</div>
+            <div class="detail-value">{{ selectedScheduledTransfer.notes }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</p-dialog>
+
+<p-toast position="bottom-right"></p-toast>
+
+
+<!-- Confirm Dialog -->
+<p-confirmDialog #cd [style]="{width: '450px'}" styleClass="cancel-confirmation-dialog" [baseZIndex]="10000">
+  <ng-template pTemplate="header">
+    <div class="confirmation-header">
+      <i class="pi pi-exclamation-triangle"></i>
+      <h5>Cancel Transfer</h5>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div class="confirmation-actions">
+      <button type="button" class="cancel-btn modern-btn" (click)="cd.reject()">
+        <i class="pi pi-times"></i>
+        <span>No, Keep It</span>
+      </button>
+      <button type="button" class="confirm-btn modern-btn" (click)="cd.accept()">
+        <i class="pi pi-check"></i>
+        <span>Yes, Cancel</span>
+      </button>
+    </div>
+  </ng-template>
+</p-confirmDialog>

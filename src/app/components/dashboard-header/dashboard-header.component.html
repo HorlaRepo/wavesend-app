@@ -1,0 +1,238 @@
+<!-- Modern Dashboard Header
+  ============================================= -->
+  <header id="dashboard-header" class="dashboard-header">
+    <div class="container">
+      <div class="header-wrapper">
+        <!-- Logo & Brand -->
+        <div class="brand-section">
+          <a class="logo-container" href="dashboard.html" title="WaveSend - Money Transfer">
+            <img src="assets/images/logo.png" alt="WaveSend" class="logo-img" />
+            <span class="logo-divider"></span>
+            <span class="dashboard-label">Dashboard</span>
+          </a>
+          
+          <!-- Mobile Menu Toggle -->
+          <button class="mobile-menu-toggle" type="button" data-toggle="collapse" data-target="#header-nav">
+            <span class="toggle-line"></span>
+            <span class="toggle-line"></span>
+            <span class="toggle-line"></span>
+          </button>
+        </div>
+        
+        <!-- Navigation -->
+        <nav class="nav-section">
+          <div id="header-nav" class="nav-menu collapse navbar-collapse">
+            <ul class="nav-list">
+              <li class="nav-item active">
+                <a href="dashboard.html" class="nav-link">
+                  <i class="fas fa-chart-line"></i>
+                  <span>Dashboard</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="transactions.html" class="nav-link">
+                  <i class="fas fa-exchange-alt"></i>
+                  <span>Transactions</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="send-money.html" class="nav-link">
+                  <i class="fas fa-paper-plane"></i>
+                  <span>Send/Request</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="help.html" class="nav-link">
+                  <i class="fas fa-question-circle"></i>
+                  <span>Help</span>
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#">
+                  <i class="fas fa-sliders-h"></i>
+                  <span>More</span>
+                </a>
+                <div class="dropdown-menu">
+                  <div class="dropdown-grid">
+                    <div class="dropdown-section">
+                      <h6 class="dropdown-heading">Account</h6>
+                      <a class="dropdown-item" href="settings-profile.html">
+                        <i class="fas fa-user"></i>My Profile
+                      </a>
+                      <a class="dropdown-item" href="settings-security.html">
+                        <i class="fas fa-shield-alt"></i>Security
+                      </a>
+                      <a class="dropdown-item" href="settings-payment-methods.html">
+                        <i class="fas fa-credit-card"></i>Payment Methods
+                      </a>
+                      <a class="dropdown-item" href="settings-notifications.html">
+                        <i class="fas fa-bell"></i>Notifications
+                      </a>
+                    </div>
+                    <div class="dropdown-section">
+                      <h6 class="dropdown-heading">Services</h6>
+                      <a class="dropdown-item" href="deposit-money.html">
+                        <i class="fas fa-money-bill-wave"></i>Deposit
+                      </a>
+                      <a class="dropdown-item" href="withdraw-money.html">
+                        <i class="fas fa-hand-holding-usd"></i>Withdraw
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="fas fa-coins"></i>Currency Exchange
+                      </a>
+                      <a class="dropdown-item" href="#">
+                        <i class="fas fa-chart-bar"></i>Analytics
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        
+        <!-- User Actions -->
+        <div class="user-actions">
+          <!-- Search -->
+          <div class="search-wrapper">
+            <button class="search-toggle">
+              <i class="fas fa-search"></i>
+            </button>
+            <div class="search-dropdown">
+              <div class="search-form">
+                <input type="text" placeholder="Search transactions, contacts..." class="search-input">
+                <button class="search-submit">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+              <div class="recent-searches">
+                <h6>Recent Searches</h6>
+                <a href="#">John Smith</a>
+                <a href="#">March transactions</a>
+                <a href="#">Pending transfers</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Language -->
+          <div class="dropdown lang-dropdown">
+            <button class="dropdown-toggle" data-toggle="dropdown">
+              <span class="lang-flag">🇺🇸</span>
+              <span class="lang-name">EN</span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#"><span class="lang-flag">🇺🇸</span>English</a></li>
+              <li><a class="dropdown-item" href="#"><span class="lang-flag">🇫🇷</span>French</a></li>
+              <li><a class="dropdown-item" href="#"><span class="lang-flag">🇷🇺</span>Русский</a></li>
+              <li><a class="dropdown-item" href="#"><span class="lang-flag">🇨🇳</span>简体中文</a></li>
+              <li><a class="dropdown-item" href="#"><span class="lang-flag">🇹🇷</span>Türkçe</a></li>
+            </ul>
+          </div>
+          
+          <!-- Notifications -->
+          <div class="dropdown notifications-dropdown">
+            <button class="dropdown-toggle" data-toggle="dropdown">
+              <div class="notification-icon">
+                <i class="far fa-bell"></i>
+                <span class="badge">3</span>
+              </div>
+            </button>
+            <div class="dropdown-menu">
+              <div class="notifications-header">
+                <h6>Notifications</h6>
+                <span class="notification-count">3 new</span>
+              </div>
+              <div class="notifications-body">
+                <a href="#" class="notification-item unread">
+                  <div class="notification-icon">
+                    <div class="icon-circle document">
+                      <i class="fas fa-file-alt"></i>
+                    </div>
+                  </div>
+                  <div class="notification-content">
+                    <p>A new digital FIRC document is available for you to download</p>
+                    <span class="notification-time">22 Jul 2020</span>
+                  </div>
+                  <div class="notification-actions">
+                    <button class="mark-read" title="Mark as read"><i class="fas fa-check"></i></button>
+                  </div>
+                </a>
+                <a href="#" class="notification-item unread">
+                  <div class="notification-icon">
+                    <div class="icon-circle security">
+                      <i class="fas fa-shield-alt"></i>
+                    </div>
+                  </div>
+                  <div class="notification-content">
+                    <p>Updates to our privacy policy. Please read.</p>
+                    <span class="notification-time">04 March 2020</span>
+                  </div>
+                  <div class="notification-actions">
+                    <button class="mark-read" title="Mark as read"><i class="fas fa-check"></i></button>
+                  </div>
+                </a>
+                <a href="#" class="notification-item unread">
+                  <div class="notification-icon">
+                    <div class="icon-circle info">
+                      <i class="fas fa-info"></i>
+                    </div>
+                  </div>
+                  <div class="notification-content">
+                    <p>Update about WaveSend fees</p>
+                    <span class="notification-time">18 Feb 2020</span>
+                  </div>
+                  <div class="notification-actions">
+                    <button class="mark-read" title="Mark as read"><i class="fas fa-check"></i></button>
+                  </div>
+                </a>
+              </div>
+              <div class="notifications-footer">
+                <a href="notifications.html">View all notifications</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- User Profile -->
+          <div class="dropdown profile-dropdown">
+            <button class="dropdown-toggle" data-toggle="dropdown">
+              <div class="profile-info">
+                <span class="profile-name">Smith R.</span>
+                <img class="profile-avatar" src="assets/images/profile-thumb-sm.jpg" alt="Smith Rhodes">
+              </div>
+            </button>
+            <div class="dropdown-menu">
+              <div class="profile-header">
+                <img src="assets/images/profile-thumb-sm.jpg" alt="Smith Rhodes" class="profile-img">
+                <div class="profile-details">
+                  <h6 class="profile-name">Smith Rhodes</h6>
+                  <p class="profile-email">smith.rhodesexample.com</p>
+                </div>
+              </div>
+              <div class="profile-body">
+                <a href="settings-profile.html" class="dropdown-item">
+                  <i class="fas fa-user"></i>My Profile
+                </a>
+                <a href="settings-Security-2.html" class="dropdown-item">
+                  <i class="fas fa-shield-alt"></i>Security
+                </a>
+                <a href="settings-payment-methods.html" class="dropdown-item">
+                  <i class="fas fa-credit-card"></i>Payment Methods
+                </a>
+                <a href="settings-notifications.html" class="dropdown-item">
+                  <i class="fas fa-bell"></i>Notifications
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="help.html" class="dropdown-item">
+                  <i class="fas fa-life-ring"></i>Need Help?
+                </a>
+                <a href="#" class="dropdown-item">
+                  <i class="fas fa-sign-out-alt"></i>Sign Out
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Header End -->

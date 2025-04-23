@@ -1,0 +1,109 @@
+<div class="send-money-container">
+  <!-- Main Content -->
+  <div class="content-wrapper">
+    <div class="container">
+      <!-- Steps Progress Bar -->
+      <app-steps-progress-bar></app-steps-progress-bar>
+
+      <!-- Page Header -->
+      <div class="page-header text-center">
+        <h2>Send Money</h2>
+        <p class="subtitle">Review and confirm your transfer details</p>
+      </div>
+
+      <p-toast position="bottom-right"></p-toast>
+
+      <div class="row">
+        <div class="col-md-9 col-lg-7 col-xl-6 mx-auto">
+          <!-- Confirm Card -->
+          <div class="confirm-card">
+            <!-- Recipient Section -->
+            <div class="recipient-section">
+              <div class="recipient-icon">
+                <i class="fas fa-user"></i>
+              </div>
+              <h3>Recipient Details</h3>
+              <div class="recipient-details">
+                <div class="recipient-name">{{ recipient?.firstName }} {{ recipient?.lastName }}</div>
+                <div class="recipient-email">{{ recipient?.email }}</div>
+
+                <!-- Add as Beneficiary Checkbox -->
+                <div class="beneficiary-card" [class.active]="isRecipientBeneficiary">
+                  <div class="card-content">
+                    <div class="icon-container">
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <div class="card-text">
+                      <h4>Save for quick access</h4>
+                      <p>Add this person to your beneficiaries list for faster transfers in the future</p>
+                    </div>
+                  </div>
+                  <div class="card-action">
+                    <button class="btn-action" [disabled]="isProcessingBeneficiary" (click)="toggleBeneficiary()">
+                      <span *ngIf="!isProcessingBeneficiary">
+                        {{ isRecipientBeneficiary ? 'Remove' : 'Add' }}
+                      </span>
+                      <div *ngIf="isProcessingBeneficiary" class="btn-spinner"></div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Amount Details -->
+            <div class="amount-details">
+              <div class="detail-row">
+                <div class="detail-label">Narration</div>
+                <div class="detail-value narration">{{ narration || 'No message' }}</div>
+              </div>
+
+              <div class="detail-divider"></div>
+
+              <div class="detail-row">
+                <div class="detail-label">Amount to Send</div>
+                <div class="detail-value">{{ amount | number : '1.2-2' }} USD</div>
+              </div>
+
+              <div class="detail-row fee">
+                <div class="detail-label">
+                  <span>Transaction fee</span>
+                  <i class="fas fa-info-circle" title="This is the fee for processing your transaction"></i>
+                </div>
+                <div class="detail-value fee-display">
+                  <span class="original-fee">1.00 USD</span>
+                  <span class="fee-badge">Free</span>
+                </div>
+              </div>
+
+              <div class="detail-divider"></div>
+
+              <div class="detail-row total">
+                <div class="detail-label">Total Amount</div>
+                <div class="detail-value highlight">{{ amount | number : '1.2-2' }} USD</div>
+              </div>
+            </div>
+
+            <!-- Security Notice -->
+            <div class="security-notice">
+              <i class="fas fa-shield-alt"></i>
+              <span>Your transaction is protected by our secure payment system</span>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <button type="button" class="btn-back" (click)="goBack()">
+                <i class="fas fa-arrow-left"></i> Back
+              </button>
+              <button type="button" class="btn btn-primary" (click)="initiateTransfer()" [disabled]="isLoading">
+                <span *ngIf="!isLoading">Confirm Transfer</span>
+                <div *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
