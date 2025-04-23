@@ -50,23 +50,9 @@ export class KeycloakService {
     private envService: EnvService
   ) {
 
-    const config = this.appConfigService.getConfig();
-  
-  // Then try environment variables from EnvService
-  const keycloakUrl = config?.keycloak?.url || 
-    this.envService.get('keycloak.url') || 
-    environment.keycloak?.url || 
-    'http://localhost:9090';
-    
-  const realm = config?.keycloak?.realm || 
-    this.envService.get('keycloak.realm') || 
-    environment.keycloak?.realm || 
-    'wavesend';
-    
-  const clientId = config?.keycloak?.clientId || 
-    this.envService.get('keycloak.clientId') || 
-    environment.keycloak?.clientId || 
-    'wavesend-frontend';
+    const keycloakUrl = environment.keycloak.url;
+    const realm = environment.keycloak.realm;
+    const clientId = environment.keycloak.clientId;
 
     console.log('Keycloak configuration:', { keycloakUrl, realm, clientId });
 

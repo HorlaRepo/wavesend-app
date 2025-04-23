@@ -1,13 +1,8 @@
 [build]
-  command = "npm run build:prod && node scripts/create-runtime-config.js"
+  command = "npm run build:prod"
   publish = "dist/money-transfer"
 
-# Handle client-side routing
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-# Print environment variables during build (for debugging)
-[build.environment]
-  DEBUG = "true"

@@ -1,10 +1,9 @@
 export const environment = {
   production: true,
-  // These values will be overridden by config.js at runtime
-  apiUrl: '',
+  apiUrl: 'https://api.wavesend.cc', 
   keycloak: {
-    url: '',
-    realm: '',
-    clientId: ''
+    url: 'https://auth.wavesend.cc',
+    realm: 'wavesend',
+    clientId: 'wavesend-frontend'
   }
 };
