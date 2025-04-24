@@ -66,15 +66,22 @@ export class KeycloakService {
 
   async init(): Promise<boolean> {
     try {
+      console.log('Starting Keycloak init...');
+      
+      // Add this line for debugging
+      this.keycloak.onTokenExpired = () => {
+        console.log('Token expired. Attempting refresh...');
+        this.keycloak.updateToken(30);
+      };
+  
       const authenticated = await this.keycloak.init({
         onLoad: 'login-required',
-        checkLoginIframe: false,
+        checkLoginIframe: false, // Important to disable this
+        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
         enableLogging: true,
         pkceMethod: 'S256',
-        // Add these settings to fix cookie issues
-        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
-        flow: 'standard',  // Use standard flow instead of implicit
-        responseMode: 'fragment'
+        responseMode: 'fragment',
+        flow: 'standard'
       });
 
       if (authenticated) {

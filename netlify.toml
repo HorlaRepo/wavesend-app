@@ -12,5 +12,9 @@
   [headers.values]
     Referrer-Policy = "same-origin"
     X-Content-Type-Options = "nosniff"
-    # Don't use X-Frame-Options if you need to embed this site in iframes
     X-Frame-Options = "DENY"
+    # Add these for cookie support
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    Access-Control-Allow-Credentials = "true"
