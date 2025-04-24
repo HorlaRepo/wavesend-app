@@ -6,3 +6,11 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Referrer-Policy = "same-origin"
+    X-Content-Type-Options = "nosniff"
+    # Don't use X-Frame-Options if you need to embed this site in iframes
+    X-Frame-Options = "DENY"

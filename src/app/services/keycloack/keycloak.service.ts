@@ -70,7 +70,11 @@ export class KeycloakService {
         onLoad: 'login-required',
         checkLoginIframe: false,
         enableLogging: true,
-        pkceMethod: 'S256'
+        pkceMethod: 'S256',
+        // Add these settings to fix cookie issues
+        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+        flow: 'standard',  // Use standard flow instead of implicit
+        responseMode: 'fragment'
       });
 
       if (authenticated) {
