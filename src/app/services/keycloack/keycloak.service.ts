@@ -77,7 +77,7 @@ export class KeycloakService {
       const authenticated = await this.keycloak.init({
         onLoad: 'login-required',
         checkLoginIframe: false, // Important to disable this
-        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+        // silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
         enableLogging: true,
         pkceMethod: 'S256',
         responseMode: 'fragment',
