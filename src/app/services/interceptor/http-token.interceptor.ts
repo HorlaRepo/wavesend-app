@@ -7,11 +7,12 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { Observable, throwError, from } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, switchMap, finalize } from 'rxjs/operators';
 import { KeycloakService } from "../keycloack/keycloak.service";
 
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
+  private refreshing = false;
 
   constructor(
     private keycloakService: KeycloakService
@@ -20,7 +21,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     // Only add token to API requests
     if (request.url.includes('api.wavesend.cc')) {
-      const token = this.keycloakService.keycloak?.token;
+      const token = this.keycloakService.token;
       
       if (token) {
         console.log('Adding token to request:', request.url);
@@ -31,38 +32,44 @@ export class HttpTokenInterceptor implements HttpInterceptor {
           }
         });
         
-        // Handle the request with error handling for 401s
+        // Return the handled request with the token
         return next.handle(authRequest).pipe(
           catchError((error: HttpErrorResponse) => {
-            // If we get a 401, try to refresh the token
-            if (error.status === 401) {
+            // Only try to refresh the token once at a time
+            if (error.status === 401 && !this.refreshing) {
+              this.refreshing = true;
+              
               console.log('Received 401, attempting to refresh token');
               
-              return from(this.keycloakService.keycloak.updateToken(30)).pipe(
+              return from(this.keycloakService.updateToken(60)).pipe(
                 switchMap(refreshed => {
-                  if (refreshed) {
-                    console.log('Token refreshed successfully, retrying request');
-                    // Get the new token
-                    const newToken = this.keycloakService.keycloak.token;
+                  // Get the new token
+                  const newToken = this.keycloakService.token;
+                  
+                  if (newToken) {
+                    console.log('Token refreshed, retrying request');
                     // Clone the original request with the new token
                     const newAuthRequest = request.clone({
                       setHeaders: {
                         Authorization: `Bearer ${newToken}`
                       }
                     });
+                    
                     // Retry the request with the new token
                     return next.handle(newAuthRequest);
                   } else {
-                    console.log('Token still valid, retrying request');
-                    // Token still valid, retry with same token
-                    return next.handle(authRequest);
+                    console.error('No token available after refresh');
+                    return throwError(() => new Error('Authentication failed'));
                   }
                 }),
                 catchError(refreshError => {
                   console.error('Failed to refresh token', refreshError);
-                  // Force relogin on token refresh failure
+                  // Redirect to login if we can't refresh the token
                   this.keycloakService.login();
-                  return throwError(() => error);
+                  return throwError(() => refreshError);
+                }),
+                finalize(() => {
+                  this.refreshing = false;
                 })
               );
             }
@@ -73,10 +80,13 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         );
       } else {
         console.warn('No token available for API request:', request.url);
+        
+        // If no token is available, just pass the request through
+        return next.handle(request);
       }
     }
     
-    // For non-API requests or when no token is available
+    // For non-API requests, pass them through without modification
     return next.handle(request);
   }
 }

@@ -154,79 +154,47 @@ export class KeycloakService {
       return;
     }
     
-    // Set minimum validity to 70 seconds to ensure we refresh before expiry
-    const minValidity = 70;
-    
-    // Keep track of refresh attempts to prevent loops
-    let refreshAttempts = 0;
-    const maxRefreshAttempts = 3;
-    let refreshResetTimeout: any = null;
-    
+    // Simple onTokenExpired handler
     this._keycloak.onTokenExpired = () => {
       console.log('Token expired, refreshing...');
-      
-      if (refreshAttempts >= maxRefreshAttempts) {
-        console.warn('Maximum token refresh attempts reached, waiting before trying again');
-        return;
-      }
-      
-      refreshAttempts++;
-      
-      // Reset the counter after some time
-      if (refreshResetTimeout) {
-        clearTimeout(refreshResetTimeout);
-      }
-      refreshResetTimeout = setTimeout(() => {
-        refreshAttempts = 0;
-      }, 60000); // Reset after 1 minute
-      
-      this.updateToken(minValidity)
+      this.updateToken(60)
         .then(refreshed => {
-          if (refreshed) {
-            console.log('Token was successfully refreshed');
-          } else {
-            console.log('Token is still valid, no refresh needed');
-          }
+          console.log('Token refresh result:', refreshed ? 'successful' : 'not needed');
         })
-        .catch(() => {
-          console.log('Failed to refresh token, but not forcing login immediately');
+        .catch(error => {
+          console.error('Failed to refresh token:', error);
         });
     };
     
-    // Calculate when to refresh based on token expiry
-    const expiresIn = (this._keycloak.tokenParsed as any).exp - Math.floor(Date.now() / 1000);
+    // Don't use setInterval - it can cause token refresh loops
+    // Instead, use a single setTimeout based on token expiry
+    const tokenParsed = this._keycloak.tokenParsed as any;
+    const expiresIn = tokenParsed.exp - Math.floor(Date.now() / 1000);
     console.log(`Token expires in ${expiresIn} seconds`);
     
-    // Set a timer to refresh at 70% of token lifetime
-    const refreshTime = expiresIn * 0.7 * 1000;
-    setTimeout(() => {
-      console.log('Scheduled token refresh triggered');
-      this.updateToken();
-    }, refreshTime);
-
-    // Set up periodic token check every 2 minutes instead of every minute
-    // to reduce the chance of causing refresh loops
-    setInterval(() => {
-      // Only attempt refresh if we're authenticated
-      if (this._isAuthenticated) {
-        this.updateToken(minValidity)
-          .catch((error) => {
-            console.log('Failed to refresh token during periodic check:', error);
-          });
-      }
-    }, 120000); // 2 minutes
+    // Only set up refresh if token expires in more than 10 seconds
+    if (expiresIn > 10) {
+      // Refresh at 80% of token lifetime (more conservative)
+      const refreshTime = expiresIn * 0.8 * 1000;
+      setTimeout(() => {
+        this.updateToken(60);
+      }, refreshTime);
+    }
   }
 
   // New method for updating token
-  updateToken(minValidity = 30): Promise<boolean> {
-    if (!this._keycloak) {
+  updateToken(minValidity = 60): Promise<boolean> {
+    if (!this._keycloak?.token) {
+      console.log('No token available to refresh');
       return Promise.resolve(false);
     }
+    
+    console.log(`Updating token with minValidity ${minValidity}s`);
     
     return this._keycloak.updateToken(minValidity)
       .then(refreshed => {
         if (refreshed) {
-          console.log('Token was successfully refreshed');
+          console.log('Token was refreshed');
         } else {
           console.log('Token is still valid, no refresh needed');
         }
@@ -234,14 +202,7 @@ export class KeycloakService {
       })
       .catch(error => {
         console.error('Failed to refresh token:', error);
-        
-        // If token refresh fails, check if user is still authenticated
-        if (this.isTokenValid()) {
-          return true; // Token is still valid
-        } else {
-          this.setAuthenticated(false);
-          return false;
-        }
+        return false;
       });
   }
   
