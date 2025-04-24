@@ -10,11 +10,12 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Referrer-Policy = "same-origin"
+    Referrer-Policy = "strict-origin-when-cross-origin"
     X-Content-Type-Options = "nosniff"
-    X-Frame-Options = "DENY"
-    # Add these for cookie support
-    Access-Control-Allow-Origin = "*"
+    # Change this to allow framing from your Keycloak domain
+    X-Frame-Options = "ALLOW-FROM https://wavesend-keycloak-app-fpbkevc2fufed4a6.eastus2-01.azurewebsites.net"
+    # Specify exact origins instead of wildcard
+    Access-Control-Allow-Origin = "https://wavesend-keycloak-app-fpbkevc2fufed4a6.eastus2-01.azurewebsites.net"
     Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
     Access-Control-Allow-Headers = "Origin, X-Requested-With, Content-Type, Accept, Authorization"
     Access-Control-Allow-Credentials = "true"
