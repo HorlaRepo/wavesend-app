@@ -64,6 +64,49 @@ export class KeycloakService {
     });
   }
 
+  // async init(): Promise<boolean> {
+  //   try {
+  //     console.log('Starting Keycloak init...');
+      
+  //     // Add this line for debugging
+  //     this.keycloak.onTokenExpired = () => {
+  //       console.log('Token expired. Attempting refresh...');
+  //       this.keycloak.updateToken(30);
+  //     };
+  
+  //     const authenticated = await this.keycloak.init({
+  //       onLoad: 'login-required',
+  //       checkLoginIframe: false, // Important to disable this
+  //       // silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+  //       enableLogging: true,
+  //       pkceMethod: 'S256',
+  //       responseMode: 'fragment',
+  //       flow: 'standard'
+  //     });
+
+  //     if (authenticated) {
+  //       this._isAuthenticated = true;
+  //       this._profile = (await this.keycloak.loadUserProfile()) as UserProfile;
+  //       this._userInfo = (await this.keycloak.loadUserInfo()) as UserInfo;
+  //       this._profile.token = this.keycloak.token;
+  //       this.setupTokenRefresh();
+  //       return true;
+  //     } else {
+  //       this.keycloak.login({ redirectUri: window.location.origin + '/account' });
+  //       return false;
+  //     }
+  //   } catch (error) {
+  //     console.error('Failed to initialize Keycloak', error);
+  //     this.keycloak.login({ redirectUri: window.location.origin + '/account' });
+  //     return false;
+  //   }
+  // }
+
+
+
+  // Improved token refresh handling
+  
+  
   async init(): Promise<boolean> {
     try {
       console.log('Starting Keycloak init...');
@@ -73,67 +116,98 @@ export class KeycloakService {
         console.log('Token expired. Attempting refresh...');
         this.keycloak.updateToken(30);
       };
-  
+    
       const authenticated = await this.keycloak.init({
-        onLoad: 'login-required',
+        onLoad: 'check-sso', // Change to check-sso instead of login-required
         checkLoginIframe: false, // Important to disable this
-        // silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
         enableLogging: true,
         pkceMethod: 'S256',
         responseMode: 'fragment',
         flow: 'standard'
       });
-
+  
       if (authenticated) {
         this._isAuthenticated = true;
-        this._profile = (await this.keycloak.loadUserProfile()) as UserProfile;
-        this._userInfo = (await this.keycloak.loadUserInfo()) as UserInfo;
-        this._profile.token = this.keycloak.token;
-        this.setupTokenRefresh();
-        return true;
+        try {
+          this._profile = (await this.keycloak.loadUserProfile()) as UserProfile;
+          this._userInfo = (await this.keycloak.loadUserInfo()) as UserInfo;
+          this._profile.token = this.keycloak.token;
+          this.setupTokenRefresh();
+          return true;
+        } catch (profileError) {
+          console.error('Failed to load profile:', profileError);
+          // Still return true as authentication succeeded
+          return true;
+        }
       } else {
-        this.keycloak.login({ redirectUri: window.location.origin + '/account' });
+        console.log('Not authenticated, will try login');
+        // Instead of automatic login, let the application decide when to login
         return false;
       }
     } catch (error) {
       console.error('Failed to initialize Keycloak', error);
-      this.keycloak.login({ redirectUri: window.location.origin + '/account' });
       return false;
     }
   }
-
-
-
+  
+  
+  
+  
   // Improved token refresh handling
-  private setupTokenRefresh(): void {
-    // Set minimum validity to 70 seconds to ensure we refresh before expiry
-    const minValidity = 70;
+private setupTokenRefresh(): void {
+  // Set minimum validity to 70 seconds to ensure we refresh before expiry
+  const minValidity = 70;
+  
+  // Keep track of refresh attempts to prevent loops
+  let refreshAttempts = 0;
+  const maxRefreshAttempts = 3;
+  let refreshResetTimeout: any = null;
+  
+  this.keycloak.onTokenExpired = () => {
+    console.log('Token expired, refreshing...');
+    
+    if (refreshAttempts >= maxRefreshAttempts) {
+      console.warn('Maximum token refresh attempts reached, waiting before trying again');
+      return;
+    }
+    
+    refreshAttempts++;
+    
+    // Reset the counter after some time
+    if (refreshResetTimeout) {
+      clearTimeout(refreshResetTimeout);
+    }
+    refreshResetTimeout = setTimeout(() => {
+      refreshAttempts = 0;
+    }, 60000); // Reset after 1 minute
+    
+    this.keycloak.updateToken(minValidity)
+      .then(refreshed => {
+        if (refreshed) {
+          console.log('Token was successfully refreshed');
+        } else {
+          console.log('Token is still valid, no refresh needed');
+        }
+      })
+      .catch(() => {
+        console.log('Failed to refresh token, but not forcing login immediately');
+      });
+  };
 
-    this.keycloak.onTokenExpired = () => {
-      console.log('Token expired, refreshing...');
+  // Set up periodic token check every 2 minutes instead of every minute
+  // to reduce the chance of causing refresh loops
+  setInterval(() => {
+    // Only attempt refresh if we're authenticated
+    if (this._isAuthenticated) {
       this.keycloak.updateToken(minValidity)
-        .then(refreshed => {
-          if (refreshed) {
-            console.log('Token was successfully refreshed');
-          } else {
-            console.log('Token is still valid, no refresh needed');
-          }
-        })
-        .catch(() => {
-          console.log('Failed to refresh token, logging out');
-          // Add a small delay before logging out to prevent UI glitches
-          setTimeout(() => this.keycloak.login(), 100);
+        .catch((error) => {
+          console.log('Failed to refresh token during periodic check:', error);
         });
-    };
+    }
+  }, 120000); // 2 minutes
+}
 
-    // Set up periodic token check every 60 seconds
-    setInterval(() => {
-      this.keycloak.updateToken(minValidity)
-        .catch(() => {
-          console.log('Failed to refresh token during periodic check');
-        });
-    }, 60000);
-  }
 
   // Update login to have a simpler implementation
   async login() {

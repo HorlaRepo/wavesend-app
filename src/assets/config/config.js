@@ -1,7 +1,7 @@
 window.appConfig = {
-  apiUrl: 'http://localhost:8080/api', // Default value for development
+  apiUrl: 'https://api.wavesend.com',
   keycloak: {
-    url: 'http://localhost:9090',  // Default value for development
+    url: 'https://wavesend-keycloak-app-fpbkevc2fufed4a6.eastus2-01.azurewebsites.net',
     realm: 'wavesend',
     clientId: 'wavesend-frontend'
   }

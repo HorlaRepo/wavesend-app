@@ -12,10 +12,17 @@
   [headers.values]
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Content-Type-Options = "nosniff"
-    # Change this to allow framing from your Keycloak domain
-    X-Frame-Options = "ALLOW-FROM https://wavesend-keycloak-app-fpbkevc2fufed4a6.eastus2-01.azurewebsites.net"
-    # Specify exact origins instead of wildcard
-    Access-Control-Allow-Origin = "https://wavesend-keycloak-app-fpbkevc2fufed4a6.eastus2-01.azurewebsites.net"
+    # Use Content-Security-Policy instead of X-Frame-Options for better compatibility
+    Content-Security-Policy = "frame-ancestors 'self' https://wavesend-keycloak-app-fpbkevc2fufed4a6.eastus2-01.azurewebsites.net https://auth.wavesend.cc"
+    # Allow multiple origins
+    Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
     Access-Control-Allow-Headers = "Origin, X-Requested-With, Content-Type, Accept, Authorization"
     Access-Control-Allow-Credentials = "true"
+
+# Specific headers for silent-check-sso.html
+[[headers]]
+  for = "/assets/silent-check-sso.html"
+  [headers.values]
+    # Allow it to be framed by Keycloak
+    Content-Security-Policy = "frame-ancestors 'self' https://wavesend-keycloak-app-fpbkevc2fufed4a6.eastus2-01.azurewebsites.net https://auth.wavesend.cc"
