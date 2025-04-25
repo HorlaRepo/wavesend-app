@@ -310,7 +310,6 @@ export class KeycloakService {
     });
   }
 
-  // Improved profile image fetch method
  // Improved profile image fetch method with cleaner logging
 fetchUserProfileImage(defaultUrl: SafeUrl | string): Promise<SafeUrl> {
   return new Promise((resolve) => {
