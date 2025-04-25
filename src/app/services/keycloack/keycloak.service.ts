@@ -311,55 +311,58 @@ export class KeycloakService {
   }
 
   // Improved profile image fetch method
-  fetchUserProfileImage(defaultUrl: SafeUrl | string): Promise<SafeUrl> {
-    return new Promise((resolve) => {
-      if (!this._isAuthenticated) {
-        console.warn('Attempting to fetch profile image while not authenticated');
-        resolve(this.sanitizer.bypassSecurityTrustUrl(defaultUrl as string));
-        return;
-      }
-      
-      this.userProfileImageService.getUserProfileImageUrl().pipe(
-        catchError(err => {
-          console.error("Error fetching profile image:", err);
-          
-          // Try token refresh if it's an auth error
-          if (err.status === 401) {
-            return from(this.updateToken()).pipe(
-              switchMap(refreshed => {
-                if (refreshed) {
-                  // Retry after token refresh
-                  return this.userProfileImageService.getUserProfileImageUrl();
-                }
-                return of({ data: null });
-              })
-            );
-          }
-          
-          return of({ data: null });
-        })
-      ).subscribe({
-        next: (response: any) => {
-          console.log("Received profile image response:", response);
+ // Improved profile image fetch method with cleaner logging
+fetchUserProfileImage(defaultUrl: SafeUrl | string): Promise<SafeUrl> {
+  return new Promise((resolve) => {
+    if (!this._isAuthenticated) {
+      // Simple message instead of warning
+      console.log('No profile image: not authenticated');
+      resolve(this.sanitizer.bypassSecurityTrustUrl(defaultUrl as string));
+      return;
+    }
+    
+    this.userProfileImageService.getUserProfileImageUrl().pipe(
+      catchError(err => {
+        // Simple error message instead of detailed error object
+        if (err.status === 401) {
+          console.log('No profile image: authentication required');
+          return from(this.updateToken()).pipe(
+            switchMap(refreshed => {
+              if (refreshed) {
+                return this.userProfileImageService.getUserProfileImageUrl();
+              }
+              return of({ data: null });
+            })
+          );
+        } else if (err.status === 404) {
+          console.log('No profile image: not found');
+        } else {
+          console.log('No profile image: service unavailable');
+        }
+        
+        return of({ data: null });
+      })
+    ).subscribe({
+      next: (response: any) => {
+        const imageUrl = response?.data;
 
-          const imageUrl = response?.data;
-
-          if (imageUrl && typeof imageUrl === 'string' && imageUrl.trim().length > 0) {
-            console.log("Using profile image URL:", imageUrl);
-            resolve(this.sanitizer.bypassSecurityTrustUrl(imageUrl));
-          } else {
-            console.log("Invalid or empty image URL in response, using default");
-            resolve(this.sanitizer.bypassSecurityTrustUrl(defaultUrl as string));
-          }
-        },
-        error: (err) => {
-          // Log the error and fall back to default image
-          console.error("Error in profile image subscription:", err);
+        if (imageUrl && typeof imageUrl === 'string' && imageUrl.trim().length > 0) {
+          // Simple success message
+          console.log('Profile image loaded successfully');
+          resolve(this.sanitizer.bypassSecurityTrustUrl(imageUrl));
+        } else {
+          console.log('No profile image: using default');
           resolve(this.sanitizer.bypassSecurityTrustUrl(defaultUrl as string));
         }
-      });
+      },
+      error: () => {
+        // Simple fallback message without error details
+        console.log('No profile image: using default');
+        resolve(this.sanitizer.bypassSecurityTrustUrl(defaultUrl as string));
+      }
     });
-  }
+  });
+}
   
   // Add method to clear session data
   clearSession(): void {
