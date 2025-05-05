@@ -20,9 +20,10 @@ export { CountryControllerService } from './services/country-controller.service'
 export { BeneficiaryAiSuggestionControllerService } from './services/beneficiary-ai-suggestion-controller.service';
 export { UserBeneficiariesControllerService } from './services/user-beneficiaries-controller.service';
 export { BankAccountControllerService } from './services/bank-account-controller.service';
+export { AiFinancialAssistantControllerService } from './services/ai-financial-assistant-controller.service';
 export { TransactionReferenceControllerService } from './services/transaction-reference-controller.service';
-export { StatementControllerService } from './services/statement-controller.service';
 export { PingService } from './services/ping.service';
+export { StatementControllerService } from './services/statement-controller.service';
 export { PayStackControllerService } from './services/pay-stack-controller.service';
 export { PaymentMethodsControllerService } from './services/payment-methods-controller.service';
 export { RedisHealthControllerService } from './services/redis-health-controller.service';

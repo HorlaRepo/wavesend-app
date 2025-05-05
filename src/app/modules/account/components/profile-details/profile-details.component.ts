@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {UserProfile} from "../../../../services/keycloack/user-profile";
-import {KeycloakService} from "../../../../services/keycloack/keycloak.service";
-import {UserInfo} from "../../../../services/keycloack/user-info";
-import {UserProfileImageControllerService} from "../../../../services/services/user-profile-image-controller.service";
-import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import { Component, OnInit } from '@angular/core';
+import { UserProfile } from "../../../../services/keycloack/user-profile";
+import { KeycloakService } from "../../../../services/keycloack/keycloak.service";
+import { UserInfo } from "../../../../services/keycloack/user-info";
+import { UserProfileImageControllerService } from "../../../../services/services/user-profile-image-controller.service";
+import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { ChangeDetectorRef } from '@angular/core';
-import {ProfileImageService} from "../../../../services/profile-image/profile-image.service";
+import { ProfileImageService } from "../../../../services/profile-image/profile-image.service";
 
 
 @Component({
@@ -13,7 +13,7 @@ import {ProfileImageService} from "../../../../services/profile-image/profile-im
   templateUrl: './profile-details.component.html',
   styleUrls: ['./profile-details.component.css']
 })
-export class ProfileDetailsComponent implements OnInit{
+export class ProfileDetailsComponent implements OnInit {
 
   userProfile: UserProfile | undefined;
   userInfo: UserInfo | undefined;
@@ -23,10 +23,10 @@ export class ProfileDetailsComponent implements OnInit{
 
 
   constructor(private keycloakService: KeycloakService,
-              private userProfileImageService: UserProfileImageControllerService,
-              private sanitizer: DomSanitizer,
-              private cdr: ChangeDetectorRef,
-              private profileImageService: ProfileImageService) {
+    private userProfileImageService: UserProfileImageControllerService,
+    private sanitizer: DomSanitizer,
+    private cdr: ChangeDetectorRef,
+    private profileImageService: ProfileImageService) {
   }
 
   async ngOnInit(): Promise<void> {
@@ -37,12 +37,13 @@ export class ProfileDetailsComponent implements OnInit{
   }
 
 
-  uploadUserProfileImage(file: File){
+  uploadUserProfileImage(file: File) {
     this.isUploading = true;
-    // const formData: FormData = new FormData();
-    // formData.append('file', file, file.name);
+    // Store the current image URL as backup
+    const previousImageUrl = this.profileImageUrl;
+
     this.userProfileImageService.uploadUserProfileImage({
-      body:{
+      body: {
         file: file
       }
     }).subscribe({
@@ -53,15 +54,31 @@ export class ProfileDetailsComponent implements OnInit{
         this.cdr.detectChanges();
         this.cdr.markForCheck();
       },
-      error: async (err) => {
+      error: (err) => {
         this.isUploading = false;
-        console.log(err.error.message)
-        this.profileImageUrl = await this.keycloakService.fetchUserProfileImage(this.profileImageUrl);
-        this.profileImageService.setProfileImageUrl(this.profileImageUrl as string);
+        console.log('Profile image upload failed:', err.error?.message || 'Unknown error');
+
+        // Immediately set to default image instead of trying to fetch again
+        if (typeof this.profileImageUrl === 'string' &&
+          !this.profileImageUrl.includes('data:image')) {
+          // Only reset if it's not already a data URL
+          this.profileImageUrl = 'assets/images/user-profile.png';
+        } else {
+          // Keep the previous image if it was valid
+          this.profileImageUrl = previousImageUrl;
+        }
+
+        // Update the service with the default image
+        this.profileImageService.setProfileImageUrl(
+          typeof this.profileImageUrl === 'string' ?
+            this.profileImageUrl : 'assets/images/user-profile.png'
+        );
+
+        // Force UI update
         this.cdr.detectChanges();
         this.cdr.markForCheck();
       }
-    })
+    });
   }
 
   onFileSelected(event: any) {

@@ -33,4 +33,4 @@ export function updateLimitsForLevel(http: HttpClient, rootUrl: string, params: 
   );
 }
 
-updateLimitsForLevel.PATH = '/api/account-limits/level/{level}';
+updateLimitsForLevel.PATH = '/account-limits/level/{level}';

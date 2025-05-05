@@ -17,11 +17,38 @@ import { getCurrentUserDetails } from '../fn/ping/get-current-user-details';
 import { GetCurrentUserDetails$Params } from '../fn/ping/get-current-user-details';
 import { test } from '../fn/ping/test';
 import { Test$Params } from '../fn/ping/test';
+import { testKeyVault } from '../fn/ping/test-key-vault';
+import { TestKeyVault$Params } from '../fn/ping/test-key-vault';
 
 @Injectable({ providedIn: 'root' })
 export class PingService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
+  }
+
+  /** Path part for operation `testKeyVault()` */
+  static readonly TestKeyVaultPath = '/test-keyvault';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `testKeyVault()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  testKeyVault$Response(params?: TestKeyVault$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+    return testKeyVault(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `testKeyVault$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  testKeyVault(params?: TestKeyVault$Params, context?: HttpContext): Observable<string> {
+    return this.testKeyVault$Response(params, context).pipe(
+      map((r: StrictHttpResponse<string>): string => r.body)
+    );
   }
 
   /** Path part for operation `test()` */

@@ -12,10 +12,13 @@ import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
 import { ApiResponseAccountLimitDto } from '../models/api-response-account-limit-dto';
+import { ApiResponseVerificationLevel } from '../models/api-response-verification-level';
 import { getLimitsForLevel } from '../fn/account-limit-controller/get-limits-for-level';
 import { GetLimitsForLevel$Params } from '../fn/account-limit-controller/get-limits-for-level';
 import { getMyAccountLimits } from '../fn/account-limit-controller/get-my-account-limits';
 import { GetMyAccountLimits$Params } from '../fn/account-limit-controller/get-my-account-limits';
+import { getMyVerificationLevel } from '../fn/account-limit-controller/get-my-verification-level';
+import { GetMyVerificationLevel$Params } from '../fn/account-limit-controller/get-my-verification-level';
 import { updateLimitsForLevel } from '../fn/account-limit-controller/update-limits-for-level';
 import { UpdateLimitsForLevel$Params } from '../fn/account-limit-controller/update-limits-for-level';
 
@@ -26,7 +29,7 @@ export class AccountLimitControllerService extends BaseService {
   }
 
   /** Path part for operation `getLimitsForLevel()` */
-  static readonly GetLimitsForLevelPath = '/api/account-limits/level/{level}';
+  static readonly GetLimitsForLevelPath = '/account-limits/level/{level}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -51,7 +54,7 @@ export class AccountLimitControllerService extends BaseService {
   }
 
   /** Path part for operation `updateLimitsForLevel()` */
-  static readonly UpdateLimitsForLevelPath = '/api/account-limits/level/{level}';
+  static readonly UpdateLimitsForLevelPath = '/account-limits/level/{level}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -75,8 +78,33 @@ export class AccountLimitControllerService extends BaseService {
     );
   }
 
+  /** Path part for operation `getMyVerificationLevel()` */
+  static readonly GetMyVerificationLevelPath = '/account-limits/my-verification-level';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getMyVerificationLevel()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getMyVerificationLevel$Response(params?: GetMyVerificationLevel$Params, context?: HttpContext): Observable<StrictHttpResponse<ApiResponseVerificationLevel>> {
+    return getMyVerificationLevel(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getMyVerificationLevel$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getMyVerificationLevel(params?: GetMyVerificationLevel$Params, context?: HttpContext): Observable<ApiResponseVerificationLevel> {
+    return this.getMyVerificationLevel$Response(params, context).pipe(
+      map((r: StrictHttpResponse<ApiResponseVerificationLevel>): ApiResponseVerificationLevel => r.body)
+    );
+  }
+
   /** Path part for operation `getMyAccountLimits()` */
-  static readonly GetMyAccountLimitsPath = '/api/account-limits/my-limits';
+  static readonly GetMyAccountLimitsPath = '/account-limits/my-limits';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.

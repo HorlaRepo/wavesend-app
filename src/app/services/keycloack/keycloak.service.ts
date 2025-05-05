@@ -85,9 +85,7 @@ export class KeycloakService {
   
   // Updated init method
   async init(): Promise<boolean> {
-    try {
-      console.log('Starting Keycloak init...');
-      
+    try {      
       // Set token expired handler
       this._keycloak.onTokenExpired = () => {
         console.log('Token expired. Attempting refresh...');
@@ -107,8 +105,6 @@ export class KeycloakService {
         timeSkew: 30 // Add timeSkew to help with clock differences
       });
       
-      console.log('Keycloak initialization result:', authenticated);
-
       // Clean up URL parameters after successful authentication
       if (authenticated && window.location.hash && window.location.hash.includes('state=')) {
         // Remove the hash fragment for cleaner URLs
@@ -125,6 +121,8 @@ export class KeycloakService {
           this._profile = (await this._keycloak.loadUserProfile()) as UserProfile;
           this._userInfo = (await this._keycloak.loadUserInfo()) as UserInfo;
           this._profile.token = this._keycloak.token;
+
+          console.log(this._keycloak.token)
           
           // Setup token refresh
           this.setupTokenRefresh();
@@ -170,7 +168,6 @@ export class KeycloakService {
     // Instead, use a single setTimeout based on token expiry
     const tokenParsed = this._keycloak.tokenParsed as any;
     const expiresIn = tokenParsed.exp - Math.floor(Date.now() / 1000);
-    console.log(`Token expires in ${expiresIn} seconds`);
     
     // Only set up refresh if token expires in more than 10 seconds
     if (expiresIn > 10) {
@@ -188,9 +185,7 @@ export class KeycloakService {
       console.log('No token available to refresh');
       return Promise.resolve(false);
     }
-    
-    console.log(`Updating token with minValidity ${minValidity}s`);
-    
+        
     return this._keycloak.updateToken(minValidity)
       .then(refreshed => {
         if (refreshed) {

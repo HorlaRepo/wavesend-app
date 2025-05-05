@@ -329,7 +329,7 @@
         }
       }
     },
-    "/api/account-limits/level/{level}": {
+    "/account-limits/level/{level}": {
       "get": {
         "tags": [
           "account-limit-controller"
@@ -1501,6 +1501,36 @@
         }
       }
     },
+    "/ai-assistant/message": {
+      "post": {
+        "tags": [
+          "ai-financial-assistant-controller"
+        ],
+        "operationId": "processMessage",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiMessageRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseString"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/user-profile-image/url": {
       "get": {
         "tags": [
@@ -1977,6 +2007,26 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiResponseTransactionReference"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/test-keyvault": {
+      "get": {
+        "tags": [
+          "ping"
+        ],
+        "operationId": "testKeyVault",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -2833,26 +2883,6 @@
         }
       }
     },
-    "/api/account-limits/my-limits": {
-      "get": {
-        "tags": [
-          "account-limit-controller"
-        ],
-        "operationId": "getMyAccountLimits",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponseAccountLimitDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/admin/admin": {
       "get": {
         "tags": [
@@ -2866,6 +2896,46 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ApiResponseListAdmin"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/account-limits/my-verification-level": {
+      "get": {
+        "tags": [
+          "account-limit-controller"
+        ],
+        "operationId": "getMyVerificationLevel",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVerificationLevel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/account-limits/my-limits": {
+      "get": {
+        "tags": [
+          "account-limit-controller"
+        ],
+        "operationId": "getMyAccountLimits",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseAccountLimitDTO"
                 }
               }
             }
@@ -2989,6 +3059,26 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponseVoid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ai-assistant/conversation": {
+      "delete": {
+        "tags": [
+          "ai-financial-assistant-controller"
+        ],
+        "operationId": "clearConversation",
         "responses": {
           "200": {
             "description": "OK",
@@ -3363,6 +3453,9 @@
           "maxTransferAmount": {
             "type": "number"
           },
+          "unlimited": {
+            "type": "boolean"
+          },
           "formattedDailyLimit": {
             "type": "string"
           },
@@ -3377,9 +3470,6 @@
           },
           "formattedMaxTransfer": {
             "type": "string"
-          },
-          "unlimited": {
-            "type": "boolean"
           }
         }
       },
@@ -4299,6 +4389,14 @@
           },
           "data": {
             "$ref": "#/components/schemas/BankAccount"
+          }
+        }
+      },
+      "AiMessageRequest": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
           }
         }
       },
@@ -5502,6 +5600,26 @@
             "items": {
               "$ref": "#/components/schemas/Admin"
             }
+          }
+        }
+      },
+      "ApiResponseVerificationLevel": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "string",
+            "enum": [
+              "UNVERIFIED",
+              "EMAIL_VERIFIED",
+              "ID_VERIFIED",
+              "FULLY_VERIFIED"
+            ]
           }
         }
       },

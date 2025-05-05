@@ -8,16 +8,13 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { ApiResponseAccountLimitDto } from '../../models/api-response-account-limit-dto';
 
-export interface GetLimitsForLevel$Params {
-  level: 'UNVERIFIED' | 'EMAIL_VERIFIED' | 'ID_VERIFIED' | 'FULLY_VERIFIED';
+export interface TestKeyVault$Params {
 }
 
-export function getLimitsForLevel(http: HttpClient, rootUrl: string, params: GetLimitsForLevel$Params, context?: HttpContext): Observable<StrictHttpResponse<ApiResponseAccountLimitDto>> {
-  const rb = new RequestBuilder(rootUrl, getLimitsForLevel.PATH, 'get');
+export function testKeyVault(http: HttpClient, rootUrl: string, params?: TestKeyVault$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+  const rb = new RequestBuilder(rootUrl, testKeyVault.PATH, 'get');
   if (params) {
-    rb.path('level', params.level, {});
   }
 
   return http.request(
@@ -25,9 +22,9 @@ export function getLimitsForLevel(http: HttpClient, rootUrl: string, params: Get
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<ApiResponseAccountLimitDto>;
+      return r as StrictHttpResponse<string>;
     })
   );
 }
 
-getLimitsForLevel.PATH = '/account-limits/level/{level}';
+testKeyVault.PATH = '/test-keyvault';

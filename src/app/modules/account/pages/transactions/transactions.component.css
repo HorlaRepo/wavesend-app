@@ -41,7 +41,7 @@
 
 /* Page Header */
 .page-header {
-  padding: 1.5rem 0;
+  display: none;
 }
 
 .page-header h2 {
@@ -633,44 +633,89 @@
 /* Tab Styles */
 .transaction-tabs {
   display: flex;
-  border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 20px;
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+.transaction-tabs-wrapper {
+  display: flex;
+  justify-content: flex-start; /* Left-align tabs */
+  padding-left: 15px; /* Match the left padding of col-lg-9 */
   width: 100%;
-  padding-left: 15px;
+  margin-bottom: 1.5rem;
+  border-bottom: none; /* Remove the divider line */
+}
+
+.transactions-header {
+  padding-top: 1.5rem;
+}
+
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #212529;
+}
+
+.header-description {
+  font-size: 0.95rem;
+  color: #6c757d;
+  margin-bottom: 0;
+}
+
+.transaction-tabs + .row {
+  margin-top: 1rem;
 }
 
 .tab-btn {
-  padding: 12px 20px;
   background: none;
   border: none;
-  border-bottom: 3px solid transparent;
+  padding: 0.75rem 1.25rem;
+  padding-left: 0;
   font-weight: 500;
-  cursor: pointer;
+  color: #6c757d;
+  position: relative;
   transition: all 0.2s ease;
-  margin-right: 10px;
-  color: #495057;
+  text-align: left;
+  margin-right: 1.5rem;
 }
 
 .tab-btn:hover {
-  color: #2ebe60;
+  color: #212529;
 }
 
 .tab-btn.active {
-  color: #2ebe60;
-  border-bottom-color: #2ebe60;
+  color: #2fbe5f;
+  font-weight: 600;
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #2fbe5f;
+}
+
+.tab-btn:first-child {
+  padding-left: 0; /* Remove padding from first tab */
 }
 
 /* Scheduled Tab */
 .scheduled-tab {
   width: 100%;
   padding: 0 15px;
+  padding-top: 0;
 }
 
 .scheduled-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
 .scheduled-header h3 {
@@ -692,6 +737,22 @@
   border-color: #25a651;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(46, 190, 96, 0.3);
+}
+
+/* Make sure sidebar components start at the same level as the main content card */
+aside.col-lg-3 {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+}
+
+aside.col-lg-3 > * {
+  margin-bottom: 1.5rem;
+}
+
+.col-lg-9 {
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 /* Table Styling */
@@ -755,6 +816,10 @@
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+.row {
+  margin-top: 0.5rem;
 }
 
 .spinner {
@@ -926,7 +991,8 @@
 
 @media (max-width: 768px) {
   .tab-btn {
-    padding: 10px 15px;
+    min-width: 130px;
+    padding: 0.75rem 0.5rem;
     font-size: 0.9rem;
   }
   
@@ -951,12 +1017,14 @@
   }
 }
 
-/* Transaction Tabs Styling */
-.transaction-tabs {
-  display: flex;
-  border-bottom: 1px solid #e9ecef;
-  margin-bottom: 1.5rem;
+@media (min-width: 992px) {
+  .transaction-tabs-wrapper {
+    padding-left: calc(25% + 15px); /* Position tabs above right column */
+  }
 }
+
+/* Transaction Tabs Styling */
+
 
 .tab-btn {
   background: none;

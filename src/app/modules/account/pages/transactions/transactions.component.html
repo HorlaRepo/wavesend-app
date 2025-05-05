@@ -1,6 +1,28 @@
 <!-- Content -->
 <div id="content" class="py-4">
   <div class="container">
+    <!-- Page Header - Moved above the row structure -->
+    <div class="transactions-header mb-4">
+      <div class="d-flex flex-column">
+        <h2 class="page-title">Transactions</h2>
+        <p class="text-muted header-description">View and manage all your transaction history</p>
+      </div>
+    </div>
+
+    <!-- Transaction Tabs - Updated to be centered - KEEP THIS SECTION -->
+    <div class="transaction-tabs-wrapper">
+      <div class="transaction-tabs mb-3">
+        <button class="tab-btn" [class.active]="activeTab === 'transactions'" (click)="switchTab('transactions')">
+          <i class="fas fa-exchange-alt me-2"></i>
+          Recent Transactions
+        </button>
+        <button class="tab-btn" [class.active]="activeTab === 'scheduled'" (click)="switchTab('scheduled')">
+          <i class="fas fa-calendar-alt me-2"></i>
+          Scheduled Transfers
+        </button>
+      </div>
+    </div>
+
     <div class="row">
       <!-- Left Panel (Imported components - already styled) -->
       <aside class="col-lg-3">
@@ -11,23 +33,10 @@
 
       <!-- Right Content Panel -->
       <div class="col-lg-9">
-        <!-- Transaction Tabs -->
-        <div class="transaction-tabs mb-3">
-          <button class="tab-btn" [class.active]="activeTab === 'transactions'" (click)="switchTab('transactions')">
-            Recent Transactions
-          </button>
-          <button class="tab-btn" [class.active]="activeTab === 'scheduled'" (click)="switchTab('scheduled')">
-            Scheduled Transfers
-          </button>
-        </div>
-
         <!-- Transaction tab content -->
+
         <div *ngIf="activeTab === 'transactions'">
-          <!-- Page Header -->
-          <div class="page-header">
-            <h2>Transactions</h2>
-            <p class="text-muted">View and manage all your transaction history</p>
-          </div>
+          <!-- Removed duplicate page header as we moved it to the top -->
 
           <!-- Transactions Card -->
           <div class="transactions-card dashboard-card">
@@ -237,10 +246,7 @@
 
         <!-- Scheduled transfers tab content -->
         <div *ngIf="activeTab === 'scheduled'" class="scheduled-tab">
-          <div class="page-header">
-            <h2>Scheduled Transfers</h2>
-            <p class="text-muted">Manage your scheduled and recurring transfers</p>
-          </div>
+          <!-- Removed duplicate page header as we moved it to the top -->
 
           <div class="scheduled-header">
             <a class="btn-link text-success" routerLink="/account/schedule-transfer">
@@ -399,8 +405,6 @@
   </div>
 </div>
 
-
-
 <!-- Scheduled Transfer Dialog with Enhanced Layout -->
 <p-dialog [(visible)]="showScheduledTransferDialog" [modal]="true" [draggable]="false" [resizable]="false"
   [style]="{width: '650px'}" [baseZIndex]="10000" header="Scheduled Transfer Details"
@@ -445,7 +449,7 @@
             <div class="detail-label">Recipient:</div>
             <div class="detail-value">{{ selectedScheduledTransfer.receiverEmail }}</div>
           </div>
-          
+
           <div class="detail-row">
             <div class="detail-label">Description:</div>
             <div class="detail-value">{{ selectedScheduledTransfer.description || 'No description' }}</div>
@@ -486,15 +490,17 @@
               </span>
             </div>
           </div>
-          
-          <div class="detail-row" *ngIf="selectedScheduledTransfer.recurrenceType !== 'NONE' && selectedScheduledTransfer.recurrenceEndDate">
+
+          <div class="detail-row"
+            *ngIf="selectedScheduledTransfer.recurrenceType !== 'NONE' && selectedScheduledTransfer.recurrenceEndDate">
             <div class="detail-label">Ends On:</div>
             <div class="detail-value">{{ formatDateTime(selectedScheduledTransfer.recurrenceEndDate) }}</div>
           </div>
 
           <div class="detail-row" *ngIf="selectedScheduledTransfer.recurrenceType !== 'NONE'">
             <div class="detail-label">Occurrence:</div>
-            <div class="detail-value">{{ selectedScheduledTransfer.currentOccurrence }} of {{ selectedScheduledTransfer.totalOccurrences || '∞' }}</div>
+            <div class="detail-value">{{ selectedScheduledTransfer.currentOccurrence }} of {{
+              selectedScheduledTransfer.totalOccurrences || '∞' }}</div>
           </div>
         </div>
       </div>
@@ -507,7 +513,7 @@
             <div class="detail-label">Reference Number:</div>
             <div class="detail-value">{{ selectedScheduledTransfer.referenceNumber }}</div>
           </div>
-          
+
           <div class="detail-row" *ngIf="selectedScheduledTransfer.notes">
             <div class="detail-label">Notes:</div>
             <div class="detail-value">{{ selectedScheduledTransfer.notes }}</div>
@@ -519,7 +525,6 @@
 </p-dialog>
 
 <p-toast position="bottom-right"></p-toast>
-
 
 <!-- Confirm Dialog -->
 <p-confirmDialog #cd [style]="{width: '450px'}" styleClass="cancel-confirmation-dialog" [baseZIndex]="10000">

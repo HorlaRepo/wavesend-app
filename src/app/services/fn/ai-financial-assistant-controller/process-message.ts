@@ -8,14 +8,17 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { ApiResponseAccountLimitDto } from '../../models/api-response-account-limit-dto';
+import { AiMessageRequest } from '../../models/ai-message-request';
+import { ApiResponseString } from '../../models/api-response-string';
 
-export interface GetMyAccountLimits$Params {
+export interface ProcessMessage$Params {
+      body: AiMessageRequest
 }
 
-export function getMyAccountLimits(http: HttpClient, rootUrl: string, params?: GetMyAccountLimits$Params, context?: HttpContext): Observable<StrictHttpResponse<ApiResponseAccountLimitDto>> {
-  const rb = new RequestBuilder(rootUrl, getMyAccountLimits.PATH, 'get');
+export function processMessage(http: HttpClient, rootUrl: string, params: ProcessMessage$Params, context?: HttpContext): Observable<StrictHttpResponse<ApiResponseString>> {
+  const rb = new RequestBuilder(rootUrl, processMessage.PATH, 'post');
   if (params) {
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -23,9 +26,9 @@ export function getMyAccountLimits(http: HttpClient, rootUrl: string, params?: G
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<ApiResponseAccountLimitDto>;
+      return r as StrictHttpResponse<ApiResponseString>;
     })
   );
 }
 
-getMyAccountLimits.PATH = '/account-limits/my-limits';
+processMessage.PATH = '/ai-assistant/message';

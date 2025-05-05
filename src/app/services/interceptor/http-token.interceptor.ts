@@ -20,12 +20,10 @@ export class HttpTokenInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     // Only add token to API requests
-    if (request.url.includes('api.wavesend.cc')) {
+    if (request.url.includes('api.wavesend.cc') || request.url.includes('localhost:8080/api')) {
       const token = this.keycloakService.token;
       
       if (token) {
-        console.log('Adding token to request:', request.url);
-        
         const authRequest = request.clone({
           setHeaders: {
             Authorization: `Bearer ${token}`

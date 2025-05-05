@@ -1,16 +1,37 @@
-<div class="floating-suggestion-wrapper" [@fadeInOut]="animationState">
-    <!-- Minimized State Toggle Button -->
-    <div class="suggestion-toggle" [class.expanded]="isExpanded" (click)="toggleExpand()">
-      <div class="suggestion-icon">
+<div class="floating-widget-wrapper" [@fadeInOut]="animationState">
+  <!-- Minimized State Toggle Button -->
+  <div class="widget-toggle" [class.expanded]="isExpanded" (click)="toggleExpand()">
+    <div class="widget-icon">
+      <i class="fas" [ngClass]="activeTab === 'suggestions' ? 'fa-lightbulb' : 'fa-comment-dots'"></i>
+      <span class="badge" *ngIf="activeTab === 'suggestions' && suggestions.length > 0">{{suggestions.length}}</span>
+      <span class="badge" *ngIf="activeTab === 'chat' && unreadMessages > 0">{{unreadMessages}}</span>
+    </div>
+    <span class="toggle-text" *ngIf="isExpanded">
+      {{ activeTab === 'suggestions' ? 'Smart Suggestions' : 'Financial Assistant' }}
+    </span>
+    <i class="fas" [ngClass]="isExpanded ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+  </div>
+  
+  <!-- Expanded Content -->
+  <div class="widget-content" *ngIf="isExpanded">
+    <!-- Tabs Navigation -->
+    <div class="widget-tabs">
+      <div class="tab-button" 
+           [class.active]="activeTab === 'suggestions'" 
+           (click)="switchTab('suggestions')">
         <i class="fas fa-lightbulb"></i>
-        <span class="badge" *ngIf="suggestions.length > 0">{{suggestions.length}}</span>
+        <span>Suggestions</span>
       </div>
-      <span class="toggle-text" *ngIf="isExpanded">Smart Suggestions</span>
-      <i class="fas" [ngClass]="isExpanded ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+      <div class="tab-button" 
+           [class.active]="activeTab === 'chat'" 
+           (click)="switchTab('chat')">
+        <i class="fas fa-comment-dots"></i>
+        <span>Chat</span>
+      </div>
     </div>
     
-    <!-- Expanded Suggestion Content -->
-    <div class="suggestion-content" *ngIf="isExpanded" [@cardTransition]="cardState">
+    <!-- Suggestions Tab Content -->
+    <div class="tab-content" *ngIf="activeTab === 'suggestions'" [@cardTransition]="cardState">
       <!-- Loading State -->
       <div class="loader-container" *ngIf="loading || noSuggestionsState === 'loading'">
         <div class="pulse-loader"></div>
@@ -92,4 +113,108 @@
         </div>
       </ng-container>
     </div>
+    
+    <!-- Chat Tab Content -->
+    <div class="tab-content chat-tab" *ngIf="activeTab === 'chat'">
+      <!-- Chat Messages Area -->
+      <div class="chat-messages" #chatContainer>
+        <!-- Empty chat state -->
+        <div class="empty-chat" *ngIf="chatMessages.length === 0">
+          <div class="empty-chat-animation">
+            <i class="fas fa-robot pulse"></i>
+          </div>
+          <h3>Financial Assistant</h3>
+          <p>Ask me to help with transfers, withdrawals, or scheduling payments.</p>
+          
+          <div class="sample-prompts">
+            <div class="prompt-title">Try saying:</div>
+            <div class="prompt-buttons">
+              <button class="prompt-button" (click)="usePrompt('Schedule a transfer of $50 to Maria Johnson tomorrow at 3:00 PM')">
+                Schedule a transfer
+              </button>
+              <button class="prompt-button" (click)="usePrompt('Send $25 to John Smith right now')">
+                Instant transfer
+              </button>
+              <button class="prompt-button" (click)="usePrompt('How much money is in my account?')">
+                Check balance
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Messages -->
+        <ng-container *ngIf="chatMessages.length > 0">
+          <div class="message-container" *ngFor="let message of chatMessages; let i = index" 
+               [ngClass]="{'user-message': message.sender === 'user', 'ai-message': message.sender === 'ai'}"
+               [@messageAnimation]="'visible'">
+            
+            <div class="message-avatar" *ngIf="message.sender === 'ai'">
+              <i class="fas fa-robot"></i>
+            </div>
+            
+            <div class="message-content">
+              <div class="message-text" *ngIf="message.sender === 'user'">
+                {{ message.text }}
+              </div>
+              <div class="message-text typing-animation" *ngIf="message.sender === 'ai' && message.isTyping">
+                {{ message.displayText }}
+                <span class="typing-indicator">
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </span>
+              </div>
+              <div class="message-text" *ngIf="message.sender === 'ai' && !message.isTyping">
+                {{ message.text }}
+              </div>
+              <div class="message-time">{{ message.timestamp | date:'shortTime' }}</div>
+            </div>
+            
+            <div class="message-avatar user-avatar" *ngIf="message.sender === 'user'">
+              <i class="fas fa-user"></i>
+            </div>
+          </div>
+        </ng-container>
+        
+        <!-- Typing indicator when AI is processing -->
+        <div class="typing-indicator-container" *ngIf="isAiTyping && !showLatestTyping">
+          <div class="message-avatar">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div class="typing-indicator">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Chat Input Area -->
+      <div class="chat-input-area">
+        <div class="chat-actions">
+          <button class="clear-chat-button" (click)="clearChat()" *ngIf="chatMessages.length > 0">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+        
+        <div class="chat-input-wrapper">
+          <textarea 
+            class="chat-input" 
+            placeholder="Type your message..." 
+            [(ngModel)]="userInput" 
+            [disabled]="isAiTyping"
+            (keydown.enter)="sendUserMessage($event)"
+            #chatInput>
+          </textarea>
+          
+          <button 
+            class="send-button" 
+            [disabled]="isAiTyping || !userInput.trim()" 
+            (click)="sendUserMessage()">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
+</div>

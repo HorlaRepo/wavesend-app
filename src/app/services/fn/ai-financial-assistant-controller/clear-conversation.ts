@@ -8,16 +8,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { ApiResponseAccountLimitDto } from '../../models/api-response-account-limit-dto';
+import { ApiResponseVoid } from '../../models/api-response-void';
 
-export interface GetLimitsForLevel$Params {
-  level: 'UNVERIFIED' | 'EMAIL_VERIFIED' | 'ID_VERIFIED' | 'FULLY_VERIFIED';
+export interface ClearConversation$Params {
 }
 
-export function getLimitsForLevel(http: HttpClient, rootUrl: string, params: GetLimitsForLevel$Params, context?: HttpContext): Observable<StrictHttpResponse<ApiResponseAccountLimitDto>> {
-  const rb = new RequestBuilder(rootUrl, getLimitsForLevel.PATH, 'get');
+export function clearConversation(http: HttpClient, rootUrl: string, params?: ClearConversation$Params, context?: HttpContext): Observable<StrictHttpResponse<ApiResponseVoid>> {
+  const rb = new RequestBuilder(rootUrl, clearConversation.PATH, 'delete');
   if (params) {
-    rb.path('level', params.level, {});
   }
 
   return http.request(
@@ -25,9 +23,9 @@ export function getLimitsForLevel(http: HttpClient, rootUrl: string, params: Get
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<ApiResponseAccountLimitDto>;
+      return r as StrictHttpResponse<ApiResponseVoid>;
     })
   );
 }
 
-getLimitsForLevel.PATH = '/account-limits/level/{level}';
+clearConversation.PATH = '/ai-assistant/conversation';

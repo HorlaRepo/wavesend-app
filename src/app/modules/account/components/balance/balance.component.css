@@ -180,6 +180,211 @@
   border-radius: 50%;
 }
 
+/* Account Limits Styles */
+.account-limits {
+  margin-top: 1.25rem;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  padding-top: 1rem;
+}
+
+.limits-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  transition: all 0.2s ease;
+}
+
+.limits-header:hover {
+  background-color: rgba(46, 190, 96, 0.03);
+}
+
+.limits-title {
+  display: flex;
+  align-items: center;
+  color: #495057;
+  font-weight: 500;
+}
+
+.limits-title i {
+  color: #2ebe60;
+  margin-right: 0.75rem;
+  font-size: 1rem;
+}
+
+.verification-level {
+  display: flex;
+  align-items: center;
+}
+
+.verification-level .badge {
+  padding: 0.4rem 0.6rem;
+  font-weight: 500;
+  font-size: 0.7rem;
+  border-radius: 4px;
+  margin-right: 0.75rem;
+}
+
+.badge-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.badge-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.badge-info {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.badge-success {
+  background-color: #2ebe60;
+  color: white;
+}
+
+.limits-details {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.limits-section-expanded {
+  max-height: 1000px !important; /* Increased and added !important */
+  padding-top: 1rem;
+  padding-bottom: 1rem !important; /* Added to ensure space at bottom */
+  overflow: visible !important; /* Added to ensure content isn't cut off */
+}
+
+.limits-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 0;
+  color: #6c757d;
+}
+
+.limits-loader .spinner-border {
+  margin-right: 0.75rem;
+}
+
+.verification-progress {
+  margin-bottom: 1.25rem;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  color: #495057;
+  font-size: 0.85rem;
+}
+
+.progress {
+  height: 0.5rem;
+  border-radius: 10px;
+  background-color: #e9ecef;
+}
+
+.limits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.limit-item {
+  padding: 0.75rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 3px solid #2ebe60;
+}
+
+.limit-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.limit-name {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+.limit-name i {
+  margin-right: 0.5rem;
+  width: 16px;
+  text-align: center;
+}
+
+.limit-value {
+  font-weight: 600;
+  color: #212529;
+}
+
+.limit-progress {
+  height: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.limit-usage {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+.upgrade-prompt {
+  background-color: rgba(46, 190, 96, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.upgrade-prompt p {
+  margin-bottom: 0.75rem;
+  color: #495057;
+  font-size: 0.9rem;
+}
+
+
+.upgrade-btn {
+  background-color: #2ebe60 !important; /* Force override any other styles */
+  color: white !important;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  cursor: pointer;
+}
+
+.upgrade-btn:hover {
+  background-color: #26a954 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(46, 190, 96, 0.2);
+}
+
+.upgrade-btn i {
+  margin-right: 0.5rem;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 576px) {
   .balance-card-container {

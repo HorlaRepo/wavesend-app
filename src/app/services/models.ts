@@ -7,6 +7,7 @@ export { AccountLimitDto } from './models/account-limit-dto';
 export { AddBankAccountRequest } from './models/add-bank-account-request';
 export { AddBeneficiaryRequest } from './models/add-beneficiary-request';
 export { Admin } from './models/admin';
+export { AiMessageRequest } from './models/ai-message-request';
 export { ApiResponseAccountLimitDto } from './models/api-response-account-limit-dto';
 export { ApiResponseBankAccount } from './models/api-response-bank-account';
 export { ApiResponseBoolean } from './models/api-response-boolean';
@@ -39,6 +40,7 @@ export { ApiResponseUserBeneficiariesResponse } from './models/api-response-user
 export { ApiResponseUserBeneficiaryResponse } from './models/api-response-user-beneficiary-response';
 export { ApiResponseUserNotificationPreferences } from './models/api-response-user-notification-preferences';
 export { ApiResponseUserRepresentation } from './models/api-response-user-representation';
+export { ApiResponseVerificationLevel } from './models/api-response-verification-level';
 export { ApiResponseVoid } from './models/api-response-void';
 export { ApiResponseWallet } from './models/api-response-wallet';
 export { Bank } from './models/bank';

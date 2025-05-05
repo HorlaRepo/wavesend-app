@@ -24,9 +24,10 @@ import { CountryControllerService } from './services/country-controller.service'
 import { BeneficiaryAiSuggestionControllerService } from './services/beneficiary-ai-suggestion-controller.service';
 import { UserBeneficiariesControllerService } from './services/user-beneficiaries-controller.service';
 import { BankAccountControllerService } from './services/bank-account-controller.service';
+import { AiFinancialAssistantControllerService } from './services/ai-financial-assistant-controller.service';
 import { TransactionReferenceControllerService } from './services/transaction-reference-controller.service';
-import { StatementControllerService } from './services/statement-controller.service';
 import { PingService } from './services/ping.service';
+import { StatementControllerService } from './services/statement-controller.service';
 import { PayStackControllerService } from './services/pay-stack-controller.service';
 import { PaymentMethodsControllerService } from './services/payment-methods-controller.service';
 import { RedisHealthControllerService } from './services/redis-health-controller.service';
@@ -61,9 +62,10 @@ import { AdminControllerService } from './services/admin-controller.service';
     BeneficiaryAiSuggestionControllerService,
     UserBeneficiariesControllerService,
     BankAccountControllerService,
+    AiFinancialAssistantControllerService,
     TransactionReferenceControllerService,
-    StatementControllerService,
     PingService,
+    StatementControllerService,
     PayStackControllerService,
     PaymentMethodsControllerService,
     RedisHealthControllerService,
