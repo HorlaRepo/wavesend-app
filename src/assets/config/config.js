@@ -1,7 +1,7 @@
 window.appConfig = {
   apiUrl: 'https://api.wavesend.com',
   keycloak: {
-    url: 'https://wavesend-keycloak-app-fpbkevc2fufed4a6.eastus2-01.azurewebsites.net',
+    url: 'https://auth.wavesend.cc',
     realm: 'wavesend',
     clientId: 'wavesend-frontend'
   }
