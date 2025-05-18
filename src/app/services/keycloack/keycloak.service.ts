@@ -40,7 +40,7 @@ export class KeycloakService {
     const realm = environment.keycloak.realm;
     const clientId = environment.keycloak.clientId;
 
-    console.log('Keycloak configuration:', { keycloakUrl, realm, clientId });
+    //console.log('Keycloak configuration:', { keycloakUrl, realm, clientId });
 
     this._keycloak = new Keycloak({
       url: keycloakUrl,
@@ -88,9 +88,9 @@ export class KeycloakService {
     try {      
       // Set token expired handler
       this._keycloak.onTokenExpired = () => {
-        console.log('Token expired. Attempting refresh...');
+        //console.log('Token expired. Attempting refresh...');
         this.updateToken(30).then(refreshed => {
-          console.log('Token refresh result:', refreshed ? 'successful' : 'not needed');
+          //console.log('Token refresh result:', refreshed ? 'successful' : 'not needed');
         });
       };
     
@@ -122,7 +122,7 @@ export class KeycloakService {
           this._userInfo = (await this._keycloak.loadUserInfo()) as UserInfo;
           this._profile.token = this._keycloak.token;
 
-          console.log(this._keycloak.token)
+          //console.log(this._keycloak.token)
           
           // Setup token refresh
           this.setupTokenRefresh();
@@ -133,7 +133,7 @@ export class KeycloakService {
           return true;
         }
       } else {
-        console.log('Not authenticated, will try login');
+        //console.log('Not authenticated, will try login');
         this.setAuthenticated(false);
         // Instead of automatic login, let the application decide when to login
         return false;
@@ -154,13 +154,13 @@ export class KeycloakService {
     
     // Simple onTokenExpired handler
     this._keycloak.onTokenExpired = () => {
-      console.log('Token expired, refreshing...');
+      //('Token expired, refreshing...');
       this.updateToken(60)
         .then(refreshed => {
-          console.log('Token refresh result:', refreshed ? 'successful' : 'not needed');
+          //console.log('Token refresh result:', refreshed ? 'successful' : 'not needed');
         })
         .catch(error => {
-          console.error('Failed to refresh token:', error);
+          //console.error('Failed to refresh token:', error);
         });
     };
     
@@ -182,16 +182,16 @@ export class KeycloakService {
   // New method for updating token
   updateToken(minValidity = 60): Promise<boolean> {
     if (!this._keycloak?.token) {
-      console.log('No token available to refresh');
+      //('No token available to refresh');
       return Promise.resolve(false);
     }
         
     return this._keycloak.updateToken(minValidity)
       .then(refreshed => {
         if (refreshed) {
-          console.log('Token was refreshed');
+          //console.log('Token was refreshed');
         } else {
-          console.log('Token is still valid, no refresh needed');
+          //console.log('Token is still valid, no refresh needed');
         }
         return refreshed;
       })
@@ -310,7 +310,7 @@ fetchUserProfileImage(defaultUrl: SafeUrl | string): Promise<SafeUrl> {
   return new Promise((resolve) => {
     if (!this._isAuthenticated) {
       // Simple message instead of warning
-      console.log('No profile image: not authenticated');
+      //console.log('No profile image: not authenticated');
       resolve(this.sanitizer.bypassSecurityTrustUrl(defaultUrl as string));
       return;
     }
@@ -319,7 +319,7 @@ fetchUserProfileImage(defaultUrl: SafeUrl | string): Promise<SafeUrl> {
       catchError(err => {
         // Simple error message instead of detailed error object
         if (err.status === 401) {
-          console.log('No profile image: authentication required');
+          //console.log('No profile image: authentication required');
           return from(this.updateToken()).pipe(
             switchMap(refreshed => {
               if (refreshed) {
@@ -329,9 +329,9 @@ fetchUserProfileImage(defaultUrl: SafeUrl | string): Promise<SafeUrl> {
             })
           );
         } else if (err.status === 404) {
-          console.log('No profile image: not found');
+          //console.log('No profile image: not found');
         } else {
-          console.log('No profile image: service unavailable');
+          //console.log('No profile image: service unavailable');
         }
         
         return of({ data: null });
@@ -342,16 +342,16 @@ fetchUserProfileImage(defaultUrl: SafeUrl | string): Promise<SafeUrl> {
 
         if (imageUrl && typeof imageUrl === 'string' && imageUrl.trim().length > 0) {
           // Simple success message
-          console.log('Profile image loaded successfully');
+          //console.log('Profile image loaded successfully');
           resolve(this.sanitizer.bypassSecurityTrustUrl(imageUrl));
         } else {
-          console.log('No profile image: using default');
+          //console.log('No profile image: using default');
           resolve(this.sanitizer.bypassSecurityTrustUrl(defaultUrl as string));
         }
       },
       error: () => {
         // Simple fallback message without error details
-        console.log('No profile image: using default');
+        //console.log('No profile image: using default');
         resolve(this.sanitizer.bypassSecurityTrustUrl(defaultUrl as string));
       }
     });

@@ -37,7 +37,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
             if (error.status === 401 && !this.refreshing) {
               this.refreshing = true;
               
-              console.log('Received 401, attempting to refresh token');
+              //console.log('Received 401, attempting to refresh token');
               
               return from(this.keycloakService.updateToken(60)).pipe(
                 switchMap(refreshed => {
@@ -45,7 +45,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
                   const newToken = this.keycloakService.token;
                   
                   if (newToken) {
-                    console.log('Token refreshed, retrying request');
+                    //console.log('Token refreshed, retrying request');
                     // Clone the original request with the new token
                     const newAuthRequest = request.clone({
                       setHeaders: {
