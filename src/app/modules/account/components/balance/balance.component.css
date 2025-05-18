@@ -183,7 +183,7 @@
 /* Account Limits Styles */
 .account-limits {
   margin-top: 1.25rem;
-  border-top: 1px solid rgba(0,0,0,0.06);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
   padding-top: 1rem;
 }
 
@@ -253,10 +253,13 @@
 }
 
 .limits-section-expanded {
-  max-height: 1000px !important; /* Increased and added !important */
+  max-height: 1000px !important;
+  /* Increased and added !important */
   padding-top: 1rem;
-  padding-bottom: 1rem !important; /* Added to ensure space at bottom */
-  overflow: visible !important; /* Added to ensure content isn't cut off */
+  padding-bottom: 1rem !important;
+  /* Added to ensure space at bottom */
+  overflow: visible !important;
+  /* Added to ensure content isn't cut off */
 }
 
 .limits-loader {
@@ -360,7 +363,8 @@
 
 
 .upgrade-btn {
-  background-color: #2ebe60 !important; /* Force override any other styles */
+  background-color: #2ebe60 !important;
+  /* Force override any other styles */
   color: white !important;
   border: none;
   border-radius: 20px;
@@ -385,6 +389,304 @@
   margin-right: 0.5rem;
 }
 
+/* New button for Account Limits */
+.view-limits-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.view-limits-btn:hover {
+  background-color: rgba(46, 190, 96, 0.05);
+}
+
+.view-limits-btn .limits-title {
+  display: flex;
+  align-items: center;
+  color: #495057;
+  font-weight: 500;
+}
+
+.view-limits-btn .limits-title i {
+  color: #2ebe60;
+  margin-right: 0.75rem;
+  font-size: 1rem;
+}
+
+.view-limits-btn .verification-level {
+  display: flex;
+  align-items: center;
+}
+
+.view-limits-btn .verification-level .badge {
+  padding: 0.4rem 0.6rem;
+  font-weight: 500;
+  font-size: 0.7rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+
+.view-limits-btn .fa-external-link-alt {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+/* Dialog Styling */
+:host ::ng-deep .limits-dialog-panel {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.limits-dialog {
+  padding: 0;
+  overflow: hidden;
+}
+
+.dialog-header {
+  background: linear-gradient(135deg, #2ebe60 0%, #28a745 100%);
+  color: white;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dialog-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.dialog-header .verification-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dialog-content {
+  padding: 1.5rem;
+}
+
+.verification-progress {
+  margin-bottom: 2rem;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.progress {
+  height: 8px;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background: linear-gradient(to right, #2ebe60, #28a745);
+  border-radius: 4px;
+}
+
+/* Limits Grid Layout */
+.limits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.limit-card {
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  gap: 1rem;
+  transition: all 0.2s ease;
+  border: 1px solid #eaeaea;
+}
+
+.limit-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.limit-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.wallet-icon {
+  background-color: rgba(46, 190, 96, 0.1);
+  color: #2ebe60;
+}
+
+.transaction-icon {
+  background-color: rgba(13, 110, 253, 0.1);
+  color: #0d6efd;
+}
+
+.transfer-icon {
+  background-color: rgba(13, 202, 240, 0.1);
+  color: #0dcaf0;
+}
+
+.deposit-icon {
+  background-color: rgba(25, 135, 84, 0.1);
+  color: #198754;
+}
+
+.withdrawal-icon {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+.limit-details {
+  flex: 1;
+}
+
+.limit-name {
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+
+.limit-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #212529;
+}
+
+.limit-usage-bar {
+  height: 6px;
+  border-radius: 3px;
+  background-color: #e9ecef;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+}
+
+.usage-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.low-usage {
+  background-color: #2ebe60;
+}
+
+.medium-usage {
+  background-color: #ffc107;
+}
+
+.high-usage {
+  background-color: #dc3545;
+}
+
+.limit-usage-text {
+  font-size: 0.75rem;
+  color: #6c757d;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Upgrade Section */
+.upgrade-section {
+  background-color: rgba(46, 190, 96, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.upgrade-message {
+  font-size: 1rem;
+  color: #495057;
+  margin-bottom: 1rem;
+}
+
+.upgrade-button {
+  background: linear-gradient(135deg, #2ebe60 0%, #28a745 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(46, 190, 96, 0.2);
+  transition: all 0.2s ease;
+}
+
+.upgrade-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(46, 190, 96, 0.3);
+}
+
+.upgrade-button i {
+  font-size: 1.1rem;
+}
+
+/* Dialog Footer */
+.dialog-footer {
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid #eaeaea;
+}
+
+.close-button {
+  border: 1px solid #e9ecef;
+  background-color: white;
+  color: #495057;
+  border-radius: 6px;
+  padding: 0.5rem 1.25rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background-color: #f8f9fa;
+}
+
+.limits-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+  color: #6c757d;
+  gap: 1rem;
+}
+
+.limits-loader .spinner-border {
+  width: 3rem;
+  height: 3rem;
+  color: #2ebe60;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 576px) {
   .balance-card-container {
@@ -398,4 +700,34 @@
   .action-button {
     padding: 0.6rem;
   }
+}
+
+@media (max-width: 768px) {
+  .limits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dialog-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .verification-badge {
+    align-self: flex-start;
+  }
+}
+
+/* Style for unlimited usage bar */
+.unlimited-usage {
+  background-color: #2ebe60;
+  background-image: linear-gradient(45deg,
+      rgba(255, 255, 255, 0.15) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.15) 50%,
+      rgba(255, 255, 255, 0.15) 75%,
+      transparent 75%,
+      transparent);
+  background-size: 1rem 1rem;
 }

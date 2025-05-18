@@ -29,9 +29,9 @@
     <span>Updated just now</span>
   </div>
 
-  <!-- Account Limits Section -->
+  <!-- Account Limits Section - Replace dropdown with button -->
   <div class="account-limits">
-    <div class="limits-header" (click)="toggleLimitsVisibility()">
+    <button class="view-limits-btn" (click)="openLimitsDialog()">
       <div class="limits-title">
         <i class="fas fa-shield-alt"></i>
         <span>Account Limits</span>
@@ -39,123 +39,10 @@
 
       <!-- Verification Level Badge -->
       <div class="verification-level">
-        <span class="badge" [ngClass]="getVerificationLevelClass()">{{ getVerificationLevelLabel() }}</span>
-        <i class="fas" [ngClass]="isLimitsExpanded ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+        <!-- <span class="badge" [ngClass]="getVerificationLevelClass()">{{ getVerificationLevelLabel() }}</span> -->
+        <i class="fas fa-external-link-alt"></i>
       </div>
-    </div>
-
-    <!-- Expandable Limits Details -->
-    <div class="limits-details" [ngClass]="limitsExpandClass">
-      <!-- Loader -->
-      <div *ngIf="loading" class="limits-loader">
-        <div class="spinner-border text-primary spinner-border-sm" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-        <span>Loading your account limits...</span>
-      </div>
-
-      <!-- Verification Progress -->
-      <div *ngIf="!loading && accountLimits" class="verification-progress">
-        <div class="progress-label">
-          <span>Verification Level</span>
-          <span>{{ getProgressPercentage() }}%</span>
-        </div>
-        <div class="progress">
-          <div class="progress-bar bg-success" role="progressbar" [style.width.%]="getProgressPercentage()"
-            aria-valuenow="getProgressPercentage()" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-      </div>
-
-      <!-- Limits List -->
-      <div *ngIf="!loading && accountLimits" class="limits-list">
-        <!-- Wallet Balance Limit -->
-        <div class="limit-item">
-          <div class="limit-info">
-            <div class="limit-name">
-              <i class="fas fa-wallet text-primary"></i>
-              <span>Maximum Wallet Balance</span>
-            </div>
-            <div class="limit-value">
-              ${{ accountLimits.maxWalletBalance | number:'1.2-2' }}
-            </div>
-          </div>
-          <div class="progress limit-progress">
-            <div class="progress-bar" role="progressbar"
-              [ngClass]="{'bg-success': userWallet?.balance && (userWallet?.balance! / accountLimits.maxWalletBalance) < 0.8, 
-                            'bg-warning': userWallet?.balance && (userWallet?.balance! / accountLimits.maxWalletBalance) >= 0.8 && (userWallet?.balance! / accountLimits.maxWalletBalance) < 0.95,
-                            'bg-danger': userWallet?.balance && (userWallet?.balance! / accountLimits.maxWalletBalance) >= 0.95}"
-              [style.width.%]="getLimitProgressPercentage(userWallet?.balance || 0, accountLimits.maxWalletBalance)">
-            </div>
-          </div>
-          <div class="limit-usage">
-            <span>${{ userWallet?.balance | number:'1.2-2' }}</span>
-            <span>of ${{ accountLimits.maxWalletBalance | number:'1.2-2' }}</span>
-          </div>
-        </div>
-
-        <!-- Daily Transaction Limit -->
-        <div class="limit-item">
-          <div class="limit-info">
-            <div class="limit-name">
-              <i class="fas fa-exchange-alt text-info"></i>
-              <span>Daily Transaction Limit</span>
-            </div>
-            <div class="limit-value">
-              ${{ accountLimits.dailyTransactionLimit | number:'1.2-2' }}
-            </div>
-          </div>
-        </div>
-
-        <!-- Max Transfer Amount -->
-        <div class="limit-item">
-          <div class="limit-info">
-            <div class="limit-name">
-              <i class="fas fa-paper-plane text-primary"></i>
-              <span>Maximum Transfer Amount</span>
-            </div>
-            <div class="limit-value">
-              ${{ accountLimits.maxTransferAmount | number:'1.2-2' }}
-            </div>
-          </div>
-        </div>
-
-        <!-- Max Deposit Amount -->
-        <div class="limit-item">
-          <div class="limit-info">
-            <div class="limit-name">
-              <i class="fas fa-arrow-down text-success"></i>
-              <span>Maximum Deposit Amount</span>
-            </div>
-            <div class="limit-value">
-              ${{ accountLimits.maxDepositAmount | number:'1.2-2' }}
-            </div>
-          </div>
-        </div>
-
-        <!-- Max Withdrawal Amount -->
-        <div class="limit-item">
-          <div class="limit-info">
-            <div class="limit-name">
-              <i class="fas fa-arrow-up text-danger"></i>
-              <span>Maximum Withdrawal Amount</span>
-            </div>
-            <div class="limit-value">
-              ${{ accountLimits.maxWithdrawalAmount | number:'1.2-2' }}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Upgrade Prompt -->
-      <div class="upgrade-prompt"
-        *ngIf="!loading && accountLimits && verificationLevel && verificationLevel !== 'FULLY_VERIFIED'">
-        <p>{{ getUpgradeMessage() }}</p>
-        <button class="btn upgrade-btn" (click)="navigateToVerification()">
-          <i class="fas fa-arrow-circle-up"></i>
-          Upgrade Now
-        </button>
-      </div>
-    </div>
+    </button>
   </div>
 
   <div class="balance-actions">
@@ -169,3 +56,147 @@
     </a>
   </div>
 </div>
+
+<!-- Limits Dialog Template -->
+<ng-template #limitsDialog>
+  <div class="limits-dialog">
+    <div class="dialog-header">
+      <h2>Account Limits</h2>
+      <div class="verification-badge" [ngClass]="getVerificationLevelClass()">
+        {{ getVerificationLevelLabel() }}
+      </div>
+    </div>
+
+    <div class="dialog-content">
+      <!-- Loader -->
+      <div *ngIf="loading" class="limits-loader">
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <span>Loading your account limits...</span>
+      </div>
+
+      <div *ngIf="!loading && accountLimits">
+        <!-- Verification Progress -->
+        <div class="verification-progress">
+          <div class="progress-label">
+            <span>Verification Level</span>
+            <span>{{ getProgressPercentage() }}%</span>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" [style.width.%]="getProgressPercentage()"
+              aria-valuenow="getProgressPercentage()" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+
+        <!-- Limits Grid Layout -->
+        <div class="limits-grid">
+          <!-- Wallet Balance Limit -->
+          <div class="limit-card">
+            <div class="limit-icon wallet-icon">
+              <i class="fas fa-wallet"></i>
+            </div>
+            <div class="limit-details">
+              <div class="limit-name">Maximum Wallet Balance</div>
+              <div class="limit-value">
+                <ng-container *ngIf="isUnlimited()">Unlimited</ng-container>
+                <ng-container *ngIf="!isUnlimited()">${{ accountLimits.maxWalletBalance | number:'1.2-2'
+                  }}</ng-container>
+              </div>
+              <div class="limit-usage-bar">
+                <div class="usage-fill"
+                  [style.width.%]="getLimitProgressPercentage(userWallet?.balance || 0, accountLimits.maxWalletBalance)"
+                  [ngClass]="{
+             'low-usage': !isUnlimited() && (userWallet?.balance || 0) / accountLimits.maxWalletBalance < 0.7,
+             'medium-usage': !isUnlimited() && (userWallet?.balance || 0) / accountLimits.maxWalletBalance >= 0.7 && (userWallet?.balance || 0) / accountLimits.maxWalletBalance < 0.9,
+             'high-usage': !isUnlimited() && (userWallet?.balance || 0) / accountLimits.maxWalletBalance >= 0.9,
+             'unlimited-usage': isUnlimited()
+           }">
+                </div>
+              </div>
+              <div class="limit-usage-text">
+                <span>${{ userWallet?.balance | number:'1.2-2' }}</span> of
+                <ng-container *ngIf="isUnlimited()">Unlimited</ng-container>
+                <ng-container *ngIf="!isUnlimited()">${{ accountLimits.maxWalletBalance | number:'1.2-2'
+                  }}</ng-container>
+              </div>
+            </div>
+          </div>
+
+          <!-- Daily Transaction Limit -->
+          <div class="limit-card">
+            <div class="limit-icon transaction-icon">
+              <i class="fas fa-exchange-alt"></i>
+            </div>
+            <div class="limit-details">
+              <div class="limit-name">Daily Transaction Limit</div>
+              <div class="limit-value">
+                <ng-container *ngIf="isUnlimited()">Unlimited</ng-container>
+                <ng-container *ngIf="!isUnlimited()">${{ accountLimits.dailyTransactionLimit | number:'1.2-2'
+                  }}</ng-container>
+              </div>
+            </div>
+          </div>
+
+          <!-- Max Transfer Amount -->
+          <div class="limit-card">
+            <div class="limit-icon transfer-icon">
+              <i class="fas fa-paper-plane"></i>
+            </div>
+            <div class="limit-details">
+              <div class="limit-name">Maximum Transfer Amount</div>
+              <div class="limit-value">
+                <ng-container *ngIf="isUnlimited()">Unlimited</ng-container>
+                <ng-container *ngIf="!isUnlimited()">${{ accountLimits.maxTransferAmount | number:'1.2-2'
+                  }}</ng-container>
+              </div>
+            </div>
+          </div>
+
+          <!-- Max Deposit Amount -->
+          <div class="limit-card">
+            <div class="limit-icon deposit-icon">
+              <i class="fas fa-arrow-down"></i>
+            </div>
+            <div class="limit-details">
+              <div class="limit-name">Maximum Deposit Amount</div>
+              <div class="limit-value">
+                <ng-container *ngIf="isUnlimited()">Unlimited</ng-container>
+                <ng-container *ngIf="!isUnlimited()">${{ accountLimits.maxDepositAmount | number:'1.2-2'
+                  }}</ng-container>
+              </div>
+            </div>
+          </div>
+
+          <!-- Max Withdrawal Amount -->
+          <div class="limit-card">
+            <div class="limit-icon withdrawal-icon">
+              <i class="fas fa-arrow-up"></i>
+            </div>
+            <div class="limit-details">
+              <div class="limit-name">Maximum Withdrawal Amount</div>
+              <div class="limit-value">
+                <ng-container *ngIf="isUnlimited()">Unlimited</ng-container>
+                <ng-container *ngIf="!isUnlimited()">${{ accountLimits.maxWithdrawalAmount | number:'1.2-2'
+                  }}</ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upgrade Prompt -->
+        <div class="upgrade-section" *ngIf="verificationLevel && verificationLevel !== 'FULLY_VERIFIED'">
+          <div class="upgrade-message">{{ getUpgradeMessage() }}</div>
+          <button class="upgrade-button" (click)="navigateToVerification(); closeLimitsDialog()">
+            <i class="fas fa-arrow-circle-up"></i>
+            Upgrade Now
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dialog-footer">
+      <button class="close-button" (click)="closeLimitsDialog()">Close</button>
+    </div>
+  </div>
+</ng-template>

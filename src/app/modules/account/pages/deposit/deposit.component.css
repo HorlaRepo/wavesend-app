@@ -283,11 +283,20 @@
   align-items: center;
   color: #6c757d;
   font-size: 0.95rem;
+  width: 100%;
+}
+
+.summary-label {
+  text-align: left;
+  flex: 1;
 }
 
 .fee-display {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+  flex: 1;
 }
 
 .original-fee {
@@ -321,6 +330,8 @@
 .total-amount {
   color: #212529;
   font-weight: 700;
+  text-align: right;
+  flex: 1;
 }
 
 /* Submit Button */

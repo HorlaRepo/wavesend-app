@@ -57,7 +57,7 @@
       <!-- User Controls Section -->
       <div class="user-controls">
         <!-- Language Selector -->
-        <div class="dropdown language-dropdown">
+        <!-- <div class="dropdown language-dropdown">
           <button class="dropdown-toggle" type="button" data-toggle="dropdown">
             <i class="fas fa-globe"></i>
             <span class="d-none d-md-inline">EN</span>
@@ -68,10 +68,10 @@
             <a class="dropdown-item" href="#">Spanish</a>
             <a class="dropdown-item" href="#">German</a>
           </div>
-        </div>
+        </div> -->
 
         <!-- Notifications -->
-        <div class="dropdown notifications-dropdown">
+        <!-- <div class="dropdown notifications-dropdown">
           <button class="dropdown-toggle" type="button" data-toggle="dropdown">
             <i class="far fa-bell"></i>
             <span class="badge" *ngIf="notificationCount > 0">{{notificationCount}}</span>
@@ -99,7 +99,7 @@
               </a>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <!-- User Profile Menu -->
         <div class="dropdown profile-dropdown">
@@ -121,7 +121,7 @@
               </div>
             </div>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" (click)="manageProfile()">
+            <a class="dropdown-item" routerLink="/account/settings">
               <i class="fas fa-user"></i> My Profile
             </a>
             <a class="dropdown-item" routerLink="/account/settings/security">

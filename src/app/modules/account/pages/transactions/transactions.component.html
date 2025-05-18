@@ -319,12 +319,19 @@
                   <!-- Actions -->
                   <div class="col-2 text-end">
                     <div class="action-icons">
-                      <a [routerLink]="['/account/scheduled-transfer', transfer.id]" class="action-btn edit-btn"
-                        title="Edit Transfer" (click)="$event.stopPropagation()">
+                      <!-- Edit button - only clickable when PENDING -->
+                      <a [routerLink]="transfer.status === 'PENDING' ? ['/account/scheduled-transfer', transfer.id] : null"
+                        [ngClass]="{'action-btn edit-btn': true, 'disabled-action': transfer.status !== 'PENDING'}"
+                        title="{{transfer.status === 'PENDING' ? 'Edit Transfer' : 'Cannot edit this transfer'}}"
+                        (click)="$event.stopPropagation(); transfer.status !== 'PENDING' && $event.preventDefault()">
                         <i class="fas fa-pen"></i>
                       </a>
-                      <a href="javascript:void(0)" *ngIf="transfer.status !== 'CANCELLED'" class="action-btn cancel-btn"
-                        title="Cancel Transfer" (click)="$event.stopPropagation(); showCancelConfirmation(transfer.id)">
+
+                      <!-- Delete button - only clickable when PENDING -->
+                      <a href="javascript:void(0)"
+                        [ngClass]="{'action-btn cancel-btn': true, 'disabled-action': transfer.status !== 'PENDING'}"
+                        title="{{transfer.status === 'PENDING' ? 'Cancel Transfer' : 'Cannot cancel this transfer'}}"
+                        (click)="$event.stopPropagation(); transfer.status === 'PENDING' ? showCancelConfirmation(transfer.id) : null">
                         <i class="fas fa-trash-alt"></i>
                       </a>
                     </div>

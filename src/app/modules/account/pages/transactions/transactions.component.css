@@ -2630,3 +2630,18 @@ aside.col-lg-3 > * {
   background-color: rgba(0, 0, 0, 0.01);
 }
 
+/* Disabled action button styling */
+.disabled-action {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: auto !important; /* Override potential global styles */
+  color: #adb5bd;
+}
+
+.disabled-action:hover {
+  background-color: transparent;
+  color: #adb5bd;
+  transform: none;
+  box-shadow: none;
+}
+

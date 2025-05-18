@@ -57,7 +57,7 @@
   overflow: hidden;
 }
 
-.balance-section::before, 
+.balance-section::before,
 .balance-section::after {
   content: '';
   position: absolute;
@@ -450,15 +450,15 @@
   .balance-section {
     padding: 1.5rem;
   }
-  
+
   .balance-amount {
     font-size: 2rem;
   }
-  
+
   .form-card-body {
     padding: 1.25rem;
   }
-  
+
   .fee-summary {
     padding: 1rem;
   }
@@ -468,18 +468,89 @@
   .page-header h2 {
     font-size: 1.5rem;
   }
-  
+
   .page-header .subtitle {
     font-size: 0.95rem;
   }
-  
+
   .balance-icon {
     width: 50px;
     height: 50px;
     font-size: 1.25rem;
   }
-  
+
   .fee-row.total {
     font-size: 1rem;
   }
+}
+
+.withdrawal-disabled-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
+  min-height: 400px;
+}
+
+.withdrawal-disabled-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  padding: 2.5rem;
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+}
+
+.withdrawal-disabled-icon {
+  background-color: rgba(255, 193, 7, 0.2);
+  border-radius: 50%;
+  color: #ffc107;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 1.5rem;
+}
+
+.withdrawal-disabled-icon i {
+  font-size: 36px;
+}
+
+.withdrawal-disabled-title {
+  color: #343a40;
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.withdrawal-disabled-message {
+  color: #6c757d;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.withdrawal-disabled-container .btn {
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+}
+
+/* Update action buttons styling */
+.action-buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+}
+
+.action-buttons .btn {
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  border-radius: 6px;
+  /* Ensure the button doesn't expand too wide */
+  max-width: fit-content;
 }

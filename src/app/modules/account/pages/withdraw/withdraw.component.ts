@@ -6,18 +6,18 @@ import { TransactionControllerService } from "../../../../services/services/tran
 import { debounceTime } from 'rxjs/operators';
 import { Subject } from "rxjs";
 import { CountryControllerService } from "../../../../services/services/country-controller.service";
-import {FormControl, Validators} from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { FlutterwaveControllerService } from "../../../../services/services/flutterwave-controller.service";
 import { ExchangeData } from "../../../../services/models/exchange-data";
 import { FeeData } from "../../../../services/models/fee-data";
 import { BankAccount } from "../../../../services/models/bank-account";
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import {InputParserService} from "../../../../services/input-parser/input-parser.service";
-import {PaymentProcessingControllerService} from "../../../../services/services/payment-processing-controller.service";
-import {UserInfo} from "../../../../services/keycloack/user-info";
-import {Wallet} from "../../../../services/models/wallet";
-import {KeycloakService} from "../../../../services/keycloack/keycloak.service";
-import {WalletControllerService} from "../../../../services/services/wallet-controller.service";
+import { InputParserService } from "../../../../services/input-parser/input-parser.service";
+import { PaymentProcessingControllerService } from "../../../../services/services/payment-processing-controller.service";
+import { UserInfo } from "../../../../services/keycloack/user-info";
+import { Wallet } from "../../../../services/models/wallet";
+import { KeycloakService } from "../../../../services/keycloack/keycloak.service";
+import { WalletControllerService } from "../../../../services/services/wallet-controller.service";
 import { WithdrawStateService } from 'src/app/services/withdraw/withdraw-state.service';
 
 declare var $: any;
@@ -53,6 +53,8 @@ export class WithdrawComponent implements OnInit, OnDestroy {
   bankControl = new FormControl('', Validators.required);
   isLoadingBanksList = false;
   bankAccountLoadingResult = false;
+  isWithdrawalDisabled = true; // Set to true to disable withdrawals
+  withdrawalDisabledMessage = "Withdrawals are temporarily unavailable while we're upgrading our payment systems. We apologize for any inconvenience. Please check back in 24-48 hours when this feature will be fully operational again.";
 
   constructor(
     private stepsProgressService: StepsProgressServiceService,
@@ -67,7 +69,7 @@ export class WithdrawComponent implements OnInit, OnDestroy {
     private walletService: WalletControllerService,
     private withdrawStateService: WithdrawStateService
   ) {
-    this.amountControl = new FormControl(0, [Validators.required, this.nonZeroValidator.bind(this), Validators.min(1) ]);
+    this.amountControl = new FormControl(0, [Validators.required, this.nonZeroValidator.bind(this), Validators.min(1)]);
   }
 
   async ngOnInit(): Promise<void> {
@@ -97,41 +99,41 @@ export class WithdrawComponent implements OnInit, OnDestroy {
   /**
  * Restore form values from saved state
  */
-restoreFormValues(): void {
-  const withdrawState = this.withdrawStateService.getWithdrawState();
-  
-  if (withdrawState) {
-    // Restore amount if available
-    if (withdrawState.amount !== undefined && withdrawState.amount !== null) {
-      this.amount = withdrawState.amount;
-      this.amountControl.setValue(withdrawState.amount);
-    }
-    
-    // Restore narration if available
-    if (withdrawState.narration) {
-      this.narration = withdrawState.narration;
-    }
-    
-    // Restore selected bank if available
-    if (withdrawState.selectedBank && this.banksList?.length) {
-      const bankToSelect = this.banksList.find(bank => 
-        bank.accountNumber === withdrawState.selectedBank?.accountNumber &&
-        bank.bankName === withdrawState.selectedBank?.bankName
-      );
-      
-      if (bankToSelect?.bankName) {
-        setTimeout(() => {
-          this.bankControl.setValue(bankToSelect.bankName!);
-        }, 100);
+  restoreFormValues(): void {
+    const withdrawState = this.withdrawStateService.getWithdrawState();
+
+    if (withdrawState) {
+      // Restore amount if available
+      if (withdrawState.amount !== undefined && withdrawState.amount !== null) {
+        this.amount = withdrawState.amount;
+        this.amountControl.setValue(withdrawState.amount);
+      }
+
+      // Restore narration if available
+      if (withdrawState.narration) {
+        this.narration = withdrawState.narration;
+      }
+
+      // Restore selected bank if available
+      if (withdrawState.selectedBank && this.banksList?.length) {
+        const bankToSelect = this.banksList.find(bank =>
+          bank.accountNumber === withdrawState.selectedBank?.accountNumber &&
+          bank.bankName === withdrawState.selectedBank?.bankName
+        );
+
+        if (bankToSelect?.bankName) {
+          setTimeout(() => {
+            this.bankControl.setValue(bankToSelect.bankName!);
+          }, 100);
+        }
+      }
+
+      // Trigger fee and exchange rate calculations
+      if (withdrawState.amount) {
+        this.amountChanged.next(withdrawState.amount);
       }
     }
-    
-    // Trigger fee and exchange rate calculations
-    if (withdrawState.amount) {
-      this.amountChanged.next(withdrawState.amount);
-    }
   }
-}
 
   initProgressService() {
     this.stepsProgressService.setSteps(['Details', 'Confirm', 'Success']);
@@ -139,21 +141,21 @@ restoreFormValues(): void {
   }
 
   async setUser() {
-      this.user = this.keycloakService.userInfo;
-      this.wallet = await this.keycloakService.fetchUserWallet();
-      this.userBalance = this.wallet?.balance as number;
-      this.walletCurrency = this.wallet?.currency as string;
-      console.log(this.user);
-      this.fetchBankList();
-      this.getCountry();
-      this.initFormControl();
+    this.user = this.keycloakService.userInfo;
+    this.wallet = await this.keycloakService.fetchUserWallet();
+    this.userBalance = this.wallet?.balance as number;
+    this.walletCurrency = this.wallet?.currency as string;
+    console.log(this.user);
+    this.fetchBankList();
+    this.getCountry();
+    this.initFormControl();
   }
 
   fetchBankList() {
     this.isLoadingBanksList = true;
     this.bankAccountService.getBankAccountsByUser().subscribe({
       next: data => {
-        if(!data.success){
+        if (!data.success) {
           this.bankAccountLoadingResult = false;
         }
         this.banksList = data.data;
@@ -186,7 +188,7 @@ restoreFormValues(): void {
 
   getCountry() {
     this.countryService.getCountryByName({
-      countryName: this.user?.address.country  as string
+      countryName: this.user?.address.country as string
     }).subscribe({
       next: data => {
         this.countryAcronym = data.data?.acronym as string;
@@ -253,8 +255,8 @@ restoreFormValues(): void {
   }
 
   getProcessingFee() {
-    if(this.amountControl.valid)
-    this.isLoading = true;
+    if (this.amountControl.valid)
+      this.isLoading = true;
     this.flutterwaveService.getFees({
       amount: this.exchangeData?.rate as number,
       currency: this.currency as string
@@ -266,9 +268,9 @@ restoreFormValues(): void {
         const feeType = data.data ? data.data.at(0)?.fee_type : '';
         this.processingFee = data.data ? data.data.at(0)?.fee as number : 0;
         this.totalAmountInLocalCurrency = (this.amount * this.exchangeRate);
-        if(feeType === 'percentage') {
+        if (feeType === 'percentage') {
           this.processingFee = (this.processingFee / 100) * (this.totalAmountInLocalCurrency);
-          this.totalAmountInLocalCurrency = this.totalAmountInLocalCurrency  - this.processingFee;
+          this.totalAmountInLocalCurrency = this.totalAmountInLocalCurrency - this.processingFee;
         } else if (feeType === 'value') {
           this.totalAmountInLocalCurrency = this.totalAmountInLocalCurrency - this.processingFee;
         }
@@ -322,7 +324,7 @@ restoreFormValues(): void {
 
   checkBalance() {
     if (Number(this.amount!) + Number(this.transactionFee) > Number(this.userBalance)) {
-      console.log((this.amount!+this.transactionFee), this.userBalance)
+      console.log((this.amount! + this.transactionFee), this.userBalance)
       this.amountControl.setErrors({ exceededBalance: true });
       this.errorMessage = 'Amount exceeds balance';
     } else if (this.amountControl.invalid || this.amountControl.value === 0) {
@@ -336,12 +338,12 @@ restoreFormValues(): void {
 
 
   goToNextStep() {
-    if(this.amountControl.valid && this.bankControl.valid) {
+    if (this.amountControl.valid && this.bankControl.valid) {
       const selectedBankName = this.bankControl.value;
       const selectedBank = this.banksList?.find(bank => bank.bankName === selectedBankName);
       console.log(selectedBank);
       const wallet = this.wallet;
-      
+
       if (selectedBank) {
         console.log(selectedBank);
         const transactionValues = {
@@ -353,7 +355,7 @@ restoreFormValues(): void {
           currency: this.currency,
           exchangeRate: this.exchangeRate,
         };
-        
+
         // Save state before navigating
         this.withdrawStateService.saveWithdrawState({
           amount: this.amountControl.value!,
@@ -366,11 +368,11 @@ restoreFormValues(): void {
           selectedBank: selectedBank,
           wallet: wallet
         });
-  
+
         this.router.navigate(['/account/withdraw-confirm'],
           { state: { selectedBank, transactionValues, wallet } }).then(r => {
-          this.stepsProgressService.setCurrentStep(1);
-        });
+            this.stepsProgressService.setCurrentStep(1);
+          });
       }
     } else {
       this.amountControl.markAllAsTouched();
@@ -383,13 +385,13 @@ restoreFormValues(): void {
 
   ngOnDestroy(): void { }
 
-  nonZeroValidator(control: FormControl): {[key: string]: boolean} | null {
+  nonZeroValidator(control: FormControl): { [key: string]: boolean } | null {
     const value = control.value;
     if (control.touched && (value === null || value === undefined || value === '' || value === 0 || value.min < 1)) {
       return { 'nonZero': true };
     }
     if (control.touched && control.value < 1) {
-      return {'min': true};
+      return { 'min': true };
     }
     return null;
   }
@@ -401,4 +403,6 @@ restoreFormValues(): void {
     const selectedBankName = this.bankControl.value;
     return this.banksList?.find(bank => bank.bankName === selectedBankName);
   }
+
+
 }

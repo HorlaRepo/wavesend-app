@@ -1,3 +1,50 @@
+/* Alternative more specific selectors */
+:host ::ng-deep .p-dropdown.w-100 {
+  width: 100%;
+  height: auto;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-label {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-trigger {
+  padding: 0 0.75rem;
+}
+
+:host ::ng-deep .p-dropdown:focus,
+:host ::ng-deep .p-dropdown.p-focus {
+  border-color: #2ebe60;
+  box-shadow: 0 0 0 0.2rem rgba(46, 190, 96, 0.25);
+  outline: 0;
+}
+
+:host ::ng-deep .p-dropdown:hover {
+  border-color: #2ebe60;
+}
+
+/* Fix dropdown panel styling */
+:host ::ng-deep .p-dropdown-panel {
+  border-radius: 8px;
+}
+
+:host ::ng-deep .p-dropdown-panel .p-dropdown-filter-container {
+  padding: 0.5rem;
+}
+
+:host ::ng-deep .p-dropdown-panel .p-dropdown-filter {
+  width: 100%;
+  height: 38px;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+
+
+
 .preview {
   width: 100px;
   height: auto;
@@ -1182,5 +1229,58 @@ label {
 .rejection-notice p {
   margin: 0;
   color: #dc3545;
+}
+
+/* Styling for country dropdown */
+:host ::ng-deep .country-dropdown {
+  width: 100%;
+}
+
+:host ::ng-deep .country-dropdown .p-dropdown-filter {
+  width: 100%;
+}
+
+:host ::ng-deep .country-item {
+  padding: 0.5rem;
+}
+
+/* Disabled button styling */
+.btn-action.btn-disabled {
+  background-color: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.btn-action.btn-disabled:hover {
+  background-color: #e9ecef;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Verified status badge */
+.status-badge.verified {
+  background-color: #2ebe60;
+  color: white;
+}
+
+.file-info {
+  margin-top: 0.5rem;
+}
+
+.file-name {
+  font-size: 0.85rem;
+  color: #495057;
+  word-break: break-all;
+}
+
+.file-warning {
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.file-warning i {
+  margin-right: 0.25rem;
 }
 

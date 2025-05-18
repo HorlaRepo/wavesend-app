@@ -17,7 +17,7 @@
       <div class="row">
         <div class="col-md-9 col-lg-7 col-xl-6 mx-auto">
           <p-toast position="bottom-center"></p-toast>
-          
+
           <!-- Deposit Form Card -->
           <div class="form-card">
             <!-- Form Header with Illustration -->
@@ -27,7 +27,7 @@
               </div>
               <h3>How much would you like to deposit?</h3>
             </div>
-            
+
             <div class="form-card-body">
               <!-- Deposit Form -->
               <form [formGroup]="depositForm" id="form-deposit-money">
@@ -38,17 +38,10 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text">$</span>
                     </div>
-                    <input
-                      type="text"
-                      class="form-control"
-                      data-bv-field="youSend"
-                      id="youSend"
-                      placeholder="0.00"
-                      [value]="amountControl.value! | amount"
-                      (input)="parseInputValue($event)"
+                    <input type="text" class="form-control" data-bv-field="youSend" id="youSend" placeholder="0.00"
+                      [value]="amountControl.value! | amount" (input)="parseInputValue($event)"
                       (keydown)="numericOnly($event)"
-                      [class.is-invalid]="amountControl.invalid && amountControl.touched"
-                    >
+                      [class.is-invalid]="amountControl.invalid && amountControl.touched">
                     <div class="input-group-append">
                       <span class="input-group-text currency-select">
                         <span class="currency-flag currency-flag-usd"></span>USD
@@ -59,14 +52,14 @@
                     <i class="fas fa-exclamation-circle"></i> Amount must be greater than zero
                   </div>
                 </div>
-                
+
                 <!-- Payment Method Selection -->
                 <div class="form-group">
                   <label for="paymentMethod">Payment Method</label>
                   <div class="payment-method-selector">
-                    <div class="payment-option" 
-                         [class.selected]="depositForm.get('paymentMethod')?.value === 'Credit or Debit Cards'"
-                         (click)="depositForm.get('paymentMethod')?.setValue('Credit or Debit Cards')">
+                    <div class="payment-option"
+                      [class.selected]="depositForm.get('paymentMethod')?.value === 'Credit or Debit Cards'"
+                      (click)="depositForm.get('paymentMethod')?.setValue('Credit or Debit Cards')">
                       <div class="payment-icon">
                         <i class="fas fa-credit-card"></i>
                       </div>
@@ -78,10 +71,10 @@
                         <i class="fas fa-check-circle"></i>
                       </div>
                     </div>
-                    
-                    <div class="payment-option" 
-                         [class.selected]="depositForm.get('paymentMethod')?.value === 'Bank Accounts'"
-                         (click)="depositForm.get('paymentMethod')?.setValue('Bank Accounts')">
+
+                    <div class="payment-option"
+                      [class.selected]="depositForm.get('paymentMethod')?.value === 'Bank Accounts'"
+                      (click)="depositForm.get('paymentMethod')?.setValue('Bank Accounts')">
                       <div class="payment-icon">
                         <i class="fas fa-university"></i>
                       </div>
@@ -94,15 +87,16 @@
                       </div>
                     </div>
                   </div>
-                  <div *ngIf="depositForm.get('paymentMethod')?.invalid && depositForm.get('paymentMethod')?.touched" class="error-message">
+                  <div *ngIf="depositForm.get('paymentMethod')?.invalid && depositForm.get('paymentMethod')?.touched"
+                    class="error-message">
                     <i class="fas fa-exclamation-circle"></i> Please select a payment method
                   </div>
                 </div>
-                
+
                 <!-- Transaction Summary -->
                 <div class="transaction-summary">
                   <div class="summary-row">
-                    <span>Transaction fee</span>
+                    <span class="summary-label">Transaction fee</span>
                     <div class="fee-display">
                       <span class="original-fee">1.00 USD</span>
                       <span class="fee-badge">Free</span>
@@ -110,19 +104,18 @@
                   </div>
                   <div class="divider"></div>
                   <div class="summary-row total">
-                    <span>Total Amount</span>
+                    <span class="summary-label">Total Amount</span>
                     <span class="total-amount">{{ amountControl.value | number : '1.2-2'}} USD</span>
                   </div>
                 </div>
-                
+
                 <!-- Submit Button -->
-                <button 
-                  class="btn-submit" 
+                <button class="btn-submit"
                   [disabled]="depositForm.invalid || amountControl.invalid || amountControl.value === 0"
                   (click)="goToNextStep()">
                   Continue
                 </button>
-                
+
                 <!-- Security Notice -->
                 <div class="security-note">
                   <i class="fas fa-lock"></i>

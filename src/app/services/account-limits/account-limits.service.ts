@@ -39,6 +39,45 @@ export class AccountLimitsService {
     );
   }
   
+  /**
+   * Checks if user has unlimited limits (fully verified)
+   */
+  hasUnlimitedLimits(accountLimits: any): boolean {
+    if (!accountLimits) return false;
+    return accountLimits.unlimited === true || 
+           accountLimits.verificationLevel === 'FULLY_VERIFIED';
+  }
+  
+  /**
+   * Gets formatted limit value or fallback to numeric
+   */
+  getFormattedLimit(accountLimits: any, limitType: string, formattedType: string): string {
+    if (!accountLimits) return '0';
+    
+    // If we have a formatted value, use it
+    if (accountLimits[formattedType]) {
+      return accountLimits[formattedType];
+    }
+    
+    // Fallback to numeric value
+    return accountLimits[limitType] ? accountLimits[limitType].toString() : '0';
+  }
+  
+  /**
+   * Gets a numeric value for a limit, handling unlimited case
+   * Returns a very large number for unlimited limits for progress calculations
+   */
+  getNumericLimit(accountLimits: any, limitType: string): number {
+    if (!accountLimits) return 0;
+    
+    // If unlimited, return a very large number
+    if (this.hasUnlimitedLimits(accountLimits)) {
+      return Number.MAX_SAFE_INTEGER;
+    }
+    
+    return accountLimits[limitType] || 0;
+  }
+  
   getVerificationLevelLabel(level: string): string {
     switch(level) {
       case 'UNVERIFIED':

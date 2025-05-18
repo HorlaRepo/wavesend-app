@@ -229,7 +229,7 @@ label {
   box-shadow: 0 0 0 0.2rem rgba(46, 190, 96, 0.25);
 }
 
-.form-control:focus + .input-icon {
+.form-control:focus+.input-icon {
   color: #2ebe60;
 }
 
@@ -323,13 +323,13 @@ label {
     flex-direction: row;
     align-items: flex-start;
   }
-  
+
   .detail-label {
     width: 30%;
     text-align: right;
     padding-right: 1.5rem;
   }
-  
+
   .detail-value {
     width: 70%;
   }
@@ -341,11 +341,11 @@ label {
     align-items: flex-start;
     gap: 1rem;
   }
-  
+
   .btn-edit {
     align-self: flex-start;
   }
-  
+
   .section-separator {
     margin: 1.25rem 0;
   }
@@ -355,18 +355,122 @@ label {
   .settings-container {
     padding: 1.5rem 0;
   }
-  
+
   .page-header h2 {
     font-size: 1.5rem;
   }
-  
+
   .settings-card-header h3 {
     font-size: 1.125rem;
   }
-  
+
   .detail-value.email {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
+}
+
+/* New Table-like Layout for Details */
+.details-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.75rem;
+}
+
+.detail-row {
+  display: flex;
+  align-items: flex-start;
+  border-bottom: 1px solid #f1f1f1;
+  padding: 0.875rem 0;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  width: 30%;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #6c757d;
+  padding-right: 1.25rem;
+}
+
+.detail-value {
+  width: 70%;
+  font-size: 1rem;
+  color: #212529;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* Special styling for address block */
+.address-block p {
+  margin: 0;
+  margin-bottom: 0.35rem;
+}
+
+.address-block p:last-child {
+  margin-bottom: 0;
+}
+
+/* Email display with badge */
+.email-display {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* Update to primary badge */
+.primary-badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  background-color: rgba(23, 162, 184, 0.15);
+  color: #17a2b8;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+  .detail-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .detail-label,
+  .detail-value {
+    width: 100%;
+  }
+
+  .detail-label {
+    font-weight: 600;
+    color: #495057;
+  }
+
+  .email-display {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+/* Disabled edit button styling */
+.btn-edit.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #f8f9fa;
+  border-color: #e9ecef;
+  color: #6c757d;
+  pointer-events: none;
+}
+
+.btn-edit.disabled:hover {
+  background-color: #f8f9fa;
+  transform: none;
+  box-shadow: none;
 }

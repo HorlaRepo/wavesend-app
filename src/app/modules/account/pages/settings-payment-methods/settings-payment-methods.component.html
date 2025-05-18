@@ -346,14 +346,16 @@
 <!-- Add this after your other p-dialogs at the bottom of the file -->
 
 <!-- Add Bank Account Dialog -->
-<p-dialog header="Add Bank Account" [(visible)]="addBankAccount" [modal]="true" styleClass="bank-dialog" [closable]="true">
+<p-dialog header="Add Bank Account" [(visible)]="addBankAccount" [modal]="true" styleClass="bank-dialog"
+  [closable]="true">
   <div class="dialog-content">
     <form [formGroup]="addBankAccountForm">
       <!-- Account Type Selection -->
       <div class="form-group">
         <label>Account Type</label>
         <div class="account-types">
-          <div class="account-type" [class.selected]="addBankAccountForm.get('accountType')?.value === 'personal'" (click)="addBankAccountForm.get('accountType')?.setValue('personal')">
+          <div class="account-type" [class.selected]="addBankAccountForm.get('accountType')?.value === 'personal'"
+            (click)="addBankAccountForm.get('accountType')?.setValue('personal')">
             <div class="account-type-icon">
               <i class="fas fa-user"></i>
             </div>
@@ -362,8 +364,9 @@
               <i class="fas fa-check-circle"></i>
             </div>
           </div>
-          
-          <div class="account-type" [class.selected]="addBankAccountForm.get('accountType')?.value === 'business'" (click)="addBankAccountForm.get('accountType')?.setValue('business')">
+
+          <div class="account-type" [class.selected]="addBankAccountForm.get('accountType')?.value === 'business'"
+            (click)="addBankAccountForm.get('accountType')?.setValue('business')">
             <div class="account-type-icon">
               <i class="fas fa-briefcase"></i>
             </div>
@@ -374,7 +377,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Country is fixed based on user profile -->
       <div class="form-group">
         <label>Country</label>
@@ -388,56 +391,73 @@
         <!-- Payment Method -->
         <div class="form-group" *ngIf="addBankAccountForm.get('paymentMethod')">
           <label for="paymentMethod">Payment Method</label>
-          <div class="custom-select-wrapper">
+          <div class="input-container"
+            [ngClass]="{'has-error': addBankAccountForm.get('paymentMethod')?.invalid && addBankAccountForm.get('paymentMethod')?.touched}">
             <select id="paymentMethod" class="form-control custom-select" formControlName="paymentMethod">
               <option value="">Select payment method</option>
               <option *ngFor="let method of paymentMethods" [value]="method.name">{{method.name}}</option>
             </select>
             <i class="fas fa-chevron-down select-icon"></i>
+            <div *ngIf="addBankAccountForm.get('paymentMethod')?.errors?.['serverError']" class="field-error-message">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ addBankAccountForm.get('paymentMethod')?.errors?.['serverError'] }}</span>
+            </div>
           </div>
         </div>
-        
+
         <!-- Bank Name with Search -->
         <div class="form-group" *ngIf="addBankAccountForm.get('bankName')">
           <label for="bankName">Bank Name</label>
           <div class="position-relative">
-            <p-dropdown
-              formControlName="bankName"
-              [options]="currentBankOptions"
-              optionLabel="name" 
-              optionValue="name"
-              [filter]="true"
-              filterBy="name"
-              placeholder="Select or search bank"
-              styleClass="w-100"
-            ></p-dropdown>
+            <p-dropdown formControlName="bankName" [options]="currentBankOptions" optionLabel="name" optionValue="name"
+              [filter]="true" filterBy="name" placeholder="Select or search bank" styleClass="w-100"
+              [ngClass]="{'ng-invalid ng-dirty': addBankAccountForm.get('bankName')?.invalid && addBankAccountForm.get('bankName')?.touched}"></p-dropdown>
             <div *ngIf="isLoadingBanksList" class="spinner-small position-absolute" style="right: 40px; top: 10px;">
               <div class="spinner"></div>
             </div>
+            <div *ngIf="addBankAccountForm.get('bankName')?.errors?.['serverError']" class="field-error-message">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ addBankAccountForm.get('bankName')?.errors?.['serverError'] }}</span>
+            </div>
           </div>
         </div>
-        
+
         <!-- Account Number -->
         <div class="form-group" *ngIf="addBankAccountForm.get('accountNumber')">
           <label for="accountNumber">Account Number</label>
-          <div class="input-container">
+          <div class="input-container"
+            [ngClass]="{'has-error': addBankAccountForm.get('accountNumber')?.invalid && addBankAccountForm.get('accountNumber')?.touched}">
             <input type="text" class="form-control" formControlName="accountNumber" placeholder="Enter account number">
+            <div *ngIf="addBankAccountForm.get('accountNumber')?.errors?.['serverError']" class="field-error-message">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ addBankAccountForm.get('accountNumber')?.errors?.['serverError'] }}</span>
+            </div>
           </div>
         </div>
-        
+
         <!-- Bank Code -->
         <div class="form-group" *ngIf="addBankAccountForm.get('bankCode')">
           <label for="bankCode">Bank Code</label>
-          <div class="input-container">
+          <div class="input-container"
+            [ngClass]="{'has-error': addBankAccountForm.get('bankCode')?.invalid && addBankAccountForm.get('bankCode')?.touched}">
             <input type="text" class="form-control" formControlName="bankCode" readonly>
+            <div *ngIf="addBankAccountForm.get('bankCode')?.errors?.['serverError']" class="field-error-message">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ addBankAccountForm.get('bankCode')?.errors?.['serverError'] }}</span>
+            </div>
           </div>
         </div>
-        
+
         <!-- Account Name -->
         <div class="form-group" *ngIf="addBankAccountForm.get('accountName')">
           <label for="accountName">Account Name</label>
-          <div class="input-container">
+          <div class="input-container"
+            [ngClass]="{'has-error': addBankAccountForm.get('accountName')?.invalid && addBankAccountForm.get('accountName')?.touched}">
             <input type="text" class="form-control" formControlName="accountName">
+            <div *ngIf="addBankAccountForm.get('accountName')?.errors?.['serverError']" class="field-error-message">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ addBankAccountForm.get('accountName')?.errors?.['serverError'] }}</span>
+            </div>
           </div>
         </div>
       </ng-container>
@@ -447,70 +467,250 @@
         <!-- Account Number -->
         <div class="form-group" *ngIf="addBankAccountForm.get('accountNumber')">
           <label for="accountNumber">Account Number</label>
-          <div class="input-container">
+          <div class="input-container"
+            [ngClass]="{'has-error': addBankAccountForm.get('accountNumber')?.invalid && addBankAccountForm.get('accountNumber')?.touched}">
             <input type="text" class="form-control" formControlName="accountNumber" placeholder="Enter account number">
-          </div>
-        </div>
-        
-        <!-- Routing Number -->
-        <div class="form-group" *ngIf="addBankAccountForm.get('routingNumber')">
-          <label for="routingNumber">Routing Number</label>
-          <div class="input-container">
-            <input type="text" class="form-control" formControlName="routingNumber">
-          </div>
-        </div>
-        
-        <!-- Swift Code -->
-        <div class="form-group" *ngIf="addBankAccountForm.get('swiftCode')">
-          <label for="swiftCode">Swift Code</label>
-          <div class="input-container">
-            <input type="text" class="form-control" formControlName="swiftCode">
-          </div>
-        </div>
-        
-        <!-- Bank Name with Search -->
-        <div class="form-group" *ngIf="addBankAccountForm.get('bankName')">
-          <label for="bankName">Bank Name</label>
-          <div class="position-relative">
-            <p-dropdown
-              formControlName="bankName"
-              [options]="currentBankOptions"
-              optionLabel="name" 
-              optionValue="name"
-              [filter]="true"
-              filterBy="name"
-              placeholder="Select or search bank"
-              styleClass="w-100"
-            ></p-dropdown>
-            <div *ngIf="isLoadingBanksList" class="spinner-small position-absolute" style="right: 40px; top: 10px;">
-              <div class="spinner"></div>
+            <div *ngIf="addBankAccountForm.get('accountNumber')?.errors?.['serverError']" class="field-error-message">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ addBankAccountForm.get('accountNumber')?.errors?.['serverError'] }}</span>
             </div>
           </div>
         </div>
-        
+
+        <!-- Routing Number -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('routingNumber')">
+          <label for="routingNumber">Routing Number</label>
+          <div class="input-container"
+            [ngClass]="{'has-error': addBankAccountForm.get('routingNumber')?.invalid && addBankAccountForm.get('routingNumber')?.touched}">
+            <input type="text" class="form-control" formControlName="routingNumber">
+            <div *ngIf="addBankAccountForm.get('routingNumber')?.errors?.['serverError']" class="field-error-message">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ addBankAccountForm.get('routingNumber')?.errors?.['serverError'] }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Swift Code -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('swiftCode')">
+          <label for="swiftCode">Swift Code</label>
+          <div class="input-container"
+            [ngClass]="{'has-error': addBankAccountForm.get('swiftCode')?.invalid && addBankAccountForm.get('swiftCode')?.touched}">
+            <input type="text" class="form-control" formControlName="swiftCode">
+            <div *ngIf="addBankAccountForm.get('swiftCode')?.errors?.['serverError']" class="field-error-message">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ addBankAccountForm.get('swiftCode')?.errors?.['serverError'] }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bank Name with Search -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('bankName')">
+          <label for="bankName">Bank Name</label>
+          <div class="input-container"
+            [ngClass]="{'has-error': addBankAccountForm.get('bankName')?.invalid && addBankAccountForm.get('bankName')?.touched}">
+            <input type="text" class="form-control" formControlName="bankName" placeholder="Enter bank name">
+            <div *ngIf="addBankAccountForm.get('bankName')?.errors?.['serverError']" class="field-error-message">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ addBankAccountForm.get('bankName')?.errors?.['serverError'] }}</span>
+            </div>
+          </div>
+        </div>
+
         <!-- Beneficiary Name -->
         <div class="form-group" *ngIf="addBankAccountForm.get('beneficiaryName')">
           <label for="beneficiaryName">Beneficiary Name</label>
-          <div class="input-container">
+          <div class="input-container"
+            [ngClass]="{'has-error': addBankAccountForm.get('beneficiaryName')?.invalid && addBankAccountForm.get('beneficiaryName')?.touched}">
             <input type="text" class="form-control" formControlName="beneficiaryName">
+            <div *ngIf="addBankAccountForm.get('beneficiaryName')?.errors?.['serverError']" class="field-error-message">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ addBankAccountForm.get('beneficiaryName')?.errors?.['serverError'] }}</span>
+            </div>
           </div>
         </div>
-        
+
         <!-- Beneficiary Address -->
         <div class="form-group" *ngIf="addBankAccountForm.get('beneficiaryAddress')">
           <label for="beneficiaryAddress">Beneficiary Address</label>
-          <div class="input-container">
+          <div class="input-container"
+            [ngClass]="{'has-error': addBankAccountForm.get('beneficiaryAddress')?.invalid && addBankAccountForm.get('beneficiaryAddress')?.touched}">
             <input type="text" class="form-control" formControlName="beneficiaryAddress">
+            <div *ngIf="addBankAccountForm.get('beneficiaryAddress')?.errors?.['serverError']"
+              class="field-error-message">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ addBankAccountForm.get('beneficiaryAddress')?.errors?.['serverError'] }}</span>
+            </div>
           </div>
         </div>
       </ng-container>
-      
+
       <!-- EU Region Fields -->
       <ng-container *ngIf="country?.region === 'EU'">
-        <!-- EU specific fields -->
-        <!-- (Similar structure to US fields) -->
+        <!-- Account Number (IBAN) -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('accountNumber')">
+          <label for="accountNumber">IBAN (International Bank Account Number)</label>
+          <div class="input-container"
+            [ngClass]="{'has-error': addBankAccountForm.get('accountNumber')?.invalid && addBankAccountForm.get('accountNumber')?.touched}">
+            <input type="text" class="form-control" formControlName="accountNumber"
+              placeholder="e.g. DE89370400440532013000">
+            <div *ngIf="addBankAccountForm.get('accountNumber')?.errors?.['serverError']" class="field-error-message">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ addBankAccountForm.get('accountNumber')?.errors?.['serverError'] }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BIC/SWIFT Code -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('swiftCode')">
+          <label for="swiftCode">BIC/SWIFT Code</label>
+          <div class="input-container"
+            [ngClass]="{'has-error': addBankAccountForm.get('swiftCode')?.invalid && addBankAccountForm.get('swiftCode')?.touched}">
+            <input type="text" class="form-control" formControlName="swiftCode" placeholder="e.g. DEUTDEFFXXX">
+            <div *ngIf="addBankAccountForm.get('swiftCode')?.errors?.['serverError']" class="field-error-message">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ addBankAccountForm.get('swiftCode')?.errors?.['serverError'] }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bank Name (Text Field) -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('bankName')">
+          <label for="bankName">Bank Name</label>
+          <div class="input-container"
+            [ngClass]="{'has-error': addBankAccountForm.get('bankName')?.invalid && addBankAccountForm.get('bankName')?.touched}">
+            <input type="text" class="form-control" formControlName="bankName" placeholder="Enter bank name">
+            <div *ngIf="addBankAccountForm.get('bankName')?.errors?.['serverError']" class="field-error-message">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ addBankAccountForm.get('bankName')?.errors?.['serverError'] }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Routing Number -->
+        <div class="form-group" *ngIf="addBankAccountForm.get('routingNumber')">
+          <label for="routingNumber">Routing Number</label>
+          <div class="input-container"
+            [ngClass]="{'has-error': addBankAccountForm.get('routingNumber')?.invalid && addBankAccountForm.get('routingNumber')?.touched}">
+            <input type="text" class="form-control" formControlName="routingNumber">
+            <div *ngIf="addBankAccountForm.get('routingNumber')?.errors?.['serverError']" class="field-error-message">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>{{ addBankAccountForm.get('routingNumber')?.errors?.['serverError'] }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Beneficiary Details Section -->
+        <div class="beneficiary-section">
+          <h5 class="section-subtitle">Beneficiary Details</h5>
+
+          <!-- Beneficiary Name -->
+          <div class="form-group" *ngIf="addBankAccountForm.get('beneficiaryName')">
+            <label for="beneficiaryName">Beneficiary Name</label>
+            <div class="input-container"
+              [ngClass]="{'has-error': addBankAccountForm.get('beneficiaryName')?.invalid && addBankAccountForm.get('beneficiaryName')?.touched}">
+              <input type="text" class="form-control" formControlName="beneficiaryName"
+                placeholder="Enter full name as it appears on the account">
+              <div *ngIf="addBankAccountForm.get('beneficiaryName')?.errors?.['serverError']"
+                class="field-error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>{{ addBankAccountForm.get('beneficiaryName')?.errors?.['serverError'] }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Beneficiary Country -->
+          <div class="form-group" *ngIf="addBankAccountForm.get('beneficiaryCountry')">
+            <label for="beneficiaryCountry">Beneficiary Country</label>
+            <div class="input-container"
+              [ngClass]="{'has-error': addBankAccountForm.get('beneficiaryCountry')?.invalid && addBankAccountForm.get('beneficiaryCountry')?.touched}">
+              <input type="text" class="form-control" formControlName="beneficiaryCountry">
+              <div *ngIf="addBankAccountForm.get('beneficiaryCountry')?.errors?.['serverError']"
+                class="field-error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>{{ addBankAccountForm.get('beneficiaryCountry')?.errors?.['serverError'] }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Beneficiary Address -->
+          <div class="form-group" *ngIf="addBankAccountForm.get('beneficiaryAddress')">
+            <label for="beneficiaryAddress">Beneficiary Address</label>
+            <div class="input-container"
+              [ngClass]="{'has-error': addBankAccountForm.get('beneficiaryAddress')?.invalid && addBankAccountForm.get('beneficiaryAddress')?.touched}">
+              <input type="text" class="form-control" formControlName="beneficiaryAddress"
+                placeholder="Complete address">
+              <div *ngIf="addBankAccountForm.get('beneficiaryAddress')?.errors?.['serverError']"
+                class="field-error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>{{ addBankAccountForm.get('beneficiaryAddress')?.errors?.['serverError'] }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Address Fields -->
+          <div class="address-fields">
+            <!-- Street Number -->
+            <div class="form-group" *ngIf="addBankAccountForm.get('streetNumber')">
+              <label for="streetNumber">Street Number</label>
+              <div class="input-container"
+                [ngClass]="{'has-error': addBankAccountForm.get('streetNumber')?.invalid && addBankAccountForm.get('streetNumber')?.touched}">
+                <input type="text" class="form-control" formControlName="streetNumber">
+                <div *ngIf="addBankAccountForm.get('streetNumber')?.errors?.['serverError']"
+                  class="field-error-message">
+                  <i class="fas fa-exclamation-circle"></i>
+                  <span>{{ addBankAccountForm.get('streetNumber')?.errors?.['serverError'] }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Street Name -->
+            <div class="form-group" *ngIf="addBankAccountForm.get('streetName')">
+              <label for="streetName">Street Name</label>
+              <div class="input-container"
+                [ngClass]="{'has-error': addBankAccountForm.get('streetName')?.invalid && addBankAccountForm.get('streetName')?.touched}">
+                <input type="text" class="form-control" formControlName="streetName">
+                <div *ngIf="addBankAccountForm.get('streetName')?.errors?.['serverError']" class="field-error-message">
+                  <i class="fas fa-exclamation-circle"></i>
+                  <span>{{ addBankAccountForm.get('streetName')?.errors?.['serverError'] }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- City -->
+            <div class="form-group" *ngIf="addBankAccountForm.get('city')">
+              <label for="city">City</label>
+              <div class="input-container"
+                [ngClass]="{'has-error': addBankAccountForm.get('city')?.invalid && addBankAccountForm.get('city')?.touched}">
+                <input type="text" class="form-control" formControlName="city">
+                <div *ngIf="addBankAccountForm.get('city')?.errors?.['serverError']" class="field-error-message">
+                  <i class="fas fa-exclamation-circle"></i>
+                  <span>{{ addBankAccountForm.get('city')?.errors?.['serverError'] }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Postal Code -->
+            <div class="form-group" *ngIf="addBankAccountForm.get('postalCode')">
+              <label for="postalCode">Postal Code</label>
+              <div class="input-container"
+                [ngClass]="{'has-error': addBankAccountForm.get('postalCode')?.invalid && addBankAccountForm.get('postalCode')?.touched}">
+                <input type="text" class="form-control" formControlName="postalCode">
+                <div *ngIf="addBankAccountForm.get('postalCode')?.errors?.['serverError']" class="field-error-message">
+                  <i class="fas fa-exclamation-circle"></i>
+                  <span>{{ addBankAccountForm.get('postalCode')?.errors?.['serverError'] }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Information Section (Optional) -->
+        <div class="form-section-info">
+          <i class="fas fa-info-circle"></i>
+          <span>For EU bank accounts, IBAN and BIC/SWIFT are required for international transfers.</span>
+        </div>
       </ng-container>
-      
+
       <!-- Confirmation Checkbox -->
       <div class="form-group confirmation-group" *ngIf="addBankAccountForm.get('isConfirmed')">
         <label class="custom-checkbox">
@@ -519,17 +719,35 @@
         </label>
       </div>
     </form>
-    
+
+    <!-- Validation Errors Display - Add this before the dialog actions -->
+    <div *ngIf="validationErrors.length > 0" class="validation-errors-container">
+      <div class="validation-errors-header">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h4>Please fix the following issues</h4>
+      </div>
+      <ul class="validation-errors-list">
+        <li *ngFor="let error of validationErrors" class="validation-error-item">
+          <i class="fas fa-times-circle"></i>
+          <span>{{ error }}</span>
+        </li>
+      </ul>
+      <div class="validation-errors-footer">
+        <i class="fas fa-info-circle"></i>
+        <span>Please correct these fields to continue</span>
+      </div>
+    </div>
+
+    <!-- Security Note -->
     <div class="security-note">
       <i class="fas fa-shield-alt"></i>
       <span>Your bank account details are securely stored and encrypted.</span>
     </div>
-    
+
     <!-- Add Bank Account Button -->
     <div class="dialog-actions">
       <button class="btn-cancel" (click)="addBankAccount = false">Cancel</button>
-      <button 
-        class="btn-submit" 
+      <button class="btn-submit"
         [disabled]="addBankAccountForm.invalid || !addBankAccountForm.get('isConfirmed')?.value || isLoading"
         (click)="addBankAccountDetails()">
         <span *ngIf="!isLoading">Add Bank Account</span>

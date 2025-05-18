@@ -95,6 +95,10 @@
     width: 50%;
     flex: 0 0 50%;
   }
+
+  .address-fields .form-group {
+    flex: 0 0 100%;
+  }
 }
 
 .payment-card {
@@ -1055,4 +1059,203 @@
 .btn-submit:not(:disabled):hover {
   background-color: #27a854;
 }
+
+/* New styling for EU form section */
+.beneficiary-section {
+  border-top: 1px solid #e9ecef;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: #495057;
+}
+
+.address-fields {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -0.5rem;
+}
+
+.address-fields .form-group {
+  flex: 0 0 50%;
+  padding: 0 0.5rem;
+}
+
+.form-section-info {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #495057;
+}
+
+.form-section-info i {
+  color: #17a2b8;
+  margin-right: 0.75rem;
+  font-size: 1rem;
+}
+
+.input-info {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+}
+
+.input-info i {
+  margin-right: 0.5rem;
+  color: #ffc107;
+}
+
+
+/* Validation Errors Display */
+.validation-errors-container {
+  background-color: #fff5f5;
+  border: 1px solid #ffcdd2;
+  border-left: 4px solid #f44336;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(244, 67, 54, 0.1);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.validation-errors-header {
+  background-color: #ffebee;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ffcdd2;
+}
+
+.validation-errors-header i {
+  color: #f44336;
+  font-size: 1.25rem;
+  margin-right: 0.75rem;
+}
+
+.validation-errors-header h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #d32f2f;
+}
+
+.validation-errors-list {
+  list-style: none;
+  padding: 1rem;
+  margin: 0;
+}
+
+.validation-error-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  animation: slideIn 0.3s ease forwards;
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+@keyframes slideIn {
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.validation-error-item:last-child {
+  margin-bottom: 0;
+}
+
+.validation-error-item i {
+  color: #f44336;
+  margin-right: 0.75rem;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.validation-error-item span {
+  color: #616161;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.validation-errors-footer {
+  background-color: #ffebee;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #ffcdd2;
+  font-size: 0.85rem;
+  color: #616161;
+}
+
+.validation-errors-footer i {
+  color: #78909c;
+  margin-right: 0.75rem;
+  font-size: 0.9rem;
+}
+
+/* Add visual indication for invalid fields */
+.input-container.has-error .form-control {
+  border-color: #f44336;
+  background-color: #fff5f5;
+}
+
+.input-container.has-error::after {
+  content: '';
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  background-color: #f44336;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+/* Apply the error state dynamically */
+.form-control.ng-touched.ng-invalid {
+  border-color: #f44336;
+  background-color: #fff5f5;
+}
+
+/* Error message below input */
+.field-error-message {
+  color: #f44336;
+  font-size: 0.8rem;
+  margin-top: 0.4rem;
+  display: flex;
+  align-items: center;
+}
+
+.field-error-message i {
+  margin-right: 0.4rem;
+  font-size: 0.9rem;
+}
+
+/* Animation for error messages */
+.validation-error-item:nth-child(1) { animation-delay: 0.05s; }
+.validation-error-item:nth-child(2) { animation-delay: 0.1s; }
+.validation-error-item:nth-child(3) { animation-delay: 0.15s; }
+.validation-error-item:nth-child(4) { animation-delay: 0.2s; }
+.validation-error-item:nth-child(5) { animation-delay: 0.25s; }
+
+
 

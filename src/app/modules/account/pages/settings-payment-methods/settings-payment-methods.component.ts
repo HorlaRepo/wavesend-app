@@ -1,24 +1,24 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {CountryControllerService} from "../../../../services/services/country-controller.service";
-import {FlutterwaveControllerService} from "../../../../services/services/flutterwave-controller.service";
-import {Bank} from "../../../../services/models/bank";
-import {CardControllerService} from "../../../../services/services/card-controller.service";
-import {Card} from "../../../../services/models/card";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { CountryControllerService } from "../../../../services/services/country-controller.service";
+import { FlutterwaveControllerService } from "../../../../services/services/flutterwave-controller.service";
+import { Bank } from "../../../../services/models/bank";
+import { CardControllerService } from "../../../../services/services/card-controller.service";
+import { Card } from "../../../../services/models/card";
 import { MessageService } from 'primeng/api';
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {PayStackControllerService} from "../../../../services/services/pay-stack-controller.service";
-import {BankAccountControllerService} from "../../../../services/services/bank-account-controller.service";
-import {BankAccount} from "../../../../services/models/bank-account";
-import {UserInfo} from "../../../../services/keycloack/user-info";
-import {KeycloakService} from "../../../../services/keycloack/keycloak.service";
-import {Wallet} from "../../../../services/models/wallet";
-import {PaymentMethodsControllerService} from "../../../../services/services/payment-methods-controller.service";
-import {PaymentMethod} from "../../../../services/models/payment-method";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {FormConfigurations} from "../../config/form-configurations.interface";
-import {MobileMoneyOption} from "../../../../services/models/mobile-money-option";
-import {Country} from "../../../../services/models/country";
-import {debounceTime} from "rxjs";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { PayStackControllerService } from "../../../../services/services/pay-stack-controller.service";
+import { BankAccountControllerService } from "../../../../services/services/bank-account-controller.service";
+import { BankAccount } from "../../../../services/models/bank-account";
+import { UserInfo } from "../../../../services/keycloack/user-info";
+import { KeycloakService } from "../../../../services/keycloack/keycloak.service";
+import { Wallet } from "../../../../services/models/wallet";
+import { PaymentMethodsControllerService } from "../../../../services/services/payment-methods-controller.service";
+import { PaymentMethod } from "../../../../services/models/payment-method";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormConfigurations } from "../../config/form-configurations.interface";
+import { MobileMoneyOption } from "../../../../services/models/mobile-money-option";
+import { Country } from "../../../../services/models/country";
+import { debounceTime } from "rxjs";
 import { Dropdown } from 'primeng/dropdown';
 
 
@@ -32,7 +32,7 @@ type RegionEnum = 'AFRICA' | 'EU' | 'US';
   styleUrls: ['./settings-payment-methods.component.css'],
   providers: [MessageService]
 })
-export class SettingsPaymentMethodsComponent implements OnInit{
+export class SettingsPaymentMethodsComponent implements OnInit {
 
   user: UserInfo | undefined;
   country: Country | undefined = {};
@@ -69,7 +69,9 @@ export class SettingsPaymentMethodsComponent implements OnInit{
   isLoadingBanksList = false;
 
   addBankAccountForm!: FormGroup;
-  currentBankOptions: Array <Bank | MobileMoneyOption> = [];
+  currentBankOptions: Array<Bank | MobileMoneyOption> = [];
+  validationErrors: string[] = [];
+
 
   formConfigurations: FormConfigurations = {
     Africa: [
@@ -109,15 +111,15 @@ export class SettingsPaymentMethodsComponent implements OnInit{
 
 
   constructor(private flutterwaveService: FlutterwaveControllerService,
-              private countryService: CountryControllerService,
-              private cardService: CardControllerService,
-              private messageService: MessageService,
-              private modalService: NgbModal,
-              private payStackService: PayStackControllerService,
-              private bankAccountService: BankAccountControllerService,
-              private keycloakService: KeycloakService,
-              private paymentMethodsService: PaymentMethodsControllerService,
-              private fb: FormBuilder) {
+    private countryService: CountryControllerService,
+    private cardService: CardControllerService,
+    private messageService: MessageService,
+    private modalService: NgbModal,
+    private payStackService: PayStackControllerService,
+    private bankAccountService: BankAccountControllerService,
+    private keycloakService: KeycloakService,
+    private paymentMethodsService: PaymentMethodsControllerService,
+    private fb: FormBuilder) {
 
     this.initializeForm();
   }
@@ -139,6 +141,13 @@ export class SettingsPaymentMethodsComponent implements OnInit{
       countryName: [this.country?.name],
       currency: [this.currency],
       region: [this.country?.region],
+    });
+
+    this.addBankAccountForm.valueChanges.subscribe(() => {
+      if (this.validationErrors.length > 0) {
+        // Clear global validation errors when user makes changes
+        this.validationErrors = [];
+      }
     });
 
     if (this.country?.region) {
@@ -166,14 +175,19 @@ export class SettingsPaymentMethodsComponent implements OnInit{
     // Handle paymentMethod change
     this.addBankAccountForm.get('paymentMethod')?.valueChanges.subscribe(async value => {
       switch (value) {
-          case 'Mobile Money':
-            await this.fetchCountryMobileMoneyOptions(this.country?.acronym as string);
-            break;
-          case 'Bank Account':
+        case 'Mobile Money':
+          await this.fetchCountryMobileMoneyOptions(this.country?.acronym as string);
+          break;
+        case 'Bank Account':
+          // Only load bank options if region is Africa
+          if (this.isAfricanRegion()) {
             this.loadBanks();
-            break;
+          }
+          break;
         case 'USD (NG DOM Account)':
-          this.loadBanks();
+          if (this.isAfricanRegion()) {
+            this.loadBanks();
+          }
           break;
         default:
           break;
@@ -207,7 +221,7 @@ export class SettingsPaymentMethodsComponent implements OnInit{
     // Initial load based on the current payment method
     const paymentMethod = this.addBankAccountForm.get('paymentMethod')?.value;
     if (paymentMethod === 'Mobile Money') {
-      this.fetchCountryMobileMoneyOptions(this.country?.acronym as string).then(r => {});
+      this.fetchCountryMobileMoneyOptions(this.country?.acronym as string).then(r => { });
     } else if (paymentMethod === 'Bank Account' || paymentMethod === 'USD (NG DOM Account)') {
       this.loadBanks();
     }
@@ -236,7 +250,17 @@ export class SettingsPaymentMethodsComponent implements OnInit{
     });
   }
 
+  isAfricanRegion(): boolean {
+    return this.country?.region?.toLowerCase() === 'africa';
+  }
+
   loadBanks(): void {
+    // Only load banks for dropdown if region is Africa
+    if (!this.isAfricanRegion()) {
+      this.isLoadingBanksList = false;
+      return;
+    }
+
     this.isLoadingBanksList = true;
     this.flutterwaveService.getBanks({
       country: this.country?.acronym as string
@@ -245,32 +269,38 @@ export class SettingsPaymentMethodsComponent implements OnInit{
         this.banks = response.data || [];
         if (this.addBankAccountForm.get('paymentMethod')?.value !== 'Mobile Money') {
           this.currentBankOptions = this.banks || [];
-          this.isLoadingBanksList = false;
         }
+        this.isLoadingBanksList = false;
       }, error: err => {
         console.error('Error loading banks:', err);
-      this.isLoadingBanksList = false;
-      this.showAlert('error', 'Error', 'Failed to load banks');
+        this.isLoadingBanksList = false;
+        this.showAlert('error', 'Error', 'Failed to load banks');
       }
-    })
+    });
   }
 
   onBankChange(event: any) {
-    const selectedBankName = typeof event === 'string' ? event : event.value;
-    this.bankName = selectedBankName;
-    const selectedBank = this.banks?.find(bank => bank.name === this.bankName);
-    this.bankCode = selectedBank?.code || '';
-  
-  // If you have a bankCode formControl, update it
-  if (this.addBankAccountForm.get('bankCode')) {
-    this.addBankAccountForm.get('bankCode')?.setValue(this.bankCode);
-  }
-    // this.bankName = event.target.value;
-    // const selectedBank = this.banks?.find(bank => bank.name === this.bankName);
-    // this.bankCode = selectedBank?.code || '';
+    if (this.isAfricanRegion()) {
+      // Dropdown change event handling (for Africa)
+      const selectedBankName = typeof event === 'string' ? event : event.value;
+      this.bankName = selectedBankName;
+      const selectedBank = this.banks?.find(bank => bank.name === this.bankName);
+      this.bankCode = selectedBank?.code || '';
+    } else {
+      // Text input change event handling (for EU and US)
+      this.bankName = event.target.value;
+      // No bank code logic for non-African regions
+    }
+
+    // If you have a bankCode formControl, update it
+    if (this.addBankAccountForm.get('bankCode')) {
+      this.addBankAccountForm.get('bankCode')?.setValue(this.bankCode);
+    }
   }
 
-  fetchCards(){
+
+
+  fetchCards() {
     this.cardService.findCardByWalletId({
       walletId: this.wallet?.id as number
     }).subscribe({
@@ -283,7 +313,7 @@ export class SettingsPaymentMethodsComponent implements OnInit{
     })
   }
 
-  generateCard(){
+  generateCard() {
     this.isLoading = true;
     console.log(this.cardType)
     console.log(this.user?.email)
@@ -306,8 +336,8 @@ export class SettingsPaymentMethodsComponent implements OnInit{
     })
   }
 
-  createCardPin(){
-    if(this.createPin === this.confirmPin){
+  createCardPin() {
+    if (this.createPin === this.confirmPin) {
       this.isLoading = true;
       this.cardService.setCardPin({
         id: this.selectedCard?.id!,
@@ -316,25 +346,25 @@ export class SettingsPaymentMethodsComponent implements OnInit{
         }
       }).subscribe({
         next: data => {
-          if(data.success){
+          if (data.success) {
             this.isPinCreationSuccessful = true;
-            this.messageService.add({severity:'success', summary:'Success', detail: data.message});
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: data.message });
             this.fetchCards()
             this.hideDialog();
           }
           this.isLoading = false;
         }, error: err => {
           console.error(err.error);
-          this.messageService.add({severity:'error', summary:'Error', detail: err.error.validationErrors});
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.validationErrors });
           this.isLoading = false;
         }
       })
     } else {
-      this.messageService.add({severity:'error', summary:'Error', detail: 'Pin does not match'});
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Pin does not match' });
     }
   }
 
-  validateCardPin(){
+  validateCardPin() {
     this.isLoading = true;
     this.cardService.verifyPin({
       cardId: this.selectedCard?.id!,
@@ -344,9 +374,9 @@ export class SettingsPaymentMethodsComponent implements OnInit{
     }).subscribe({
       next: data => {
         this.isLoading = false;
-        if(data){
+        if (data) {
           this.isCardPinValidated = true;
-          
+
           // Don't close the verification dialog until we're sure the next one will open
           // Just hide it visually first
           const verifyDialog = document.querySelector('.p-dialog') as HTMLElement;
@@ -354,18 +384,18 @@ export class SettingsPaymentMethodsComponent implements OnInit{
             verifyDialog.style.opacity = '0';
             verifyDialog.style.pointerEvents = 'none';
           }
-          
+
           // Use a longer timeout to ensure clean transition
           setTimeout(() => {
             this.displayVerifyDialog = false;
             // Force a new cycle before showing the new dialog
             setTimeout(() => {
               this.displayCardInfo = true;
-              this.messageService.add({severity:'success', summary:'Success', detail: 'PIN verified successfully'});
+              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'PIN verified successfully' });
             }, 100);
           }, 300);
         }
-      }, 
+      },
       error: err => {
         this.isLoading = false;
         this.showAlert('error', 'Error', err.error.message);
@@ -374,14 +404,14 @@ export class SettingsPaymentMethodsComponent implements OnInit{
     })
   }
 
-  validateAccount(){
+  validateAccount() {
     this.isLoading = true;
     this.payStackService.resolveBankAccount({
       account_number: this.accountNumber,
       bank_code: this.bankCode
     }).subscribe({
       next: data => {
-        if(data.status){
+        if (data.status) {
           this.isLoading = false;
           this.isAccountValid = true;
           this.accountName = data.data?.account_name as string;
@@ -403,7 +433,7 @@ export class SettingsPaymentMethodsComponent implements OnInit{
     })
   }
 
-  fetchCountryPaymentMethods(){
+  fetchCountryPaymentMethods() {
     this.paymentMethodsService.getPaymentMethodsByCountryAcronym({
       countryAcronym: this.country?.acronym as string
     }).subscribe({
@@ -416,7 +446,7 @@ export class SettingsPaymentMethodsComponent implements OnInit{
     })
   }
 
-   fetchCountryMobileMoneyOptions(acronym: string): Promise<void> {
+  fetchCountryMobileMoneyOptions(acronym: string): Promise<void> {
     return new Promise((resolve, reject) => {
       this.countryService.getAllMobileMoneyOptions({ acronym: acronym })
         .subscribe({
@@ -436,17 +466,52 @@ export class SettingsPaymentMethodsComponent implements OnInit{
     });
   }
 
-  addBankAccountDetails(){
+  addBankAccountDetails() {
     if (this.addBankAccountForm.invalid) {
       return;
     }
+
+    // Clear any previous validation errors
+    this.validationErrors = [];
     this.isLoading = true;
+
     const formData = this.addBankAccountForm.getRawValue();
     delete formData.isConfirmed;
 
     const payload: any = {
       accountType: formData.accountType,
     };
+
+    if (this.country?.region === 'EU') {
+      // Build the address using all available address components
+      const addressParts = [];
+
+      // Add street address
+      if (formData.streetNumber || formData.streetName) {
+        const streetAddress = `${formData.streetNumber || ''} ${formData.streetName || ''}`.trim();
+        if (streetAddress) addressParts.push(streetAddress);
+      }
+
+      // Add city
+      if (formData.city) addressParts.push(formData.city);
+
+      // Add postal code
+      if (formData.postalCode) addressParts.push(formData.postalCode);
+
+      // Add country
+      if (formData.beneficiaryCountry) addressParts.push(formData.beneficiaryCountry);
+
+      // Join all parts with commas
+      const fullAddress = addressParts.join(', ');
+
+      // Set the beneficiaryAddress in the form data object
+      formData.beneficiaryAddress = fullAddress;
+
+      payload.beneficiaryAddress = fullAddress;
+
+
+    }
+
     this.formConfigurations[this.country?.region!].forEach(field => {
       if (formData[field.name] !== undefined) {
         payload[field.name] = formData[field.name];
@@ -462,7 +527,7 @@ export class SettingsPaymentMethodsComponent implements OnInit{
       }
     }).subscribe({
       next: data => {
-        if(data.success) {
+        if (data.success) {
           this.isLoading = false;
           this.showAlert('success', 'Success', data.message as string);
           this.fetchBankList();
@@ -472,15 +537,26 @@ export class SettingsPaymentMethodsComponent implements OnInit{
           this.showAlert('error', 'Error', data.message as string);
           this.fetchBankList();
         }
-      }, error: err => {
+      },
+      error: err => {
         this.isLoading = false;
-        this.showAlert('error', 'Error', err.error.message);
-        console.error(err.error);
+
+        // Handle validation errors specifically
+        if (err.error && err.error.validationErrors && Array.isArray(err.error.validationErrors)) {
+          this.validationErrors = err.error.validationErrors;
+          // Highlight fields with validation errors
+          this.highlightInvalidFields(this.validationErrors);
+        } else {
+          // Fallback for other types of errors
+          this.showAlert('error', 'Error', err.error?.message || 'An error occurred');
+        }
+
+        console.error('Error adding bank account:', err.error);
       }
-    })
+    });
   }
 
-  fetchBankList(){
+  fetchBankList() {
     this.bankAccountService.getBankAccountsByUser().subscribe({
       next: data => {
         this.banksList = data.data;
@@ -497,17 +573,17 @@ export class SettingsPaymentMethodsComponent implements OnInit{
   }
 
   formatCardNumber(cardNumber: string | undefined): string {
-  if (!cardNumber) return 'XXXX-XXXX-XXXX-0000';
-  
-  const lastFourDigits = cardNumber.slice(-4);
-  return 'XXXX-XXXX-XXXX-' + lastFourDigits;
-}
+    if (!cardNumber) return 'XXXX-XXXX-XXXX-0000';
 
-viewCard(card: Card): void {
-  this.selectedCard = card;
-  console.log("Selected card:", card);
-  this.showDialog(card);
-}
+    const lastFourDigits = cardNumber.slice(-4);
+    return 'XXXX-XXXX-XXXX-' + lastFourDigits;
+  }
+
+  viewCard(card: Card): void {
+    this.selectedCard = card;
+    console.log("Selected card:", card);
+    this.showDialog(card);
+  }
 
   numericOnly(event: KeyboardEvent): boolean {
     const char = event.key;
@@ -521,8 +597,8 @@ viewCard(card: Card): void {
     this.modalService.open(content);
   }
 
-  showAlert(severity: string, summary: string, detail: string){
-    this.messageService.add({severity: severity, summary: summary, detail: detail});
+  showAlert(severity: string, summary: string, detail: string) {
+    this.messageService.add({ severity: severity, summary: summary, detail: detail });
   }
 
   onVerifyDialogHide() {
@@ -537,7 +613,7 @@ viewCard(card: Card): void {
     // Make sure all other dialogs are closed first
     this.displayActivateDialog = false;
     this.displayVerifyDialog = false;
-    
+
     // Force a fresh render cycle before opening the new dialog
     setTimeout(() => {
       this.displayCardInfo = true;
@@ -549,7 +625,7 @@ viewCard(card: Card): void {
     this.displayActivateDialog = false;
     this.displayVerifyDialog = false;
     this.displayCardInfo = false;
-    
+
     // Small timeout before showing the new dialog
     setTimeout(() => {
       if (card.locked) {
@@ -561,6 +637,7 @@ viewCard(card: Card): void {
   }
 
   hideDialog(fromCardInfo: boolean = false) {
+    this.validationErrors = [];
     if (this.displayCardInfo && !fromCardInfo) {
       this.displayCardInfo = false;
       this.isCardPinValidated = false;
@@ -568,7 +645,7 @@ viewCard(card: Card): void {
     } else if (this.displayVerifyDialog) {
       const isTransitioningToCardInfo = this.isCardPinValidated;
       this.displayVerifyDialog = false;
-      
+
       // Only reset if not going to card info dialog
       if (!isTransitioningToCardInfo) {
         this.enterPin = '';
@@ -584,11 +661,11 @@ viewCard(card: Card): void {
     }
   }
 
-  showCardRequestDialog(){
+  showCardRequestDialog() {
     this.requestNewCard = true;
   }
 
-  showAddBankAccountDialog(){
+  showAddBankAccountDialog() {
     this.addBankAccount = true;
   }
 
@@ -620,6 +697,31 @@ viewCard(card: Card): void {
 
     console.warn(`Invalid region: ${region}. Using default value 'AFRICA'`);
     return 'AFRICA';
+  }
+
+  highlightInvalidFields(errors: string[]) {
+    // Reset all fields first
+    Object.keys(this.addBankAccountForm.controls).forEach(key => {
+      const control = this.addBankAccountForm.get(key);
+      if (control) {
+        control.setErrors(null);
+      }
+    });
+
+    // Set errors on fields mentioned in validation errors
+    errors.forEach(error => {
+      // Extract field name from error message
+      const fieldMatch = error.match(/^(\w+)/);
+      if (fieldMatch && fieldMatch[1]) {
+        const fieldName = fieldMatch[1].toLowerCase();
+        const control = this.addBankAccountForm.get(fieldName);
+
+        if (control) {
+          control.setErrors({ serverError: error });
+          control.markAsTouched();
+        }
+      }
+    });
   }
 }
 

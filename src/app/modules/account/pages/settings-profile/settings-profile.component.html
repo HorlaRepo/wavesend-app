@@ -5,10 +5,10 @@
       <aside class="col-lg-3">
         <!-- Profile Details -->
         <app-profile-details></app-profile-details>
-        
+
         <!-- Available Balance -->
         <app-balance></app-balance>
-        
+
         <!-- Need Help? -->
         <app-need-help></app-need-help>
       </aside>
@@ -20,35 +20,35 @@
           <h2>Profile Settings</h2>
           <p class="subtitle">Manage your personal information and account preferences</p>
         </div>
-        
-        <!-- Personal Details Card -->
+
+        <!-- Personal Details Card - Updated Structure -->
         <div class="settings-card">
           <div class="settings-card-header">
             <div class="header-content">
               <h3>Personal Details</h3>
               <div class="settings-badge">Identity</div>
             </div>
-            <button class="btn-edit" data-toggle="modal" data-target="#edit-personal-details">
+            <button class="btn-edit disabled" disabled>
               <i class="fas fa-edit"></i>
               <span>Edit</span>
             </button>
           </div>
-          
+
           <div class="settings-card-body">
-            <div class="details-grid">
-              <div class="detail-item">
+            <div class="details-table">
+              <div class="detail-row">
                 <div class="detail-label">Full Name</div>
                 <div class="detail-value">{{ userProfile?.firstName }} {{ userProfile?.lastName }}</div>
               </div>
-              
-              <div class="detail-item">
+
+              <div class="detail-row">
                 <div class="detail-label">Date of Birth</div>
                 <div class="detail-value">{{ date }}</div>
               </div>
-              
-              <div class="detail-item address">
+
+              <div class="detail-row">
                 <div class="detail-label">Address</div>
-                <div class="detail-value">
+                <div class="detail-value address-block">
                   <p>{{ userInfo?.address?.street_address }}</p>
                   <p>{{ userInfo?.address?.locality }}</p>
                   <p>{{ userInfo?.address?.region }} - {{ userInfo?.address?.postal_code }}</p>
@@ -58,33 +58,33 @@
             </div>
           </div>
         </div>
-        
-        <!-- Account Settings Card -->
+
+        <!-- Account Settings Card - Updated Structure -->
         <div class="settings-card">
           <div class="settings-card-header">
             <div class="header-content">
               <h3>Account Settings</h3>
               <div class="settings-badge">Preferences</div>
             </div>
-            <button class="btn-edit" data-toggle="modal" data-target="#edit-account-settings">
+            <button class="btn-edit disabled" disabled>
               <i class="fas fa-edit"></i>
               <span>Edit</span>
             </button>
           </div>
-          
+
           <div class="settings-card-body">
-            <div class="details-grid">
-              <div class="detail-item">
+            <div class="details-table">
+              <div class="detail-row">
                 <div class="detail-label">Language</div>
                 <div class="detail-value">English (United States)</div>
               </div>
-              
-              <div class="detail-item">
+
+              <div class="detail-row">
                 <div class="detail-label">Time Zone</div>
-                <div class="detail-value">(GMT-06:00) Central America</div>
+                <div class="detail-value">{{ getFormattedTimezone() }}</div>
               </div>
-              
-              <div class="detail-item">
+
+              <div class="detail-row">
                 <div class="detail-label">Account Status</div>
                 <div class="detail-value">
                   <span class="status-badge active">
@@ -96,32 +96,35 @@
             </div>
           </div>
         </div>
-        
-        <!-- Email Addresses Card -->
+
+        <!-- Email Addresses Card - Updated Structure -->
         <div class="settings-card">
           <div class="settings-card-header">
             <div class="header-content">
               <h3>Email Addresses</h3>
               <div class="settings-badge">Communication</div>
             </div>
-            <button class="btn-edit" data-toggle="modal" data-target="#edit-email">
+            <button class="btn-edit disabled" disabled>
               <i class="fas fa-edit"></i>
               <span>Edit</span>
             </button>
           </div>
-          
+
           <div class="settings-card-body">
-            <div class="details-grid">
-              <div class="detail-item">
+            <div class="details-table">
+              <div class="detail-row">
                 <div class="detail-label">Email ID</div>
-                <div class="detail-value email">
-                  {{ userProfile?.email }}
-                  <span class="primary-badge">Primary</span>
+                <div class="detail-value">
+                  <div class="email-display">
+                    {{ userProfile?.email }}
+                    <span class="primary-badge">Primary</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
@@ -146,7 +149,8 @@
                 <label for="firstName">First Name</label>
                 <div class="input-wrapper">
                   <i class="fas fa-user input-icon"></i>
-                  <input type="text" value="{{ userProfile?.firstName }}" class="form-control" id="firstName" required placeholder="First Name">
+                  <input type="text" value="{{ userProfile?.firstName }}" class="form-control" id="firstName" required
+                    placeholder="First Name">
                 </div>
               </div>
             </div>
@@ -155,7 +159,8 @@
                 <label for="fullName">Last Name</label>
                 <div class="input-wrapper">
                   <i class="fas fa-user input-icon"></i>
-                  <input type="text" value="{{ userProfile?.lastName }}" class="form-control" id="fullName" required placeholder="Last Name">
+                  <input type="text" value="{{ userProfile?.lastName }}" class="form-control" id="fullName" required
+                    placeholder="Last Name">
                 </div>
               </div>
             </div>
@@ -164,7 +169,8 @@
                 <label for="birthDate">Date of Birth</label>
                 <div class="input-wrapper">
                   <i class="fas fa-calendar-alt input-icon"></i>
-                  <input id="birthDate" value="{{ date }}" type="text" class="form-control" required placeholder="Date of Birth">
+                  <input id="birthDate" value="{{ date }}" type="text" class="form-control" required
+                    placeholder="Date of Birth">
                 </div>
               </div>
             </div>
@@ -178,7 +184,8 @@
                 <label for="address">Street Address</label>
                 <div class="input-wrapper">
                   <i class="fas fa-map-marker-alt input-icon"></i>
-                  <input type="text" value="{{ userInfo?.address?.street_address}}" class="form-control" id="address" required placeholder="Street Address">
+                  <input type="text" value="{{ userInfo?.address?.street_address}}" class="form-control" id="address"
+                    required placeholder="Street Address">
                 </div>
               </div>
             </div>
@@ -187,7 +194,8 @@
                 <label for="city">City</label>
                 <div class="input-wrapper">
                   <i class="fas fa-city input-icon"></i>
-                  <input id="city" value="{{ userInfo?.address?.locality }}" type="text" class="form-control" required placeholder="City">
+                  <input id="city" value="{{ userInfo?.address?.locality }}" type="text" class="form-control" required
+                    placeholder="City">
                 </div>
               </div>
             </div>
@@ -196,7 +204,8 @@
                 <label for="state">State/Province</label>
                 <div class="input-wrapper">
                   <i class="fas fa-map input-icon"></i>
-                  <input id="state" value="{{ userInfo?.address?.region }}" type="text" class="form-control" required placeholder="State/Province">
+                  <input id="state" value="{{ userInfo?.address?.region }}" type="text" class="form-control" required
+                    placeholder="State/Province">
                 </div>
               </div>
             </div>
@@ -205,7 +214,8 @@
                 <label for="zipCode">Postal Code</label>
                 <div class="input-wrapper">
                   <i class="fas fa-mail-bulk input-icon"></i>
-                  <input id="zipCode" value="{{ userInfo?.address?.postal_code }}" type="text" class="form-control" required placeholder="Postal Code">
+                  <input id="zipCode" value="{{ userInfo?.address?.postal_code }}" type="text" class="form-control"
+                    required placeholder="Postal Code">
                 </div>
               </div>
             </div>
@@ -214,7 +224,8 @@
                 <label for="country">Country</label>
                 <div class="input-wrapper">
                   <i class="fas fa-globe input-icon"></i>
-                  <input id="country" value="{{ userInfo?.address?.country }}" type="text" class="form-control" required placeholder="Country">
+                  <input id="country" value="{{ userInfo?.address?.country }}" type="text" class="form-control" required
+                    placeholder="Country">
                 </div>
               </div>
             </div>
@@ -289,7 +300,8 @@
             <label for="email">Email Address</label>
             <div class="input-wrapper">
               <i class="fas fa-envelope input-icon"></i>
-              <input type="email" value="{{ userProfile?.email }}" class="form-control" id="email" required placeholder="Email Address">
+              <input type="email" value="{{ userProfile?.email }}" class="form-control" id="email" required
+                placeholder="Email Address">
             </div>
             <div class="form-text">
               <i class="fas fa-info-circle"></i>

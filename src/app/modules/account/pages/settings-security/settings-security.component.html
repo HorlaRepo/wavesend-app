@@ -33,7 +33,7 @@
                 <span class="status-info">Last updated: 15 March, 2025</span>
               </div>
             </div>
-            <button class="btn-action" data-toggle="modal" data-target="#change-password">
+            <button class="btn-action btn-disabled" disabled>
               <i class="fas fa-edit"></i>
               <span>Change</span>
             </button>
@@ -62,7 +62,7 @@
                 <span class="status-info">3 questions configured</span>
               </div>
             </div>
-            <button class="btn-action" data-toggle="modal" data-target="#change-security-questions">
+            <button class="btn-action btn-disabled" disabled>
               <i class="fas fa-edit"></i>
               <span>Update</span>
             </button>
@@ -73,7 +73,7 @@
           </div>
         </div>
 
-        <!-- Two-Factor Authentication Section -->
+        <!-- Two-Factor Authentication Section - Updated to show as active -->
         <div class="settings-card">
           <div class="settings-card-header">
             <div class="header-content">
@@ -82,25 +82,29 @@
               </div>
               <div>
                 <h3>Two-Factor Authentication</h3>
-                <span class="status-badge not-active">Not Active</span>
+                <span class="status-badge verified">Active</span>
               </div>
             </div>
-            <button class="btn-action" data-toggle="modal" data-target="#two-step-verification">
-              <i class="fas fa-plus-circle"></i>
-              <span>Set Up</span>
+            <button class="btn-action btn-disabled" disabled>
+              <i class="fas fa-check-circle"></i>
+              <span>Configured</span>
             </button>
           </div>
           <div class="settings-card-body">
-            <p class="description">Add an extra layer of security by requiring a one-time security code in addition to
-              your password each time you log in.</p>
+            <p class="description">Your account is protected with two-factor authentication. This adds an extra layer of
+              security by requiring a one-time security code in addition to your password each time you log in.</p>
             <div class="security-benefits">
               <div class="benefit-item">
                 <i class="fas fa-check-circle"></i>
-                <span>Protect against unauthorized access</span>
+                <span>Protection against unauthorized access</span>
               </div>
               <div class="benefit-item">
                 <i class="fas fa-check-circle"></i>
-                <span>Get alerted about login attempts</span>
+                <span>Login alerts for suspicious activity</span>
+              </div>
+              <div class="benefit-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Using Email verification method</span>
               </div>
             </div>
           </div>
@@ -422,9 +426,11 @@
 </div>
 
 <!-- KYC Verification Modal with Tabs -->
-<p-dialog header="KYC Verification" [(visible)]="kycModalVisible" [modal]="true" [style]="{width: '650px'}" [baseZIndex]="1000" [closable]="true" styleClass="kyc-dialog">
-  <p-toast></p-toast>
-  
+<p-dialog header="KYC Verification" [(visible)]="kycModalVisible" [modal]="true" [style]="{width: '650px'}"
+  [baseZIndex]="1000" [closable]="true" styleClass="kyc-dialog">
+  <p-toast
+  position="bottom-right"></p-toast>
+
   <p-tabView #kycTabs styleClass="kyc-tabs" [(activeIndex)]="activeTabIndex">
     <!-- ID Verification Tab -->
     <p-tabPanel header="ID Verification" [disabled]="!isIdVerificationTabEnabled()">
@@ -433,19 +439,21 @@
           <i class="fas fa-exclamation-circle"></i>
           <p>Your previous ID verification was rejected. Please upload a clearer document.</p>
         </div>
-        
+
         <p class="verification-intro">Please provide your government-issued ID for verification</p>
-        
+
         <form [formGroup]="kycForm" class="verification-form">
           <div class="form-group">
             <label for="country">ID Country</label>
-            <div class="select-wrapper">
-              <select id="country" class="form-control custom-select" formControlName="country">
-                <option value="">Select country</option>
-                <option *ngFor="let country of countries" [value]="country">{{country}}</option>
-              </select>
-              <i class="fas fa-chevron-down select-icon"></i>
-            </div>
+            <p-dropdown id="country" [options]="countries" formControlName="country" placeholder="Select country"
+              [filter]="true" [showClear]="true" styleClass="w-100 country-dropdown">
+              <ng-template pTemplate="selectedItem" let-country>
+                <div class="country-item">{{ country }}</div>
+              </ng-template>
+              <ng-template pTemplate="item" let-country>
+                <div class="country-item">{{ country }}</div>
+              </ng-template>
+            </p-dropdown>
           </div>
 
           <div class="form-group">
@@ -506,6 +514,15 @@
               </div>
             </div>
 
+            <!-- For ID proof preview -->
+            <div class="file-info" *ngIf="idProof">
+              <div class="file-name">{{ getDisplayFileName(idProof) }}</div>
+              <div class="file-warning" *ngIf="isFileNameTooLong(idProof)">
+                <i class="fas fa-exclamation-triangle"></i>
+                File name too long ({{ idProof.name.length }}/50 characters)
+              </div>
+            </div>
+
             <!-- ID Upload Progress Bar -->
             <div *ngIf="idUploadProgress > 0" class="progress-container">
               <div class="progress-bar">
@@ -537,10 +554,7 @@
 
           <!-- ID Verification Submit Button -->
           <div class="tab-footer">
-            <button 
-              type="button" 
-              class="btn-submit" 
-              [disabled]="!idProof || isUploadingId" 
+            <button type="button" class="btn-submit" [disabled]="!idProof || isUploadingId"
               (click)="onSubmitIdDocument()">
               <span *ngIf="!isUploadingId">Submit ID Document</span>
               <div *ngIf="isUploadingId" class="spinner-container">
@@ -559,9 +573,9 @@
           <i class="fas fa-exclamation-circle"></i>
           <p>Your previous address verification was rejected. Please upload a valid document.</p>
         </div>
-        
+
         <p class="verification-intro">Please upload a document that proves your current residential address</p>
-        
+
         <div class="address-requirements">
           <h4>Acceptable address documents</h4>
           <ul>
@@ -604,6 +618,15 @@
             </div>
           </div>
 
+          <!-- For Address proof preview -->
+          <div class="file-info" *ngIf="addressProof">
+            <div class="file-name">{{ getDisplayFileName(addressProof) }}</div>
+            <div class="file-warning" *ngIf="isFileNameTooLong(addressProof)">
+              <i class="fas fa-exclamation-triangle"></i>
+              File name too long ({{ addressProof.name.length }}/50 characters)
+            </div>
+          </div>
+
           <!-- Address Upload Progress Bar -->
           <div *ngIf="addressUploadProgress > 0" class="progress-container">
             <div class="progress-bar">
@@ -634,10 +657,7 @@
 
           <!-- Address Verification Submit Button -->
           <div class="tab-footer">
-            <button 
-              type="button" 
-              class="btn-submit" 
-              [disabled]="!addressProof || isUploadingAddress" 
+            <button type="button" class="btn-submit" [disabled]="!addressProof || isUploadingAddress"
               (click)="onSubmitAddressDocument()">
               <span *ngIf="!isUploadingAddress">Submit Address Document</span>
               <div *ngIf="isUploadingAddress" class="spinner-container">
@@ -647,8 +667,8 @@
           </div>
         </div>
       </div>
-      </p-tabPanel>
-    </p-tabView>
+    </p-tabPanel>
+  </p-tabView>
 
   <div class="dialog-footer">
     <button class="btn-cancel" (click)="onNoClick()">Close</button>

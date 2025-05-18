@@ -1,9 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {CountriesService} from "../../../../services/country-list/countries.service";
-import {KycVerificationControllerService} from "../../../../services/services/kyc-verification-controller.service";
-import {MessageService} from "primeng/api";
-import {KycVerification} from "../../../../services/models/kyc-verification";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { CountriesService } from "../../../../services/country-list/countries.service";
+import { KycVerificationControllerService } from "../../../../services/services/kyc-verification-controller.service";
+import { MessageService } from "primeng/api";
+import { KycVerification } from "../../../../services/models/kyc-verification";
 import { TabView } from 'primeng/tabview';
 
 @Component({
@@ -14,7 +14,7 @@ import { TabView } from 'primeng/tabview';
 })
 export class SettingsSecurityComponent implements OnInit {
   @ViewChild('kycTabs') kycTabs!: TabView;
-  
+
   kycModalVisible = false;
   kycForm: FormGroup;
   countries: string[] = [];
@@ -46,7 +46,7 @@ export class SettingsSecurityComponent implements OnInit {
   addressProofPreview: string | ArrayBuffer | null = null;
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private countryService: CountriesService,
     private kycVerificationService: KycVerificationControllerService,
     private messageService: MessageService
@@ -70,7 +70,7 @@ export class SettingsSecurityComponent implements OnInit {
     if (this.isVerifyButtonDisabled()) {
       return; // Don't show modal if button is disabled
     }
-    
+
     this.resetProgress();
     this.setInitialActiveTab();
     this.kycModalVisible = true;
@@ -80,64 +80,89 @@ export class SettingsSecurityComponent implements OnInit {
   /**
  * Check if the verification button should be disabled
  */
-isVerifyButtonDisabled(): boolean {
-  const idStatus = this.kycVerification?.idVerificationStatus;
-  const addressStatus = this.kycVerification?.addressVerificationStatus;
-  
-  // Disable button when both statuses are APPROVED or both are PENDING
-  return (idStatus === 'APPROVED' && addressStatus === 'APPROVED') || 
-         (idStatus === 'PENDING' && addressStatus === 'PENDING');
-}
+  isVerifyButtonDisabled(): boolean {
+    const idStatus = this.kycVerification?.idVerificationStatus;
+    const addressStatus = this.kycVerification?.addressVerificationStatus;
 
-/**
- * Get button text based on verification statuses
- */
-getVerifyButtonText(): string {
-  const idStatus = this.kycVerification?.idVerificationStatus;
-  const addressStatus = this.kycVerification?.addressVerificationStatus;
-  
-  if (idStatus === 'APPROVED' && addressStatus === 'APPROVED') {
-    return 'Fully Verified';
-  } else if (idStatus === 'PENDING' && addressStatus === 'PENDING') {
-    return 'Verification Pending';
-  } else if (idStatus === 'REJECTED' || addressStatus === 'REJECTED') {
-    return 'Re-Upload Documents';
-  } else {
-    return 'Verify Now';
+    // Disable button when both statuses are APPROVED or both are PENDING
+    return (idStatus === 'APPROVED' && addressStatus === 'APPROVED') ||
+      (idStatus === 'PENDING' && addressStatus === 'PENDING');
   }
-}
+
+  /**
+   * Get button text based on verification statuses
+   */
+  getVerifyButtonText(): string {
+    const idStatus = this.kycVerification?.idVerificationStatus;
+    const addressStatus = this.kycVerification?.addressVerificationStatus;
+
+    if (idStatus === 'APPROVED' && addressStatus === 'APPROVED') {
+      return 'Fully Verified';
+    } else if (idStatus === 'PENDING' && addressStatus === 'PENDING') {
+      return 'Verification Pending';
+    } else if (idStatus === 'REJECTED' || addressStatus === 'REJECTED') {
+      return 'Re-Upload Documents';
+    } else {
+      return 'Verify Now';
+    }
+  }
 
   /**
  * Check if ID verification tab should be enabled
  */
-isIdVerificationTabEnabled(): boolean {
-  const status = this.kycVerification?.idVerificationStatus;
-  return status === 'UNVERIFIED' || status === 'REJECTED';
-}
+  isIdVerificationTabEnabled(): boolean {
+    const status = this.kycVerification?.idVerificationStatus;
+    return status === 'UNVERIFIED' || status === 'REJECTED';
+  }
 
-/**
- * Check if address verification tab should be enabled
- */
-isAddressVerificationTabEnabled(): boolean {
-  const status = this.kycVerification?.addressVerificationStatus;
-  return status === 'UNVERIFIED' || status === 'REJECTED';
-}
+  /**
+   * Check if address verification tab should be enabled
+   */
+  isAddressVerificationTabEnabled(): boolean {
+    const status = this.kycVerification?.addressVerificationStatus;
+    return status === 'UNVERIFIED' || status === 'REJECTED';
+  }
 
   /**
  * Sets the initial active tab index when opening the modal
  */
-setInitialActiveTab(): void {
-  const idStatus = this.kycVerification?.idVerificationStatus;
-  const addressStatus = this.kycVerification?.addressVerificationStatus;
-  
-  if (!this.isIdVerificationTabEnabled() && this.isAddressVerificationTabEnabled()) {
-    // If ID is verified/pending but address is not, show address tab
-    this.activeTabIndex = 1;
-  } else {
-    // Default to ID tab in all other cases
-    this.activeTabIndex = 0;
+  setInitialActiveTab(): void {
+    const idStatus = this.kycVerification?.idVerificationStatus;
+    const addressStatus = this.kycVerification?.addressVerificationStatus;
+
+    if (!this.isIdVerificationTabEnabled() && this.isAddressVerificationTabEnabled()) {
+      // If ID is verified/pending but address is not, show address tab
+      this.activeTabIndex = 1;
+    } else {
+      // Default to ID tab in all other cases
+      this.activeTabIndex = 0;
+    }
   }
-}
+
+  /**
+   * Validates if the file name is within acceptable length
+   * @param file The file to validate
+   * @returns boolean indicating if the file name is valid
+   */
+  private isFileNameValid(file: File | null): boolean {
+    if (!file) return false;
+
+    const MAX_FILENAME_LENGTH = 50;
+    return file.name.length <= MAX_FILENAME_LENGTH;
+  }
+
+  /**
+   * Shows file name error message
+   * @param fileType Type of document being uploaded
+   */
+  private showFileNameTooLongError(fileType: string): void {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'File Name Too Long',
+      detail: `The ${fileType} document file name exceeds the maximum allowed length of 50 characters. Please rename your file with a shorter name and try again.`,
+      life: 7000
+    });
+  }
 
   resetProgress(): void {
     this.idUploadProgress = 0;
@@ -149,7 +174,7 @@ setInitialActiveTab(): void {
     this.activeTabIndex = 0;
   }
 
-  fetchCountries(){
+  fetchCountries() {
     this.countryService.getCountriesCommonNames().subscribe({
       next: (data: string[]) => {
         this.countries = data;
@@ -160,7 +185,7 @@ setInitialActiveTab(): void {
     });
   }
 
-  getKycVerificationStatus(){
+  getKycVerificationStatus() {
     this.kycVerificationService.getKycStatus().subscribe({
       next: (data) => {
         this.kycVerification = data.data;
@@ -175,28 +200,28 @@ setInitialActiveTab(): void {
   /**
  * Get display status text
  */
-getStatusDisplayText(status: string | undefined): string {
-  switch(status) {
-    case 'APPROVED': return 'Verified';
-    case 'PENDING': return 'Pending';
-    case 'REJECTED': return 'Rejected';
-    case 'UNVERIFIED':
-    default: return 'Not Verified';
+  getStatusDisplayText(status: string | undefined): string {
+    switch (status) {
+      case 'APPROVED': return 'Verified';
+      case 'PENDING': return 'Pending';
+      case 'REJECTED': return 'Rejected';
+      case 'UNVERIFIED':
+      default: return 'Not Verified';
+    }
   }
-}
 
-/**
- * Get CSS class for status badge
- */
-getStatusBadgeClass(status: string | undefined): string {
-  switch(status) {
-    case 'APPROVED': return 'verified';
-    case 'PENDING': return 'pending';
-    case 'REJECTED': return 'rejected';
-    case 'UNVERIFIED':
-    default: return 'not-active';
+  /**
+   * Get CSS class for status badge
+   */
+  getStatusBadgeClass(status: string | undefined): string {
+    switch (status) {
+      case 'APPROVED': return 'verified';
+      case 'PENDING': return 'pending';
+      case 'REJECTED': return 'rejected';
+      case 'UNVERIFIED':
+      default: return 'not-active';
+    }
   }
-}
 
 
 
@@ -242,17 +267,23 @@ getStatusBadgeClass(status: string | undefined): string {
 
   onSubmitIdDocument() {
     if (!this.idProof) return;
-    
+
+    // Check file name length
+    if (!this.isFileNameValid(this.idProof)) {
+      this.showFileNameTooLongError('ID');
+      return;
+    }
+
     this.isUploadingId = true;
     this.idUploadProgress = 0;
-    
+
     // Simulate progress updates
     const progressInterval = setInterval(() => {
       if (this.idUploadProgress < 90) {
         this.idUploadProgress += 10;
       }
     }, 300);
-    
+
     this.kycVerificationService.uploadIdDocument({
       body: { file: this.idProof }
     }).subscribe({
@@ -261,13 +292,13 @@ getStatusBadgeClass(status: string | undefined): string {
         this.idUploadProgress = 100;
         this.idDocumentUploaded = true;
         this.isUploadingId = false;
-        
+
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: 'ID document uploaded successfully',
         });
-        
+
         // Switch to address tab after successful upload
         setTimeout(() => {
           this.activeTabIndex = 1;
@@ -279,7 +310,7 @@ getStatusBadgeClass(status: string | undefined): string {
         this.isUploadingId = false;
         this.idUploadFailed = true;
         this.idUploadProgress = 0;
-        
+
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -291,17 +322,23 @@ getStatusBadgeClass(status: string | undefined): string {
 
   onSubmitAddressDocument() {
     if (!this.addressProof) return;
-    
+
+    // Check file name length
+    if (!this.isFileNameValid(this.addressProof)) {
+      this.showFileNameTooLongError('address verification');
+      return;
+    }
+
     this.isUploadingAddress = true;
     this.addressUploadProgress = 0;
-    
+
     // Simulate progress updates
     const progressInterval = setInterval(() => {
       if (this.addressUploadProgress < 90) {
         this.addressUploadProgress += 10;
       }
     }, 300);
-    
+
     this.kycVerificationService.uploadAddressDocument({
       body: { file: this.addressProof }
     }).subscribe({
@@ -310,13 +347,13 @@ getStatusBadgeClass(status: string | undefined): string {
         this.addressUploadProgress = 100;
         this.addressDocumentUploaded = true;
         this.isUploadingAddress = false;
-        
+
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: 'Address document uploaded successfully',
         });
-        
+
         // Close modal after successful upload of both documents
         if (this.idDocumentUploaded) {
           setTimeout(() => {
@@ -331,7 +368,7 @@ getStatusBadgeClass(status: string | undefined): string {
         this.isUploadingAddress = false;
         this.addressUploadFailed = true;
         this.addressUploadProgress = 0;
-        
+
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -343,5 +380,22 @@ getStatusBadgeClass(status: string | undefined): string {
 
   onNoClick(): void {
     this.kycModalVisible = false;
+  }
+
+  /**
+ * Check if file name is too long
+ */
+  isFileNameTooLong(file: File | null): boolean {
+    if (!file) return false;
+    const MAX_FILENAME_LENGTH = 50;
+    return file.name.length > MAX_FILENAME_LENGTH;
+  }
+
+  /**
+   * Get file name for display (truncated if needed)
+   */
+  getDisplayFileName(file: File | null): string {
+    if (!file) return '';
+    return file.name.length > 35 ? file.name.substring(0, 32) + '...' : file.name;
   }
 }
