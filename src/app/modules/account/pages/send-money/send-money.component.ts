@@ -8,8 +8,9 @@ import { InputParserService } from "../../../../services/input-parser/input-pars
 import { Router } from "@angular/router";
 import { UserInfo } from "../../../../services/keycloack/user-info";
 import { UserRepresentation } from "../../../../services/models/user-representation";
-import { KeycloakService } from "../../../../services/keycloack/keycloak.service";
-import { KeycloakEventsControllerService } from "../../../../services/services/keycloak-events-controller.service";
+import { AuthService } from "../../../../services/auth/auth.service";
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../../environments/environment';
 import { WalletControllerService } from "../../../../services/services/wallet-controller.service";
 import { Wallet } from "../../../../services/models/wallet";
 import { TransferBeneficiaryService } from 'src/app/services/beneficiary/transfer-beneficiary.service';
@@ -59,8 +60,8 @@ export class SendMoneyComponent implements OnInit {
     private stepsProgressService: StepsProgressServiceService,
     private inputParserService: InputParserService,
     private router: Router,
-    private keycloakService: KeycloakService,
-    private keycloakEventsService: KeycloakEventsControllerService,
+    private authService: AuthService,
+    private http: HttpClient,
     private walletService: WalletControllerService,
     private beneficiaryService: TransferBeneficiaryService,
     private transferStateService: TransferStateService,
@@ -160,9 +161,7 @@ export class SendMoneyComponent implements OnInit {
 
   fetchUserByEmail(email: string) {
     this.isLoading = true;
-    this.keycloakEventsService.checkUser({
-      email: email
-    }).subscribe({
+    this.http.get<any>(`${environment.apiUrl}/users/check-user?email=${email}`).subscribe({
       next: (user) => {
         if (!user.success) {
           this.isLoading = false;
@@ -212,8 +211,8 @@ export class SendMoneyComponent implements OnInit {
   }
 
   async setUser() {
-    this.user = this.keycloakService.userInfo;
-    this.wallet = await this.keycloakService.fetchUserWallet();
+    this.user = this.authService.userInfo;
+    this.wallet = await this.authService.fetchUserWallet();
     this.balance = this.wallet?.balance || 0.00;
 
     this.amountControl = new FormControl(0.00, [

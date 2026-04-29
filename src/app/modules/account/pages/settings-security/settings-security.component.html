@@ -30,10 +30,10 @@
               </div>
               <div>
                 <h3>Password</h3>
-                <span class="status-info">Last updated: 15 March, 2025</span>
+                <span class="status-info">Keep your password secure and up to date</span>
               </div>
             </div>
-            <button class="btn-action btn-disabled" disabled>
+            <button class="btn-action" (click)="showPasswordModal()">
               <i class="fas fa-edit"></i>
               <span>Change</span>
             </button>
@@ -73,7 +73,7 @@
           </div>
         </div>
 
-        <!-- Two-Factor Authentication Section - Updated to show as active -->
+        <!-- Two-Factor Authentication Section -->
         <div class="settings-card">
           <div class="settings-card-header">
             <div class="header-content">
@@ -82,17 +82,22 @@
               </div>
               <div>
                 <h3>Two-Factor Authentication</h3>
-                <span class="status-badge verified">Active</span>
+                <span class="status-badge" [ngClass]="twoFactorEnabled ? 'verified' : 'not-active'">
+                  {{ twoFactorEnabled ? 'Active' : 'Inactive' }}
+                </span>
               </div>
             </div>
-            <button class="btn-action btn-disabled" disabled>
-              <i class="fas fa-check-circle"></i>
-              <span>Configured</span>
+            <button class="btn-action" [disabled]="isToggling2fa" (click)="onToggle2fa()">
+              <i class="fas" [ngClass]="twoFactorEnabled ? 'fa-toggle-on' : 'fa-toggle-off'"></i>
+              <span *ngIf="!isToggling2fa">{{ twoFactorEnabled ? 'Disable' : 'Enable' }}</span>
+              <span *ngIf="isToggling2fa"><i class="fa fa-spinner fa-spin"></i></span>
             </button>
           </div>
           <div class="settings-card-body">
-            <p class="description">Your account is protected with two-factor authentication. This adds an extra layer of
+            <p class="description" *ngIf="twoFactorEnabled">Your account is protected with two-factor authentication. This adds an extra layer of
               security by requiring a one-time security code in addition to your password each time you log in.</p>
+            <p class="description" *ngIf="!twoFactorEnabled">Enable two-factor authentication to add an extra layer of
+              security to your account. A verification code will be sent to your email each time you log in.</p>
             <div class="security-benefits">
               <div class="benefit-item">
                 <i class="fas fa-check-circle"></i>
@@ -102,7 +107,7 @@
                 <i class="fas fa-check-circle"></i>
                 <span>Login alerts for suspicious activity</span>
               </div>
-              <div class="benefit-item">
+              <div class="benefit-item" *ngIf="twoFactorEnabled">
                 <i class="fas fa-check-circle"></i>
                 <span>Using Email verification method</span>
               </div>
@@ -198,66 +203,60 @@
 </div>
 
 <!-- Password Change Modal -->
-<div id="change-password" class="modal fade" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content custom-modal">
-      <div class="modal-header">
-        <h5 class="modal-title">Change Password</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<p-dialog header="Change Password" [(visible)]="passwordModalVisible" [modal]="true" [style]="{width: '500px'}"
+  [baseZIndex]="1000" [closable]="true" styleClass="password-dialog">
+  <p-toast position="bottom-right"></p-toast>
+  <div class="modal-body-content">
+    <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()">
+      <div class="form-group">
+        <label for="existingPassword">Current Password</label>
+        <input type="password" class="form-control" id="existingPassword" formControlName="currentPassword"
+          placeholder="Enter your current password">
+        <div *ngIf="passwordForm.controls['currentPassword'].invalid && passwordForm.controls['currentPassword'].touched"
+          class="text-danger small mt-1">
+          Current password is required.
+        </div>
       </div>
-      <div class="modal-body">
-        <form id="changePassword" method="post">
-          <div class="form-group">
-            <label for="existingPassword">Current Password</label>
-            <div class="input-wrapper">
-              <input type="password" class="form-control" id="existingPassword" required
-                placeholder="Enter your current password">
-              <div class="input-action" onclick="togglePasswordVisibility('existingPassword')">
-                <i class="far fa-eye"></i>
-              </div>
-            </div>
+      <div class="form-group">
+        <label for="newPasswordInput">New Password</label>
+        <input type="password" class="form-control" id="newPasswordInput" formControlName="newPassword"
+          placeholder="Enter new password">
+        <div *ngIf="passwordForm.controls['newPassword'].invalid && passwordForm.controls['newPassword'].touched"
+          class="text-danger small mt-1">
+          <span *ngIf="passwordForm.controls['newPassword'].errors?.['required']">New password is required.</span>
+          <span *ngIf="passwordForm.controls['newPassword'].errors?.['minlength']">Password must be at least 8 characters.</span>
+        </div>
+        <div class="password-requirements">
+          <div class="requirement">
+            <i class="fas fa-check-circle"></i>
+            <span>Minimum 8 characters</span>
           </div>
-          <div class="form-group">
-            <label for="newPassword">New Password</label>
-            <div class="input-wrapper">
-              <input type="password" class="form-control" id="newPassword" required placeholder="Enter new password">
-              <div class="input-action" onclick="togglePasswordVisibility('newPassword')">
-                <i class="far fa-eye"></i>
-              </div>
-            </div>
-            <div class="password-requirements">
-              <div class="requirement">
-                <i class="fas fa-check-circle"></i>
-                <span>Minimum 8 characters</span>
-              </div>
-              <div class="requirement">
-                <i class="fas fa-check-circle"></i>
-                <span>At least one number</span>
-              </div>
-              <div class="requirement">
-                <i class="fas fa-check-circle"></i>
-                <span>At least one uppercase letter</span>
-              </div>
-            </div>
+          <div class="requirement">
+            <i class="fas fa-check-circle"></i>
+            <span>At least one number</span>
           </div>
-          <div class="form-group">
-            <label for="confirmPassword">Confirm New Password</label>
-            <div class="input-wrapper">
-              <input type="password" class="form-control" id="confirmPassword" required
-                placeholder="Confirm new password">
-              <div class="input-action" onclick="togglePasswordVisibility('confirmPassword')">
-                <i class="far fa-eye"></i>
-              </div>
-            </div>
+          <div class="requirement">
+            <i class="fas fa-check-circle"></i>
+            <span>At least one uppercase letter</span>
           </div>
-          <button class="btn-submit" type="submit">Update Password</button>
-        </form>
+        </div>
       </div>
-    </div>
+      <div class="form-group">
+        <label for="confirmPasswordInput">Confirm New Password</label>
+        <input type="password" class="form-control" id="confirmPasswordInput" formControlName="confirmPassword"
+          placeholder="Confirm new password">
+        <div *ngIf="passwordForm.controls['confirmPassword'].invalid && passwordForm.controls['confirmPassword'].touched"
+          class="text-danger small mt-1">
+          Please confirm your new password.
+        </div>
+      </div>
+      <button class="btn-submit" type="submit" [disabled]="isChangingPassword">
+        <span *ngIf="!isChangingPassword">Update Password</span>
+        <span *ngIf="isChangingPassword"><i class="fa fa-spinner fa-spin"></i> Updating...</span>
+      </button>
+    </form>
   </div>
-</div>
+</p-dialog>
 
 <!-- Security Questions Modal -->
 <div id="change-security-questions" class="modal fade" role="dialog" aria-hidden="true">
@@ -352,78 +351,6 @@
   </div>
 </div>
 
-<!-- Two-Factor Authentication Modal -->
-<div id="two-step-verification" class="modal fade" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content custom-modal">
-      <div class="modal-header">
-        <h5 class="modal-title">Two-Factor Authentication</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body text-center">
-        <div class="verification-icon">
-          <i class="fas fa-shield-alt"></i>
-        </div>
-        <h3 class="verification-title">Add Two-Factor Authentication</h3>
-        <p class="verification-description">Choose how you want to receive verification codes when you sign in.</p>
-
-        <div class="verification-options">
-          <div class="verification-option active">
-            <div class="option-icon">
-              <i class="fas fa-mobile-alt"></i>
-            </div>
-            <div class="option-content">
-              <h4>Text Message (SMS)</h4>
-              <p>We'll send a code to your phone</p>
-            </div>
-            <div class="option-check">
-              <i class="fas fa-check-circle"></i>
-            </div>
-          </div>
-
-          <div class="verification-option">
-            <div class="option-icon">
-              <i class="fas fa-envelope"></i>
-            </div>
-            <div class="option-content">
-              <h4>Email</h4>
-              <p>We'll email you a code</p>
-            </div>
-            <div class="option-check">
-              <i class="far fa-circle"></i>
-            </div>
-          </div>
-
-          <div class="verification-option">
-            <div class="option-icon">
-              <i class="fas fa-qrcode"></i>
-            </div>
-            <div class="option-content">
-              <h4>Authenticator App</h4>
-              <p>Use an authentication app</p>
-            </div>
-            <div class="option-check">
-              <i class="far fa-circle"></i>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group phone-input">
-          <label for="phoneNumber">Enter your phone number</label>
-          <div class="input-wrapper">
-            <div class="country-code">+1</div>
-            <input type="tel" class="form-control" id="phoneNumber" placeholder="(555) 123-4567">
-          </div>
-          <small class="form-text">We'll send a verification code to this number</small>
-        </div>
-
-        <button class="btn-submit" type="submit">Continue</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- KYC Verification Modal with Tabs -->
 <p-dialog header="KYC Verification" [(visible)]="kycModalVisible" [modal]="true" [style]="{width: '650px'}"

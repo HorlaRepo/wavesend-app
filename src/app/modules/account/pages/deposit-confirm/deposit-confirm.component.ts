@@ -7,7 +7,7 @@ import {MessageService} from "primeng/api";
 import {PaymentInfoService} from "../../../../services/stripe/payment-info.service";
 import {PaymentProcessingControllerService} from "../../../../services/services/payment-processing-controller.service";
 import {UserInfo} from "../../../../services/keycloack/user-info";
-import {KeycloakService} from "../../../../services/keycloack/keycloak.service";
+import {AuthService} from "../../../../services/auth/auth.service";
 import {Wallet} from "../../../../services/models/wallet";
 import { DepositStateService } from 'src/app/services/deposit/deposit-state.service';
 
@@ -32,7 +32,7 @@ export class DepositConfirmComponent implements OnInit {
               private messageService: MessageService,
               private paymentInfoService: PaymentInfoService,
               private paymentProcessingService: PaymentProcessingControllerService,
-              private keycloakService: KeycloakService,
+              private authService: AuthService,
               private depositStateService: DepositStateService) {
 
   }
@@ -42,9 +42,9 @@ export class DepositConfirmComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.user = this.keycloakService.userInfo;
+    this.user = this.authService.userInfo;
     console.log(this.user)
-    this.wallet = await this.keycloakService.fetchUserWallet();
+    this.wallet = await this.authService.fetchUserWallet();
   
     // First try to get data from router state for smoother transitions
     const state = this.location.getState() as { amount: number; paymentMethod: string };

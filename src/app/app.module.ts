@@ -15,6 +15,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { NavComponent } from './components/nav/nav.component';
 import { AboutComponent } from './components/about/about.component';
 import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { DashboardHeaderComponent } from './components/dashboard-header/dashboard-header.component';
@@ -28,29 +30,16 @@ import {CodeInputModule} from "angular-code-input";
 import { DatePipe} from "@angular/common";
 import {HttpTokenInterceptor} from "./services/interceptor/http-token.interceptor";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {KeycloakService} from "./services/keycloack/keycloak.service";
 import { TabViewModule } from 'primeng/tabview';
 import { DialogModule } from 'primeng/dialog';
 import { LocalDateTimePipe } from './pipes/local-date-time.pipe';
 import { environment } from '../environments/environment';
 import { AccountModule } from './modules/account/account.module';
 import { AppConfigService } from './services/production/app-config.service';
+import { AuthService } from './services/auth/auth.service';
 
-
-export function kcFactory(kc: KeycloakService) {
-  return () => {
-    console.log('APP_INITIALIZER: Starting Keycloak initialization');
-    return kc.init()
-      .then(result => {
-        console.log('APP_INITIALIZER: Keycloak initialization result:', result);
-        return result;
-      })
-      .catch(error => {
-        console.error('APP_INITIALIZER: Keycloak initialization error:', error);
-        return false;
-      });
-  };
-  //return () => kc.init();
+export function authFactory(authService: AuthService) {
+  return () => authService.tryAutoLogin();
 }
 
 export function initializeApp(appConfigService: AppConfigService) {
@@ -64,6 +53,8 @@ export function initializeApp(appConfigService: AppConfigService) {
     NavComponent,
     AboutComponent,
     LoginComponent,
+    RegisterComponent,
+    ForgotPasswordComponent,
     FooterComponent,
     HomeComponent,
     DashboardHeaderComponent,
@@ -110,11 +101,10 @@ export function initializeApp(appConfigService: AppConfigService) {
       deps: [AppConfigService],
       multi: true
     },
-
     {
       provide: APP_INITIALIZER,
-      deps: [KeycloakService],
-      useFactory: kcFactory,
+      deps: [AuthService],
+      useFactory: authFactory,
       multi: true
     },
     LocalDateTimePipe

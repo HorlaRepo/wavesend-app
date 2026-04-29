@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserProfile } from "../../../../services/keycloack/user-profile";
-import { KeycloakService } from "../../../../services/keycloack/keycloak.service";
+import { AuthService } from "../../../../services/auth/auth.service";
 import { UserInfo } from "../../../../services/keycloack/user-info";
 import { UserProfileImageControllerService } from "../../../../services/services/user-profile-image-controller.service";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
@@ -22,7 +22,7 @@ export class ProfileDetailsComponent implements OnInit {
   currentFile?: File;
 
 
-  constructor(private keycloakService: KeycloakService,
+  constructor(private authService: AuthService,
     private userProfileImageService: UserProfileImageControllerService,
     private sanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
@@ -30,9 +30,9 @@ export class ProfileDetailsComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.userProfile = this.keycloakService.profile;
-    this.userInfo = this.keycloakService.userInfo;
-    this.profileImageUrl = await this.keycloakService.fetchUserProfileImage(this.profileImageUrl);
+    this.userProfile = this.authService.profile;
+    this.userInfo = this.authService.userInfo;
+    this.profileImageUrl = await this.authService.fetchUserProfileImage(this.profileImageUrl);
     console.log(this.profileImageUrl);
   }
 
@@ -48,7 +48,7 @@ export class ProfileDetailsComponent implements OnInit {
       }
     }).subscribe({
       next: async (data) => {
-        this.profileImageUrl = await this.keycloakService.fetchUserProfileImage(this.profileImageUrl);
+        this.profileImageUrl = await this.authService.fetchUserProfileImage(this.profileImageUrl);
         this.profileImageService.setProfileImageUrl(this.profileImageUrl as string);
         this.isUploading = false;
         this.cdr.detectChanges();

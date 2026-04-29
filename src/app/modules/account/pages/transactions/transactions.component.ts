@@ -7,7 +7,7 @@ import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserInfo } from "../../../../services/keycloack/user-info";
-import { KeycloakService } from "../../../../services/keycloack/keycloak.service";
+import { AuthService } from "../../../../services/auth/auth.service";
 import { Wallet } from "../../../../services/models/wallet";
 import { saveAs } from 'file-saver';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -77,7 +77,7 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
     private sharedService: SharedService,
     private datePipe: DatePipe,
     private cdr: ChangeDetectorRef,
-    private keycloakService: KeycloakService,
+    private authService: AuthService,
     private dialog: MatDialog,
     private statementService: StatementService,
     private messageService: MessageService,
@@ -90,8 +90,8 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
 
 
   async ngOnInit(): Promise<void> {
-    this.user = this.keycloakService.userInfo;
-    this.wallet = await this.keycloakService.fetchUserWallet();
+    this.user = this.authService.userInfo;
+    this.wallet = await this.authService.fetchUserWallet();
     this.initializeDatePicker();
     this.route.queryParams.subscribe(params => {
       if (params['tab'] === 'scheduled') {

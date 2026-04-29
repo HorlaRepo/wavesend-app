@@ -7,7 +7,7 @@ import { PaymentProcessingControllerService } from "../../../../services/service
 import { ApiResponseTransactionResponseDto } from "../../../../services/models/api-response-transaction-response-dto";
 import { UserInfo } from "../../../../services/keycloack/user-info";
 import { UserRepresentation } from "../../../../services/models/user-representation";
-import { KeycloakService } from "../../../../services/keycloack/keycloak.service";
+import { AuthService } from "../../../../services/auth/auth.service";
 import { UserBeneficiariesControllerService } from 'src/app/services/services/user-beneficiaries-controller.service';
 import { TransferStateService } from 'src/app/services/transfer/transfer-state.service';
 import { MoneyTransferControllerService } from 'src/app/services/services/money-transfer-controller.service';

@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { KeycloakService } from "../../../../services/keycloack/keycloak.service";
+import { AuthService } from "../../../../services/auth/auth.service";
 import { UserInfo } from "../../../../services/keycloack/user-info";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { UserProfileImageControllerService } from "../../../../services/services/user-profile-image-controller.service";
@@ -57,7 +57,7 @@ export class AccountHeaderComponent implements OnInit {
 
 
   constructor(
-    private keycloakService: KeycloakService,
+    private authService: AuthService,
     private userProfileImageService: UserProfileImageControllerService,
     private sanitizer: DomSanitizer,
     private profileImageService: ProfileImageService,
@@ -66,11 +66,11 @@ export class AccountHeaderComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.user = this.keycloakService.userInfo;
+    this.user = this.authService.userInfo;
     this.profileImageService.profileImageUrl$.subscribe(url => {
       this.profileImageUrl = url;
     });
-    this.profileImageUrl = await this.keycloakService.fetchUserProfileImage(this.profileImageUrl);
+    this.profileImageUrl = await this.authService.fetchUserProfileImage(this.profileImageUrl);
     this.profileImageService.setProfileImageUrl(this.profileImageUrl as string);
 
     this.currentUrl = this.router.url;
@@ -167,13 +167,12 @@ export class AccountHeaderComponent implements OnInit {
   }
 
 
-  async manageProfile() {
-    console.log('Manage Profile')
-    await this.keycloakService.keycloak.accountManagement();
+  manageProfile() {
+    this.router.navigate(['/account/settings']);
   }
 
-  async logout() {
-    return this.keycloakService.logout()
+  logout() {
+    this.authService.logout();
   }
 
 }

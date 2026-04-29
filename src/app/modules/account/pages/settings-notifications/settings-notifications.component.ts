@@ -4,7 +4,7 @@ import {
   UserNotificationPreferencesControllerService
 } from "../../../../services/services/user-notification-preferences-controller.service";
 import {UserNotificationPreferencesRequest} from "../../../../services/models/user-notification-preferences-request";
-import {KeycloakService} from "../../../../services/keycloack/keycloak.service";
+import {AuthService} from "../../../../services/auth/auth.service";
 import {UserInfo} from "../../../../services/keycloack/user-info";
 import {MessageService} from "primeng/api";
 
@@ -32,13 +32,13 @@ export class SettingsNotificationsComponent implements OnInit {
   isLoading = false;
 
   constructor(private userNotificationPreferencesService: UserNotificationPreferencesControllerService,
-              private keycloakService: KeycloakService,
+              private authService: AuthService,
               private messageService: MessageService) {
   }
 
   ngOnInit(): void {
     this.getUserNotificationPreferences();
-    this.userInfo = this.keycloakService.userInfo;
+    this.userInfo = this.authService.userInfo;
   }
 
   private getUserNotificationPreferences() {

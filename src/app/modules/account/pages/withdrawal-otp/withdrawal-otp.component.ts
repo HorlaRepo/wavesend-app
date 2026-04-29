@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { WithdrawalControllerService } from '../../../../services/services/withdrawal-controller.service';
-import { KeycloakService } from '../../../../services/keycloack/keycloak.service';
+import { AuthService } from '../../../../services/auth/auth.service';
 import { OtpControllerService } from 'src/app/services/services';
 
 @Component({
@@ -22,13 +22,13 @@ export class WithdrawalOtpComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private withdrawalService: WithdrawalControllerService,
-    private keycloakService: KeycloakService,
+    private authService: AuthService,
     private otpService: OtpControllerService
   ) { }
 
   ngOnInit(): void {
     // Get email from Keycloak service
-    this.email = this.keycloakService.userInfo?.email || '';
+    this.email = this.authService.userInfo?.email || '';
     
     // Get withdrawalToken from route or state
     this.route.paramMap.subscribe(params => {

@@ -1284,3 +1284,22 @@ label {
   margin-right: 0.25rem;
 }
 
+/* Password Dialog */
+:host ::ng-deep .password-dialog .p-dialog-header {
+  background-color: #2ebe60;
+  color: white;
+  border-bottom: none;
+}
+
+:host ::ng-deep .password-dialog .p-dialog-header .p-dialog-title {
+  font-weight: 600;
+}
+
+:host ::ng-deep .password-dialog .p-dialog-content {
+  padding: 1.5rem;
+}
+
+.modal-body-content {
+  padding: 0.5rem 0;
+}
+

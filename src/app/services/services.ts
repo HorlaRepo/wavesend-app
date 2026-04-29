@@ -14,7 +14,8 @@ export { UserProfileImageControllerService } from './services/user-profile-image
 export { MoneyTransferControllerService } from './services/money-transfer-controller.service';
 export { PaymentProcessingControllerService } from './services/payment-processing-controller.service';
 export { OtpControllerService } from './services/otp-controller.service';
-export { KeycloakEventsControllerService } from './services/keycloak-events-controller.service';
+// Keycloak service removed - using JWT authentication now
+// export { KeycloakEventsControllerService } from './services/keycloak-events-controller.service';
 export { FlutterwaveControllerService } from './services/flutterwave-controller.service';
 export { CountryControllerService } from './services/country-controller.service';
 export { BeneficiaryAiSuggestionControllerService } from './services/beneficiary-ai-suggestion-controller.service';

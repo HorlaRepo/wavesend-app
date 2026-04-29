@@ -18,7 +18,8 @@ import { UserProfileImageControllerService } from './services/user-profile-image
 import { MoneyTransferControllerService } from './services/money-transfer-controller.service';
 import { PaymentProcessingControllerService } from './services/payment-processing-controller.service';
 import { OtpControllerService } from './services/otp-controller.service';
-import { KeycloakEventsControllerService } from './services/keycloak-events-controller.service';
+// Keycloak service removed - using JWT authentication
+// import { KeycloakEventsControllerService } from './services/keycloak-events-controller.service';
 import { FlutterwaveControllerService } from './services/flutterwave-controller.service';
 import { CountryControllerService } from './services/country-controller.service';
 import { BeneficiaryAiSuggestionControllerService } from './services/beneficiary-ai-suggestion-controller.service';
@@ -56,7 +57,7 @@ import { AdminControllerService } from './services/admin-controller.service';
     MoneyTransferControllerService,
     PaymentProcessingControllerService,
     OtpControllerService,
-    KeycloakEventsControllerService,
+    // KeycloakEventsControllerService, // Removed - using JWT auth
     FlutterwaveControllerService,
     CountryControllerService,
     BeneficiaryAiSuggestionControllerService,

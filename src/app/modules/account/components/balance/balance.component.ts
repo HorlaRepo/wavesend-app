@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { UserProfile } from "../../../../services/keycloack/user-profile";
-import { KeycloakService } from "../../../../services/keycloack/keycloak.service";
+import { AuthService } from "../../../../services/auth/auth.service";
 import { Wallet } from "../../../../services/models/wallet";
 import { AccountLimitsService } from "../../../../services/account-limits/account-limits.service";
 import { Subscription, forkJoin } from 'rxjs';
@@ -26,15 +26,15 @@ export class BalanceComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   constructor(
-    private keycloakService: KeycloakService,
+    private authService: AuthService,
     private accountLimitsService: AccountLimitsService,
     private router: Router,
     private dialog: MatDialog
   ) { }
 
   async ngOnInit(): Promise<void> {
-    this.userProfile = this.keycloakService.profile;
-    this.userWallet = await this.keycloakService.fetchUserWallet();
+    this.userProfile = this.authService.profile;
+    this.userWallet = await this.authService.fetchUserWallet();
     this.loadBalanceVisibility();
     this.fetchAccountData();
   }

@@ -10,7 +10,7 @@ import { PayStackControllerService } from "../../../../services/services/pay-sta
 import { BankAccountControllerService } from "../../../../services/services/bank-account-controller.service";
 import { BankAccount } from "../../../../services/models/bank-account";
 import { UserInfo } from "../../../../services/keycloack/user-info";
-import { KeycloakService } from "../../../../services/keycloack/keycloak.service";
+import { AuthService } from "../../../../services/auth/auth.service";
 import { Wallet } from "../../../../services/models/wallet";
 import { PaymentMethodsControllerService } from "../../../../services/services/payment-methods-controller.service";
 import { PaymentMethod } from "../../../../services/models/payment-method";
@@ -117,7 +117,7 @@ export class SettingsPaymentMethodsComponent implements OnInit {
     private modalService: NgbModal,
     private payStackService: PayStackControllerService,
     private bankAccountService: BankAccountControllerService,
-    private keycloakService: KeycloakService,
+    private authService: AuthService,
     private paymentMethodsService: PaymentMethodsControllerService,
     private fb: FormBuilder) {
 
@@ -125,8 +125,8 @@ export class SettingsPaymentMethodsComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.user = this.keycloakService.userInfo
-    this.wallet = await this.keycloakService.fetchUserWallet();
+    this.user = this.authService.userInfo
+    this.wallet = await this.authService.fetchUserWallet();
     await this.getCountry();
     this.fetchCards();
     this.fetchBankList();

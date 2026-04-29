@@ -16,7 +16,7 @@ import { InputParserService } from "../../../../services/input-parser/input-pars
 import { PaymentProcessingControllerService } from "../../../../services/services/payment-processing-controller.service";
 import { UserInfo } from "../../../../services/keycloack/user-info";
 import { Wallet } from "../../../../services/models/wallet";
-import { KeycloakService } from "../../../../services/keycloack/keycloak.service";
+import { AuthService } from "../../../../services/auth/auth.service";
 import { WalletControllerService } from "../../../../services/services/wallet-controller.service";
 import { WithdrawStateService } from 'src/app/services/withdraw/withdraw-state.service';
 
@@ -65,7 +65,7 @@ export class WithdrawComponent implements OnInit, OnDestroy {
     private flutterwaveService: FlutterwaveControllerService,
     private inputParserService: InputParserService,
     private paymentProcessingService: PaymentProcessingControllerService,
-    private keycloakService: KeycloakService,
+    private authService: AuthService,
     private walletService: WalletControllerService,
     private withdrawStateService: WithdrawStateService
   ) {
@@ -141,8 +141,8 @@ export class WithdrawComponent implements OnInit, OnDestroy {
   }
 
   async setUser() {
-    this.user = this.keycloakService.userInfo;
-    this.wallet = await this.keycloakService.fetchUserWallet();
+    this.user = this.authService.userInfo;
+    this.wallet = await this.authService.fetchUserWallet();
     this.userBalance = this.wallet?.balance as number;
     this.walletCurrency = this.wallet?.currency as string;
     console.log(this.user);

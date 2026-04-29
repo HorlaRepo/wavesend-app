@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { format } from 'date-fns';
 import {UserInfo} from "../../../../services/keycloack/user-info";
-import {KeycloakService} from "../../../../services/keycloack/keycloak.service";
+import {AuthService} from "../../../../services/auth/auth.service";
 import {UserProfile} from "../../../../services/keycloack/user-profile";
 
 @Component({
@@ -16,13 +16,13 @@ export class SettingsProfileComponent implements OnInit{
   userProfile: UserProfile | undefined;
 
 
-  constructor(private keycloakService: KeycloakService) {
+  constructor(private authService: AuthService) {
 
   }
 
   ngOnInit(): void {
-    this.userInfo = this.keycloakService.userInfo;
-    this.userProfile = this.keycloakService.profile;
+    this.userInfo = this.authService.userInfo;
+    this.userProfile = this.authService.profile;
     let dateOfBirth = this.userInfo?.dateOfBirth  as string;
     this.date = format(new Date(dateOfBirth), 'yyyy-MM-dd');
   }

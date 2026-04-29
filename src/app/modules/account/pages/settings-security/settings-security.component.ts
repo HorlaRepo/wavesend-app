@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CountriesService } from "../../../../services/country-list/countries.service";
 import { KycVerificationControllerService } from "../../../../services/services/kyc-verification-controller.service";
 import { MessageService } from "primeng/api";
 import { KycVerification } from "../../../../services/models/kyc-verification";
 import { TabView } from 'primeng/tabview';
+import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-settings-security',
@@ -45,11 +46,21 @@ export class SettingsSecurityComponent implements OnInit {
   idProofPreview: string | ArrayBuffer | null = null;
   addressProofPreview: string | ArrayBuffer | null = null;
 
+  // Password change
+  passwordModalVisible = false;
+  passwordForm: FormGroup;
+  isChangingPassword = false;
+
+  // 2FA
+  twoFactorEnabled = false;
+  isToggling2fa = false;
+
   constructor(
     private fb: FormBuilder,
     private countryService: CountriesService,
     private kycVerificationService: KycVerificationControllerService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private authService: AuthService
   ) {
     this.kycForm = this.fb.group({
       country: [''],
@@ -59,12 +70,121 @@ export class SettingsSecurityComponent implements OnInit {
       idProof: [null],
       addressProof: [null]
     });
+
+    this.passwordForm = this.fb.group({
+      currentPassword: ['', Validators.required],
+      newPassword: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', Validators.required]
+    });
   }
 
   ngOnInit(): void {
     this.fetchCountries();
     this.getKycVerificationStatus();
+    this.load2faStatus();
   }
+
+  // ---------- Password Change ----------
+
+  showPasswordModal(): void {
+    this.passwordForm.reset();
+    this.passwordModalVisible = true;
+  }
+
+  onChangePassword(): void {
+    if (this.passwordForm.invalid) {
+      this.passwordForm.markAllAsTouched();
+      return;
+    }
+
+    const { currentPassword, newPassword, confirmPassword } = this.passwordForm.value;
+
+    if (newPassword !== confirmPassword) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Validation Error',
+        detail: 'New password and confirmation do not match'
+      });
+      return;
+    }
+
+    this.isChangingPassword = true;
+
+    this.authService.changePassword(currentPassword, newPassword, confirmPassword).subscribe({
+      next: (response) => {
+        this.isChangingPassword = false;
+        if (response.success) {
+          this.passwordModalVisible = false;
+          this.passwordForm.reset();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Password changed successfully'
+          });
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: response.message || 'Failed to change password'
+          });
+        }
+      },
+      error: (err) => {
+        this.isChangingPassword = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: err.error?.message || 'Failed to change password'
+        });
+      }
+    });
+  }
+
+  // ---------- Two-Factor Authentication ----------
+
+  load2faStatus(): void {
+    const user = this.authService.currentUser;
+    this.twoFactorEnabled = user?.twoFactorEnabled || false;
+  }
+
+  onToggle2fa(): void {
+    const newState = !this.twoFactorEnabled;
+    this.isToggling2fa = true;
+
+    this.authService.toggle2fa(newState).subscribe({
+      next: (response) => {
+        this.isToggling2fa = false;
+        if (response.success) {
+          this.twoFactorEnabled = newState;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: `Two-factor authentication has been ${newState ? 'enabled' : 'disabled'}`
+          });
+          // Refresh user profile to sync state
+          this.authService.loadUserProfile().then(() => {
+            this.load2faStatus();
+          });
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: response.message || 'Failed to update 2FA settings'
+          });
+        }
+      },
+      error: (err) => {
+        this.isToggling2fa = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: err.error?.message || 'Failed to update 2FA settings'
+        });
+      }
+    });
+  }
+
+  // ---------- KYC ----------
 
   showKycModal(): void {
     if (this.isVerifyButtonDisabled()) {

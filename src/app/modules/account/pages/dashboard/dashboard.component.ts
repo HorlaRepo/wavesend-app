@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TransactionControllerService} from "../../../../services/services/transaction-controller.service";
-import {KeycloakService} from "../../../../services/keycloack/keycloak.service";
+import {AuthService} from "../../../../services/auth/auth.service";
 import {UserInfo} from "../../../../services/keycloack/user-info";
 import {WalletControllerService} from "../../../../services/services/wallet-controller.service";
 import {Wallet} from "../../../../services/models/wallet";
@@ -25,13 +25,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   showSuggestions = false;
 
   constructor(private transactionService: TransactionControllerService,
-              private keycloakService: KeycloakService,
+              private authService: AuthService,
             private suggestionsService: SuggestionStateService) {
   }
 
    async ngOnInit(): Promise<void> {
-      this.user = this.keycloakService.userInfo
-      this.wallet = await this.keycloakService.fetchUserWallet();
+      this.user = this.authService.userInfo
+      this.wallet = await this.authService.fetchUserWallet();
       this.fetchTransactions();
       this.checkForSuggestions();
   }

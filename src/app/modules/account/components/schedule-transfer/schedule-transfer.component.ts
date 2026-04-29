@@ -3,10 +3,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ScheduledTransferControllerService } from 'src/app/services/services/scheduled-transfer-controller.service';
-import { KeycloakService } from 'src/app/services/keycloack/keycloak.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserInfo } from 'src/app/services/keycloack/user-info';
 import { Wallet } from 'src/app/services/models/wallet';
-import { KeycloakEventsControllerService } from 'src/app/services/services/keycloak-events-controller.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 import { debounceTime } from 'rxjs/operators';
 import { InputParserService } from 'src/app/services/input-parser/input-parser.service';
 import { ScheduledTransferRequestDto, UserRepresentation } from 'src/app/services/models';
@@ -51,8 +52,8 @@ export class ScheduleTransferComponent implements OnInit {
     private scheduledTransferService: ScheduledTransferControllerService,
     private router: Router,
     private messageService: MessageService,
-    private keycloakService: KeycloakService,
-    private keycloakEventsService: KeycloakEventsControllerService,
+    private authService: AuthService,
+    private http: HttpClient,
     private inputParserService: InputParserService
   ) {
     this.scheduleTransferForm = new FormGroup({
@@ -68,8 +69,8 @@ export class ScheduleTransferComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.user = this.keycloakService.userInfo;
-    this.wallet = await this.keycloakService.fetchUserWallet();
+    this.user = this.authService.userInfo;
+    this.wallet = await this.authService.fetchUserWallet();
 
     this.minDate = new Date();
 
@@ -272,7 +273,7 @@ export class ScheduleTransferComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.keycloakEventsService.checkUser({ email: email }).subscribe({
+    this.http.get<any>(`${environment.apiUrl}/users/check-user?email=${email}`).subscribe({
       next: (data) => {
         this.isLoading = false;
         if (data.data) {

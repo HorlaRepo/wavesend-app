@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ScheduledTransferControllerService } from '../../../../services/services/scheduled-transfer-controller.service';
-import { KeycloakService } from '../../../../services/keycloack/keycloak.service';
+import { AuthService } from '../../../../services/auth/auth.service';
 import { DatePipe } from '@angular/common';
 import { OtpControllerService } from 'src/app/services/services';
 
@@ -23,14 +23,14 @@ export class ScheduledTransferOtpComponent implements OnInit {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private scheduledTransferService: ScheduledTransferControllerService,
-    private keycloakService: KeycloakService,
+    private authService: AuthService,
     private datePipe: DatePipe,
     private otpService: OtpControllerService
   ) { }
 
   ngOnInit(): void {
     // Get email from Keycloak service
-    this.email = this.keycloakService.userInfo?.email || '';
+    this.email = this.authService.userInfo?.email || '';
 
     // Get token from route or state
     this.route.paramMap.subscribe(params => {
