@@ -84,11 +84,14 @@ export class RegisterComponent implements OnInit {
     this.authService.register(request).subscribe({
       next: (response) => {
         this.isLoading = false;
-        this.registrationSuccess = true;
         this.messageService.add({
           severity: 'success',
           summary: 'Registration Successful',
-          detail: 'Please check your email to activate your account.'
+          detail: 'Please check your email for the activation code.'
+        });
+        // Navigate to activation page with email as query param
+        this.router.navigate(['/activate-account'], {
+          queryParams: { email: formValues.email }
         });
       },
       error: (err) => {

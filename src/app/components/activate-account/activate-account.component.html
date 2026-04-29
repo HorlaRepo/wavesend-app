@@ -1,31 +1,71 @@
-<!--<div class="container py-5" *ngIf="submitted else codeForm">-->
-<!--  <div class="activate-message" *ngIf="isOkay else activationError" >-->
-<!--    <div class="text-center">-->
-<!--      <h4>Your account has been activated successfully</h4>-->
-<!--      <p>You can now login to your account</p>-->
-<!--      <button class="btn btn-primary" (click)="navigateToLogin()">Login</button>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--  <ng-template #activationError>-->
-<!--    <div class="activation-error">-->
-<!--      <h4>Activation failed</h4>-->
-<!--      <p>{{message}}</p>-->
-<!--      <button class="btn btn-primary" (click)="submitted = false">Try again</button>-->
-<!--    </div>-->
-<!--  </ng-template>-->
-<!--</div>-->
+<div class="gradient-background min-vh-100 d-flex align-items-center justify-content-center py-5">
+  <p-toast [life]="10000" position="top-right"></p-toast>
 
-<!--<ng-template #codeForm>-->
-<!--  <div class="d-flex align-items-center justify-content-center" style="height: 100vh;">-->
-<!--    <div class="card-container text-center" style="width: 400px">-->
-<!--      <p class="lead text-center">An activation code has been sent to your email address..</p>-->
-<!--      <h4 style="margin-bottom: 50px">Please enter your activation code</h4>-->
-<!--      <code-input [isCodeHidden]="false"-->
-<!--                  [codeLength]="6"-->
-<!--                  [code]="'number'"-->
-<!--                  (codeCompleted)="onCodeCompleted($event)"-->
-<!--      >-->
-<!--      </code-input>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</ng-template>-->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-lg-6 col-xl-5 mx-auto">
+        <div class="text-center mb-4">
+          <img ngSrc="assets/images/logo-top.png" alt="Logo" height="200" width="250">
+        </div>
+
+        <div class="bg-white shadow-md rounded p-4 p-sm-5">
+          <!-- Success Message -->
+          <div *ngIf="submitted && isOkay" class="text-center">
+            <div class="mb-4">
+              <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+            </div>
+            <h3 class="font-weight-400 mb-3">Account Activated!</h3>
+            <p class="text-muted mb-4">{{message}}</p>
+            <button class="btn btn-primary btn-block" (click)="navigateToLogin()">
+              Go to Login
+            </button>
+          </div>
+
+          <!-- Error Message -->
+          <div *ngIf="submitted && !isOkay" class="text-center">
+            <div class="mb-4">
+              <i class="fas fa-times-circle text-danger" style="font-size: 4rem;"></i>
+            </div>
+            <h3 class="font-weight-400 mb-3">Activation Failed</h3>
+            <p class="text-danger mb-4">{{message}}</p>
+            <button class="btn btn-primary btn-block mb-2" (click)="submitted = false">
+              Try Again
+            </button>
+            <button class="btn btn-outline-secondary btn-block" (click)="navigateToLogin()">
+              Go to Login
+            </button>
+          </div>
+
+          <!-- Code Entry Form -->
+          <div *ngIf="!submitted" class="text-center">
+            <h3 class="font-weight-400 mb-3">Activate Your Account</h3>
+            <hr class="mx-n4 mb-4">
+
+            <p class="text-muted mb-4">
+              A 6-digit activation code has been sent to <strong>{{userEmail}}</strong>
+            </p>
+
+            <p class="lead mb-4">Please enter your activation code:</p>
+
+            <div class="d-flex justify-content-center mb-4">
+              <code-input
+                [isCodeHidden]="false"
+                [codeLength]="6"
+                [code]="'number'"
+                (codeCompleted)="onCodeCompleted($event)">
+              </code-input>
+            </div>
+
+            <div *ngIf="isLoading" class="text-center my-3">
+              <i class="fa fa-spinner fa-spin"></i> Verifying code...
+            </div>
+
+            <p class="text-3 text-muted mt-4">
+              Didn't receive the code? <a class="btn-link" routerLink="/login">Back to Login</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

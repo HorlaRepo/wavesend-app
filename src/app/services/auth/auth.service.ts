@@ -138,6 +138,12 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/auth/register`, request);
   }
 
+  activateAccount(token: string): Observable<ApiResponse<string>> {
+    return this.http.get<ApiResponse<string>>(`${this.apiUrl}/auth/activate-account`, {
+      params: { token }
+    });
+  }
+
   logout(): void {
     this.tokenService.removeToken();
     this._isAuthenticated = false;

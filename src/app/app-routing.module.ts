@@ -4,6 +4,7 @@ import { authGuard } from './services/authguard/auth-guard.service';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ActivateAccountComponent } from './components/activate-account/activate-account.component';
 
 const routes: Routes = [
   // Redirect the root to account
@@ -14,6 +15,9 @@ const routes: Routes = [
 
   // Register route
   { path: 'register', component: RegisterComponent },
+
+  // Activate account route
+  { path: 'activate-account', component: ActivateAccountComponent },
 
   // Forgot password route
   { path: 'forgot-password', component: ForgotPasswordComponent },
