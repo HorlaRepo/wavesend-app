@@ -71,6 +71,21 @@ export class LoginComponent implements OnInit {
           this.isLoading = false;
           this.router.navigate(['/account']);
         } else {
+          // Check if activation is required
+          if (response.data?.activationRequired) {
+            this.isLoading = false;
+            this.messageService.add({
+              severity: 'warn',
+              summary: 'Account Not Activated',
+              detail: response.message || 'A new activation code has been sent to your email'
+            });
+            // Navigate to activation page with email
+            this.router.navigate(['/activate-account'], {
+              queryParams: { email: this.username }
+            });
+            return;
+          }
+
           this.isLoading = false;
           this.errorMessage = response.message || 'Login failed';
           this.messageService.add({

@@ -7,6 +7,7 @@ export interface LoginResponse {
   accessToken: string;
   username: string;
   twoFactorRequired?: boolean;
+  activationRequired?: boolean;
 }
 
 export interface RegisterRequest {
