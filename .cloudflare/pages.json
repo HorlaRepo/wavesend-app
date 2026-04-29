@@ -1,0 +1,6 @@
+{
+  "build": {
+    "command": "npm run build -- --configuration=production",
+    "output_directory": "dist/money-transfer"
+  }
+}

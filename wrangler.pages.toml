@@ -1,0 +1,5 @@
+name = "wavesend-app"
+pages_build_output_dir = "dist/money-transfer"
+
+[build]
+command = "npm run build -- --configuration=production"
