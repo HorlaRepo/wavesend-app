@@ -1,20 +1,20 @@
-<div class="gradient-background min-vh-100 d-flex align-items-center justify-content-center py-5">
-  <p-toast [life]="10000" position="top-right"></p-toast>
+<div id="content" class="gradient-background">
+  <div class="container py-5">
+    <p-toast [life]="10000" position="top-right"></p-toast>
 
-  <div class="container">
     <div class="row">
-      <div class="col-md-8 col-lg-6 col-xl-5 mx-auto">
-        <div class="text-center mb-4">
+      <div class="col-md-9 col-lg-7 col-xl-5 mx-auto">
+        <div class="text-center mb-0">
           <img ngSrc="assets/images/logo-top.png" alt="Logo" height="200" width="250">
         </div>
 
-        <div class="bg-white shadow-md rounded p-4 p-sm-5">
+        <div class="bg-white shadow-md rounded p-3 pt-sm-4 pb-sm-5 px-sm-5">
           <!-- Success Message -->
           <div *ngIf="submitted && isOkay" class="text-center">
-            <div class="mb-4">
-              <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+            <div class="mb-3">
+              <i class="fas fa-check-circle text-success" style="font-size: 3.5rem;"></i>
             </div>
-            <h3 class="font-weight-400 mb-3">Account Activated!</h3>
+            <h4 class="font-weight-400 mb-3">Account Activated!</h4>
             <p class="text-muted mb-4">{{message}}</p>
             <button class="btn btn-primary btn-block" (click)="navigateToLogin()">
               Go to Login
@@ -23,10 +23,10 @@
 
           <!-- Error Message -->
           <div *ngIf="submitted && !isOkay" class="text-center">
-            <div class="mb-4">
-              <i class="fas fa-times-circle text-danger" style="font-size: 4rem;"></i>
+            <div class="mb-3">
+              <i class="fas fa-times-circle text-danger" style="font-size: 3.5rem;"></i>
             </div>
-            <h3 class="font-weight-400 mb-3">Activation Failed</h3>
+            <h4 class="font-weight-400 mb-3">Activation Failed</h4>
             <p class="text-danger mb-4">{{message}}</p>
             <button class="btn btn-primary btn-block mb-2" (click)="submitted = false">
               Try Again
@@ -38,16 +38,17 @@
 
           <!-- Code Entry Form -->
           <div *ngIf="!submitted" class="text-center">
-            <h3 class="font-weight-400 mb-3">Activate Your Account</h3>
+            <h4 class="font-weight-400 mb-3">Activate Your Account</h4>
             <hr class="mx-n4 mb-4">
 
-            <p class="text-muted mb-4">
-              A 6-digit activation code has been sent to <strong>{{userEmail}}</strong>
+            <p class="text-muted mb-3" style="font-size: 0.95rem;">
+              A 6-digit activation code has been sent to<br>
+              <strong>{{userEmail}}</strong>
             </p>
 
-            <p class="lead mb-4">Please enter your activation code:</p>
+            <p class="mb-3" style="font-size: 1rem; font-weight: 500;">Enter your activation code:</p>
 
-            <div class="d-flex justify-content-center mb-4">
+            <div class="d-flex justify-content-center my-4">
               <code-input
                 [isCodeHidden]="false"
                 [codeLength]="6"
@@ -60,7 +61,7 @@
               <i class="fa fa-spinner fa-spin"></i> Verifying code...
             </div>
 
-            <p class="text-3 text-muted mt-4">
+            <p class="text-3 text-muted mt-3 mb-0">
               Didn't receive the code? <a class="btn-link" routerLink="/login">Back to Login</a>
             </p>
           </div>
