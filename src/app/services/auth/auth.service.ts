@@ -37,7 +37,7 @@ export class AuthService {
   private authStatusSubject = new BehaviorSubject<boolean>(false);
   public authStatus$ = this.authStatusSubject.asObservable();
 
-  private apiUrl = environment.apiUrl + '/api/v1';
+  private apiUrl = environment.apiUrl;
 
   constructor(
     private http: HttpClient,
