@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, timer } from 'rxjs';
+import { BehaviorSubject, Observable, of, timer, Subscription } from 'rxjs';
 import { switchMap, tap, catchError, filter } from 'rxjs/operators';
 import { BeneficiaryAiSuggestionControllerService } from '../services/beneficiary-ai-suggestion-controller.service';
 import { BeneficiaryAiSuggestion } from '../models';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,21 +12,39 @@ export class SuggestionStateService {
   private suggestionsSubject = new BehaviorSubject<BeneficiaryAiSuggestion[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
   private checkingInProgress = false;
+  private pollSubscription: Subscription | null = null;
 
   suggestions$ = this.suggestionsSubject.asObservable();
   loading$ = this.loadingSubject.asObservable();
 
-  constructor(private beneficiarySuggestionsApi: BeneficiaryAiSuggestionControllerService) {
-    // Auto-check for suggestions every 5 minutes when user is active
-    this.setupAutoCheck();
+  constructor(
+    private beneficiarySuggestionsApi: BeneficiaryAiSuggestionControllerService,
+    private authService: AuthService
+  ) {
+    // Start polling only when authenticated; stop when logged out
+    this.authService.authStatus$.subscribe(authenticated => {
+      if (authenticated) {
+        this.startAutoCheck();
+      } else {
+        this.stopAutoCheck();
+        this.suggestionsSubject.next([]);
+      }
+    });
   }
 
-  private setupAutoCheck() {
-    // Only poll when tab is visible to save resources
-    timer(0, 300000).pipe( // Initial check and then every 5 minutes
+  private startAutoCheck() {
+    if (this.pollSubscription) return;
+    this.pollSubscription = timer(0, 300000).pipe(
       filter(() => document.visibilityState === 'visible' && !this.checkingInProgress),
       switchMap(() => this.checkForSuggestions())
     ).subscribe();
+  }
+
+  private stopAutoCheck() {
+    if (this.pollSubscription) {
+      this.pollSubscription.unsubscribe();
+      this.pollSubscription = null;
+    }
   }
 
   checkForSuggestions(): Observable<BeneficiaryAiSuggestion[]> {
