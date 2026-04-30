@@ -1,7 +1,24 @@
 <app-account-header></app-account-header>
 
-  <router-outlet></router-outlet>
-  <app-toast-notifications></app-toast-notifications>
+<router-outlet></router-outlet>
+<app-toast-notifications></app-toast-notifications>
 
+<!-- Inactivity Warning Modal -->
+<div *ngIf="showInactivityModal" class="inactivity-overlay">
+  <div class="inactivity-modal">
+    <div class="inactivity-modal-header">
+      <i class="fas fa-clock text-warning"></i>
+      <h5>Session Timeout</h5>
+    </div>
+    <div class="inactivity-modal-body">
+      <p>You've been inactive for a while. For your security, you'll be logged out in:</p>
+      <div class="countdown-display">{{countdown}}s</div>
+    </div>
+    <div class="inactivity-modal-footer">
+      <button class="btn btn-danger btn-sm" (click)="logoutNow()">Logout Now</button>
+      <button class="btn btn-primary btn-sm" (click)="dismissModal()">Stay Logged In</button>
+    </div>
+  </div>
+</div>
 
 <app-account-footer></app-account-footer>

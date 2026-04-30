@@ -1,29 +1,47 @@
-import { Component, OnInit } from '@angular/core';
-import { trigger, transition, style, animate } from '@angular/animations';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { InactivityService } from '../../../../services/inactivity/inactivity.service';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css'],
-  // animations: [
-  //   trigger('routeAnimations', [
-  //     transition('* <=> *', [
-  //       style({ opacity: 0 }),
-  //       animate('0.5s', style({ opacity: 1 })),
-  //     ]),
-  //   ]),
-  // ]
+  styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
+  showInactivityModal = false;
+  countdown = 30;
+
+  private warningSub!: Subscription;
+  private countdownSub!: Subscription;
+
+  constructor(private inactivityService: InactivityService) {}
+
   ngOnInit(): void {
-    console.log('MainComponent initialized');
-    // Add debugging to check if component is loading correctly
-    try {
-      console.log('MainComponent template loading');
-    } catch (error) {
-      console.error('Error in MainComponent initialization:', error);
-    }
+    this.inactivityService.startMonitoring();
+
+    this.warningSub = this.inactivityService.showWarning$.subscribe(show => {
+      this.showInactivityModal = show;
+    });
+
+    this.countdownSub = this.inactivityService.countdown$.subscribe(seconds => {
+      this.countdown = seconds;
+    });
   }
+
+  ngOnDestroy(): void {
+    this.inactivityService.stopMonitoring();
+    this.warningSub?.unsubscribe();
+    this.countdownSub?.unsubscribe();
+  }
+
+  dismissModal(): void {
+    this.inactivityService.dismissWarning();
+  }
+
+  logoutNow(): void {
+    this.inactivityService.logoutNow();
+  }
+
   prepareRoute(outlet: any) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
   }

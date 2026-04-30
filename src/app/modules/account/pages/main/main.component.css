@@ -1,0 +1,66 @@
+.inactivity-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.inactivity-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 24px 32px;
+  width: 360px;
+  max-width: 90vw;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.inactivity-modal-header {
+  margin-bottom: 16px;
+}
+
+.inactivity-modal-header i {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.inactivity-modal-header h5 {
+  margin: 0;
+  font-weight: 600;
+  color: #333;
+}
+
+.inactivity-modal-body {
+  margin-bottom: 20px;
+}
+
+.inactivity-modal-body p {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+.countdown-display {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #dc3545;
+}
+
+.inactivity-modal-footer {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.inactivity-modal-footer .btn {
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-weight: 500;
+}

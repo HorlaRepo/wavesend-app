@@ -9,19 +9,20 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
-import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
 
+  private apiUrl = environment.apiUrl;
+
   constructor(
-    private authService: AuthService,
-    private router: Router
+    private authService: AuthService
   ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    // Only add token to API requests
-    if (request.url.includes('api.wavesend.cc') || request.url.includes('localhost:8080/api')) {
+    // Add token to any request going to our API
+    if (request.url.startsWith(this.apiUrl)) {
       const token = this.authService.token;
 
       if (token) {
@@ -34,18 +35,14 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         return next.handle(authRequest).pipe(
           catchError((error: HttpErrorResponse) => {
             if (error.status === 401) {
-              // Token is invalid or expired, clear session and redirect to login
               this.authService.logout();
             }
             return throwError(() => error);
           })
         );
-      } else {
-        return next.handle(request);
       }
     }
 
-    // For non-API requests, pass them through without modification
     return next.handle(request);
   }
 }
