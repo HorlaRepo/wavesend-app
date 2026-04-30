@@ -86,9 +86,29 @@ export class AuthService {
           }
           if (response.data.accessToken) {
             this.tokenService.token = response.data.accessToken;
+            if (response.data.refreshToken) {
+              this.tokenService.refreshToken = response.data.refreshToken;
+            }
             this.decodeTokenAndSetUser(response.data.accessToken);
             this.setAuthenticated(true);
           }
+        }
+      })
+    );
+  }
+
+  refreshAccessToken(): Observable<ApiResponse<LoginResponse>> {
+    const refreshToken = this.tokenService.refreshToken;
+    return this.http.post<ApiResponse<LoginResponse>>(`${this.apiUrl}/auth/refresh-token`, null, {
+      params: { refreshToken }
+    }).pipe(
+      tap(response => {
+        if (response.success && response.data?.accessToken) {
+          this.tokenService.token = response.data.accessToken;
+          if (response.data.refreshToken) {
+            this.tokenService.refreshToken = response.data.refreshToken;
+          }
+          this.decodeTokenAndSetUser(response.data.accessToken);
         }
       })
     );
@@ -127,6 +147,9 @@ export class AuthService {
       tap(response => {
         if (response.success && response.data?.accessToken) {
           this.tokenService.token = response.data.accessToken;
+          if (response.data.refreshToken) {
+            this.tokenService.refreshToken = response.data.refreshToken;
+          }
           this.decodeTokenAndSetUser(response.data.accessToken);
           this.setAuthenticated(true);
         }

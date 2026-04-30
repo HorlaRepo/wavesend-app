@@ -12,8 +12,17 @@ export class TokenService {
     return localStorage.getItem('token') as string;
   }
 
+  set refreshToken(token: string) {
+    localStorage.setItem('refreshToken', token);
+  }
+
+  get refreshToken(): string {
+    return localStorage.getItem('refreshToken') as string;
+  }
+
   removeToken(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
   }
 
   getUserId(): number | null {
