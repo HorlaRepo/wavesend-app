@@ -7,22 +7,22 @@ module.exports = {
     
     // Create the config content with environment variables
     const configContent = `window.appConfig = {
-  apiUrl: '${process.env.API_URL || "https://api.wavesend.com"}',
+  apiUrl: '${process.env.API_URL || "https://wavesend-api.tryordira.com/api/v1"}',
   keycloak: {
-    url: '${process.env.KEYCLOAK_URL || "https://auth.wavesend.com"}',
+    url: '${process.env.KEYCLOAK_URL || "https://auth.wavesend.cc"}',
     realm: '${process.env.KEYCLOAK_REALM || "wavesend"}',
     clientId: '${process.env.KEYCLOAK_CLIENT_ID || "wavesend-frontend"}'
   }
 };`;
     
     // Ensure the assets directory exists
-    const assetsDir = path.join(process.cwd(), 'dist/money-transfer/assets');
-    if (!fs.existsSync(assetsDir)) {
-      fs.mkdirSync(assetsDir, { recursive: true });
+    const configDir = path.join(process.cwd(), 'dist/money-transfer/assets/config');
+    if (!fs.existsSync(configDir)) {
+      fs.mkdirSync(configDir, { recursive: true });
     }
     
     // Write to the build output directory
-    const configPath = path.join(process.cwd(), 'dist/money-transfer/assets/config.js');
+    const configPath = path.join(configDir, 'config.js');
     fs.writeFileSync(configPath, configContent);
     
     console.log('Runtime config.js created successfully at', configPath);

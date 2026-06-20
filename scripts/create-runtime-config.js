@@ -10,7 +10,7 @@ console.log('API_URL:', process.env.API_URL);
 
 // Create the config content with environment variables
 const configContent = `window.appConfig = {
-  apiUrl: '${process.env.API_URL || "https://api.wavesend.com"}',
+  apiUrl: '${process.env.API_URL || "https://wavesend-api.tryordira.com/api/v1"}',
   keycloak: {
     url: '${process.env.KEYCLOAK_URL || "https://auth.wavesend.cc"}',
     realm: '${process.env.KEYCLOAK_REALM || "wavesend"}',

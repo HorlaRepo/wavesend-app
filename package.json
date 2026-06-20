@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "api-gen": "ng-openapi-gen --input ./src/openapi/openapi.json --output ./src/app/services",
-    "build:prod": "ng build --configuration production"
+    "build:prod": "ng build --configuration production && node scripts/create-runtime-config.js"
   },
   "private": true,
   "dependencies": {

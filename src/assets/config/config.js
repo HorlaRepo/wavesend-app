@@ -1,5 +1,5 @@
 window.appConfig = {
-  apiUrl: 'https://api.wavesend.com',
+  apiUrl: 'https://wavesend-api.tryordira.com/api/v1',
   keycloak: {
     url: 'https://auth.wavesend.cc',
     realm: 'wavesend',
